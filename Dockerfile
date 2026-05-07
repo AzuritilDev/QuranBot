@@ -1,4 +1,4 @@
-FROM python:3.15-rc-slim AS builder
+FROM python:3.12-slim AS builder
 
 # Copy uv binary from the official image
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
@@ -21,7 +21,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-dev
 
 # Stage 2: Final runtime stage
-FROM python:3.15-rc-slim
+FROM python:3.12-slim
 
 WORKDIR /app
 
@@ -31,4 +31,4 @@ COPY --from=builder /app/.venv /app/.venv
 # Ensure the virtual environment is used
 ENV PATH="/app/.venv/bin:$PATH"
 
-ENTRYPOINT ["python", "main.py"]
+ENTRYPOINT ["python", "main.py", "t"]
