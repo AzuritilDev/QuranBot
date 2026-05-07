@@ -74,8 +74,7 @@ class Client(commands.Bot):
 bot = Client()
 
 # run the bot
-async def main(sysparams : str):
-    args = sysparams.split(" ")
+async def main(args):
     if args[1] == "t":
         printlog_enabled = True
     await bot.start(BOT_TOKEN)
