@@ -76,6 +76,7 @@ bot = Client()
 
 # run the bot
 async def main(args):
+    # check if quran.db exists, if not, create it
     if not Path(path_to_quran_db).exists():
         con = sqlite3.connect("quran.db")
         print("Reading & executing quran.sqlite query...")
@@ -86,8 +87,10 @@ async def main(args):
             query.close()
             print("Database file quran.db initialized.")
 
+    # params config during runtime
     if args[1] == "t":
         printlog_enabled = True
+    
     await bot.start(BOT_TOKEN)
 
 try:
