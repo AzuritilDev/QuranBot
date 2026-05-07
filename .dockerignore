@@ -1,2 +1,11 @@
 .env.example
 .gitignore
+.venv/
+.git/
+__pycache__/
+.uv/
+dist/
+build/
+.env
+tests/
+docs/

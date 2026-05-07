@@ -1,2 +1,8 @@
 .env
 __pycache__
+.venv/
+.uv/
+dist/
+build/
+*.egg-info/
+.ruff_cache
