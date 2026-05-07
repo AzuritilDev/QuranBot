@@ -71,6 +71,7 @@ bot = Client()
 async def main(args):
     # params config during runtime
     if args[1] == "t":
+        global printlog_enabled
         printlog_enabled = True
     
     await bot.start(BOT_TOKEN)
