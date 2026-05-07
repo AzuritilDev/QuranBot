@@ -27,7 +27,7 @@ and who put their trust in their Lord."""
 
 printlog_enabled = False
 
-def printd(text : str):
+def printd(*text : str):
     if printlog_enabled:
         print(text)
 

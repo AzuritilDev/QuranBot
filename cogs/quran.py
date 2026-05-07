@@ -1,0 +1,22 @@
+import discord
+from discord.ext import commands
+from discord import app_commands
+from utils import quran_fetch, metadata_fetch
+
+class Quran(commands.Cog):
+    def __init__(self, bot: commands.Bot):
+        self.bot = bot
+
+    @app_commands.command(name="quran", description="Show all available commands and usage.")
+    async def quran(self, interaction : discord.Interaction, chapter : int, verse : int, hide_response : bool = False):
+        try:
+            embed = discord.Embed(title=f"Qur'ân {metadata_fetch.QuranMetadata(chapter)} {chapter}:{verse}", description=quran_fetch.fetch(chapter, verse), color=discord.Color.green())
+            embed.set_footer(text="(Sahîh International English Translation)")
+            await interaction.response.send_message(embed=embed)
+        except Exception as e:
+            await interaction.response.send_message(f"```\n Error. Requested verse may not exist in the database.\n```")
+            print(e)
+       
+
+async def setup(bot : commands.Bot) -> None:
+    await bot.add_cog(Quran(bot))
