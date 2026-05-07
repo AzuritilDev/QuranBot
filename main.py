@@ -7,6 +7,7 @@ import asyncio
 from os import getenv
 from pathlib import Path
 from sys import argv
+import sqlite3
 
 # load in the .env file
 load_dotenv()
@@ -75,6 +76,16 @@ bot = Client()
 
 # run the bot
 async def main(args):
+    if not Path(path_to_quran_db).exists():
+        con = sqlite3.connect("quran.db")
+        print("Reading & executing quran.sqlite query...")
+        with open(Path(__file__).parent / "utils/quran.sqlite", "r") as query:
+            query_data = query.read()
+            con.cursor().execute(query_data)
+            con.close()
+            query.close()
+            print("Database file quran.db initialized.")
+
     if args[1] == "t":
         printlog_enabled = True
     await bot.start(BOT_TOKEN)
