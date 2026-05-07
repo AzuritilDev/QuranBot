@@ -79,13 +79,13 @@ async def main(args):
     # check if quran.db exists, if not, create it
     if not Path(path_to_quran_db).exists():
         con = sqlite3.connect("quran.db")
-        print("Reading & executing quran.sqlite query...")
+        printd("Reading & executing quran.sqlite query...")
         with open(Path(__file__).parent / "utils/quran.sqlite", "r") as query:
             query_data = query.read()
             con.cursor().execute(query_data)
             con.close()
             query.close()
-            print("Database file quran.db initialized.")
+            printd("Database file quran.db initialized.")
 
     # params config during runtime
     if args[1] == "t":
