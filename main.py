@@ -7,7 +7,6 @@ import asyncio
 from os import getenv
 from pathlib import Path
 from sys import argv
-import sqlite3
 
 # load in the .env file
 load_dotenv()
@@ -20,12 +19,6 @@ intents.typing = True
 intents.messages = True
 intents.emojis = True
 intents.message_content = True
-
-# dev config
-path_to_quran_db = "quran.db" # path of the sqlite database file that has or will have the Qur'an verses
-'''if this file doesn't exist we will
-    create it and import the data
-    from utils/quran.sqlite'''
 
 custom_state = """The ˹true˺ believers are only those whose 
 hearts tremble at the remembrance of Allah, 
@@ -76,19 +69,8 @@ bot = Client()
 
 # run the bot
 async def main(args):
-    # check if quran.db exists, if not, create it
-    if not Path(path_to_quran_db).exists():
-        con = sqlite3.connect("quran.db")
-        printd("Reading & executing quran.sqlite query...")
-        with open(Path(__file__).parent / "utils/quran.sqlite", "r") as query:
-            query_data = query.read()
-            con.cursor().execute(query_data)
-            con.close()
-            query.close()
-            printd("Database file quran.db initialized.")
-
     # params config during runtime
-    if args[0] == "t":
+    if args[1] == "t":
         printlog_enabled = True
     
     await bot.start(BOT_TOKEN)
