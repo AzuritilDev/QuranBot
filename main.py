@@ -88,7 +88,7 @@ async def main(args):
             printd("Database file quran.db initialized.")
 
     # params config during runtime
-    if args[1] == "t":
+    if args[0] == "t":
         printlog_enabled = True
     
     await bot.start(BOT_TOKEN)
