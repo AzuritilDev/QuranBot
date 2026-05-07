@@ -1,0 +1,1 @@
+Quran SQLite Database: Bilal Bentoumi, https://github.com/bilalbentoumi/quran-database/tree/master
