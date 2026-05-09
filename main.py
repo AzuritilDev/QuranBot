@@ -12,6 +12,7 @@ from sys import argv
 load_dotenv()
 
 BOT_TOKEN = getenv("BOT_TOKEN")
+DEV_ENV = getenv("DEV_ENV") # to check if it's dev environment or not
 
 # intents
 intents = discord.Intents.default()
