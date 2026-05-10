@@ -1,0 +1,18 @@
+services:
+  db:
+    image: postgres:18
+    environment:
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_DB: ${PG_DB}
+    volumes:
+      - postgres_data:var/lib/postgresql/data
+    ports:
+      - "${PG_HOST_PORT}:${PG_CONTAINER_PORT}"
+  app:
+    build: .
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
