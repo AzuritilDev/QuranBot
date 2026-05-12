@@ -34,7 +34,7 @@ Abu Huraira reported Allah's Messenger (ﷺ) as saying:
 | Dockerized the application. | ✓  |
 | A basic command to display Qur'ânic verses. | ✓  |
 | Migrated to uv package manager. | ✓  |
-| Chat commands for displaying Qur'ânic verses. | /  |
+| Chat commands for displaying Qur'ânic verses. | ✓  |
 | Qur'ân SQLite database. | /  |
 | A way to test the application using pytest. | /  |
 | CONTRIBUTORS.md | x  |
