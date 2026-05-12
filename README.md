@@ -38,6 +38,7 @@ Abu Huraira reported Allah's Messenger (ﷺ) as saying:
 | Qur'ân SQLite database. | /  |
 | A way to test the application using pytest. | /  |
 | CONTRIBUTORS.md | x  |
+| Daily verses on a specific channel. | x  |
 | A command to display Ahadith. | x  |
 | A command to display Tafsîr. | x  |
 ---
