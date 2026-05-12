@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   db:
+    container_name: quran-bot-postgres-db
     image: postgres:18
     environment:
       POSTGRES_USER: ${PG_USER}
@@ -12,7 +13,9 @@ services:
     ports:
       - "${PG_HOST_PORT}:${PG_CONTAINER_PORT}"
   app:
-    build: .
+    container_name: quran-bot
+    build:
+      context: .
     depends_on:
       - db
 
