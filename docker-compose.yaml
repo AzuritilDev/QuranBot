@@ -9,13 +9,15 @@ services:
       POSTGRES_PASSWORD: ${PG_PASSWORD}
       POSTGRES_DB: ${PG_DB}
     volumes:
-      - postgres_data:var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     ports:
       - "${PG_HOST_PORT}:${PG_CONTAINER_PORT}"
   app:
     container_name: quran-bot
     build:
       context: .
+    env_file:
+      - ./.env
     depends_on:
       - db
 

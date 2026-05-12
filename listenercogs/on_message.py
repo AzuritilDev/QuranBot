@@ -6,7 +6,7 @@ verse_range_limit = 10
 
 async def sendQuranVerse(message : discord.Message, chapter : int, verses_start : int, verses_end : int, reference : str):
     try:
-        embed = discord.Embed(title=f"Qur'ân {metadata_fetch.QuranMetadata(chapter)} {chapter}:{verses_start}-{verses_end}", description=quran_fetch.ranged_fetch(chapter, reference), color=discord.Color.green())
+        embed = discord.Embed(title=f"Qur'ân {metadata_fetch.QuranMetadata(chapter)}, {chapter}:{verses_start}-{verses_end}", description=quran_fetch.ranged_fetch(reference), color=discord.Color.green())
         embed.set_footer(text="(Sahîh International English Translation)")
         await message.channel.send(embed=embed)
     except Exception as e:
@@ -33,8 +33,8 @@ class On_message(commands.Cog):
                         verses_range = verse.split("-")
                         verses_start = int(verses_range[0])
                         verses_end = int(verses_range[1])
-                        if not (verses_start <= 0 or verses_end < verses_start or verses_end - verses_start > verse_range_limit or int(chapter) <= 0 or verses_start == verses_end):
-                            sendQuranVerse(message, int(chapter), int)
+                        if verses_start > 0 and verses_end > verses_start and verses_end - verses_start <= verse_range_limit and int(chapter) > 0 and verses_start != verses_end:
+                            await sendQuranVerse(message=message, chapter=int(chapter), verses_start=verses_start, verses_end=verses_end, reference=words[target + 1])
 
 
 async def setup(bot : commands.Bot) -> None:
