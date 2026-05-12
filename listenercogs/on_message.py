@@ -4,7 +4,15 @@ from utils import quran_fetch, metadata_fetch
 
 verse_range_limit = 10
 
-async def sendQuranVerse(message : discord.Message, chapter : int, verses_start : int, verses_end : int, reference : str):
+async def sendQuranVerse(message : discord.Message, chapter : int, verse : int):
+    try:
+        embed = discord.Embed(title=f"Qur'ân {metadata_fetch.QuranMetadata(chapter)}, {chapter}:{verse}", description=quran_fetch.fetch(chapter, verse), color=discord.Color.green())
+        embed.set_footer(text="(Sahîh International English Translation)")
+        await message.channel.send(embed=embed)
+    except Exception as e:
+        print("Chat command Qur'ân command error: ", e)
+
+async def sendQuranVerseRanged(message : discord.Message, chapter : int, verses_start : int, verses_end : int, reference : str):
     try:
         embed = discord.Embed(title=f"Qur'ân {metadata_fetch.QuranMetadata(chapter)}, {chapter}:{verses_start}-{verses_end}", description=quran_fetch.ranged_fetch(reference), color=discord.Color.green())
         embed.set_footer(text="(Sahîh International English Translation)")
@@ -30,11 +38,15 @@ class On_message(commands.Cog):
                     chapter = chapter_and_verse[0]
                     verse = chapter_and_verse[1]
                     if verse.count("-") == 1:
+                        print(1)
                         verses_range = verse.split("-")
                         verses_start = int(verses_range[0])
                         verses_end = int(verses_range[1])
                         if verses_start > 0 and verses_end > verses_start and verses_end - verses_start <= verse_range_limit and int(chapter) > 0 and verses_start != verses_end:
-                            await sendQuranVerse(message=message, chapter=int(chapter), verses_start=verses_start, verses_end=verses_end, reference=words[target + 1])
+                            await sendQuranVerseRanged(message=message, chapter=int(chapter), verses_start=verses_start, verses_end=verses_end, reference=words[target + 1])
+                    else:
+                        if int(verse) > 0 and int(chapter) > 0:
+                            await sendQuranVerse(message, int(chapter), int(verse))
 
 
 async def setup(bot : commands.Bot) -> None:
