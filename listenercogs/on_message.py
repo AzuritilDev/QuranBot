@@ -6,7 +6,7 @@ verse_range_limit = 10
 
 async def sendQuranVerse(message : discord.Message, chapter : int, verse : int):
     try:
-        embed = discord.Embed(title=f"Qur'ân {metadata_fetch.QuranMetadata(chapter)}, {chapter}:{verse}", description=quran_fetch.fetch(chapter, verse), color=discord.Color.green())
+        embed = discord.Embed(title=f"Qur'ân {metadata_fetch.QuranMetadata(chapter)}, Reference: {chapter}:{verse}", description=quran_fetch.fetch(chapter, verse), color=discord.Color.green())
         embed.set_footer(text="(Sahîh International English Translation)")
         await message.channel.send(embed=embed)
     except Exception as e:
@@ -14,7 +14,7 @@ async def sendQuranVerse(message : discord.Message, chapter : int, verse : int):
 
 async def sendQuranVerseRanged(message : discord.Message, chapter : int, verses_start : int, verses_end : int, reference : str):
     try:
-        embed = discord.Embed(title=f"Qur'ân {metadata_fetch.QuranMetadata(chapter)}, {chapter}:{verses_start}-{verses_end}", description=quran_fetch.ranged_fetch(reference), color=discord.Color.green())
+        embed = discord.Embed(title=f"Qur'ân {metadata_fetch.QuranMetadata(chapter)}, Reference: {chapter}:{verses_start}-{verses_end}", description=quran_fetch.ranged_fetch(reference), color=discord.Color.green())
         embed.set_footer(text="(Sahîh International English Translation)")
         await message.channel.send(embed=embed)
     except Exception as e:

@@ -1,7 +1,7 @@
 # ﴾ QuranBot ﴿
 ---
 ## ⏾ Overview
-بسم الله الرحمن الرحيم
+<br /> بسم الله الرحمن الرحيم
 
 This is an open-source discord.py-based discord bot I made for displaying Islamic scripture. <br />
 So that it is easy to access Islamic information while using Discord. <br />
