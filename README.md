@@ -3,10 +3,10 @@
 ## ⏾ Overview
 بسم الله الرحمن الرحيم
 
-This is an open-source discord.py-based discord bot I made for displaying Islamic scripture.
-So that it is easy to access Islamic information while using Discord.
-It's written in Python and supports Docker.
-And the ease of use? So easy to set up that you might forget that you ever set it up!
+This is an open-source discord.py-based discord bot I made for displaying Islamic scripture. <br />
+So that it is easy to access Islamic information while using Discord. <br />
+It's written in Python and supports Docker. <br />
+And the ease of use? So easy to set up that you might forget that you ever set it up! <br />
 
 Amongst the reasons why I made this are:
 
@@ -63,21 +63,21 @@ And that's pretty much it.
 
 That's it.
 ### Detailed Instructions:
-Before we begin, download the source code and extract it to a folder, you can name it something like "quranbot".
-First things first, you need to create a new Discord application.
-Head to the [Discord Developer Portal](https://discord.com/developers/applications) and create your bot application.
-After you have done that, you will need to get its Authorization Token
-Head to Applications -> Your Application -> Overview -> Bot
+Before we begin, download the source code and extract it to a folder, you can name it something like "quranbot". <br />
+First things first, you need to create a new Discord application. <br />
+Head to the [Discord Developer Portal](https://discord.com/developers/applications) and create your bot application. <br />
+After you have done that, you will need to get its Authorization Token <br />
+Head to Applications -> Your Application -> Overview -> Bot <br />
 ![Token Reset](docs/reset_token_location.png)
-Click the "Reset Token" button, it will show you the bot's token, copy the token to your clipboard.
-Create an ".env" file, the structure of the .env file should be the way it's instructed in .env.example,
-fill out the .env file accordingly to what you have, whether it be bot tokens, PostgreSQL usernames, passwords, etc.
-After that, open up your terminal, go to the root directory of the project, and run the following:
+Click the "Reset Token" button, it will show you the bot's token, copy the token to your clipboard. <br />
+Create an ".env" file, the structure of the .env file should be the way it's instructed in .env.example, <br />
+fill out the .env file accordingly to what you have, whether it be bot tokens, PostgreSQL usernames, passwords, etc. <br />
+After that, open up your terminal, go to the root directory of the project, and run the following: <br />
 
 ```bash
 docker compose up
 ```
-This will build the application, create a database and run the container.
+This will build the application, create a database and run the container. <br />
 
 To safely shut it down, run the following:
 ```bash
@@ -93,11 +93,13 @@ docker compose down -v
 If you've done everything completely, you should see the bot's status as online while the container is running.
 ---
 ## ⏾ Feedback & Collaboration:
->(This section is not available yet. Soon, in'shaa'allah)
+Feel free to make discussions in [here](https://github.com/AzuritilDev/QuranBot/discussions) and report any bugs, vulnerabilities, mistakes etc. in the [issues](https://github.com/AzuritilDev/QuranBot/issues) section of the repository. <br />
+
+
 ---
 ## ⏾ Authors:
 [@AzuritilDev](https://github.com/AzuritilDev)
 
 
-Made with passion & good intentions,
+Made with passion & good intentions, <br />
 gifted to the Ummah ❤️
