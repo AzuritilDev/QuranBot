@@ -95,7 +95,7 @@ If you've done everything completely, you should see the bot's status as online 
 ## ⏾ Feedback & Collaboration:
 Feel free to make discussions in [here](https://github.com/AzuritilDev/QuranBot/discussions) and report any bugs, vulnerabilities, mistakes etc. in the [issues](https://github.com/AzuritilDev/QuranBot/issues) section of the repository. <br />
 
-
+Please check the repository's guide on [contributing and the code of conduct](CONTRIBUTING.md).
 ---
 ## ⏾ Authors:
 [@AzuritilDev](https://github.com/AzuritilDev)
