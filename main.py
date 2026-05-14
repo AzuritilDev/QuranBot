@@ -7,12 +7,16 @@ import asyncio
 from os import getenv
 from pathlib import Path
 from sys import argv
+import asyncpg
 
 # load in the .env file
 load_dotenv()
 
 BOT_TOKEN = getenv("BOT_TOKEN")
 DEV_ENV = getenv("DEV_ENV") # to check if it's dev environment or not
+DB_SERVICE_URI = getenv("DB_URL")
+
+assert DB_SERVICE_URI, "Database service URI is set to None."
 
 # intents
 intents = discord.Intents.default()
@@ -31,7 +35,6 @@ printlog_enabled = False
 def printd(*text : str):
     if printlog_enabled:
         print(text)
-
 
 # bot blueprint
 class Client(commands.Bot):
@@ -58,6 +61,19 @@ class Client(commands.Bot):
     async def on_ready(self):
         printd(f"Logged in as {self.user}")
         self.launch_time = time.time()
+
+        try:
+            self.db_pool = await asyncpg.create_pool(
+                dsn=DB_SERVICE_URI,
+                min_size=10,
+                max_size=19,
+                loop=asyncio.get_event_loop(),
+                max_inactive_connection_lifetime=300
+            )
+            printd("Database pool initialized.")
+        except Exception as e:
+            printd("Database pool did not initialize. ", e)
+
         try:
             await self.change_presence(activity=discord.Activity(type=discord.ActivityType.custom, name="custom", state=custom_state))
             synced = await self.tree.sync()
