@@ -30,12 +30,6 @@ hearts tremble at the remembrance of Allah,
 whose faith increases when His revelations are recited to them, 
 and who put their trust in their Lord."""
 
-printlog_enabled = False
-
-def printd(*text : str):
-    if printlog_enabled:
-        print(text)
-
 # bot blueprint
 class Client(commands.Bot):
     def __init__(self):
@@ -52,14 +46,14 @@ class Client(commands.Bot):
         
         all_of_the_cogs = cogs + listenercogs
 
-        printd(f"Loading cogs: {all_of_the_cogs}")
+        print(f"Loading cogs: {all_of_the_cogs}")
         try:
             for ext in all_of_the_cogs:
                 await self.load_extension(ext)
         except Exception as e:
-            printd("Setup hook cogs failed: ", e)
+            print("Setup hook cogs failed: ", e)
     async def on_ready(self):
-        printd(f"Logged in as {self.user}")
+        print(f"Logged in as {self.user}")
         self.launch_time = time.time()
 
         try:
@@ -70,30 +64,25 @@ class Client(commands.Bot):
                 loop=asyncio.get_event_loop(),
                 max_inactive_connection_lifetime=300
             )
-            printd("Database pool initialized.")
+            print("Database pool initialized.")
         except Exception as e:
-            printd("Database pool did not initialize. ", e)
+            print("Database pool did not initialize. ", e)
 
         try:
             await self.change_presence(activity=discord.Activity(type=discord.ActivityType.custom, name="custom", state=custom_state))
             synced = await self.tree.sync()
-            printd(f"Synced {len(synced)} commands.")
+            print(f"Synced {len(synced)} commands.")
         except Exception as e:
-            printd(e)
+            print(e)
 
 # bot object
 bot = Client()
 
 # run the bot
-async def main(args):
-    # params config during runtime
-    if args[1] == "t":
-        global printlog_enabled
-        printlog_enabled = True
-    
+async def main():
     await bot.start(BOT_TOKEN)
 
 try:
     asyncio.run(main(argv))
 except KeyboardInterrupt as e:
-    printd("[Ctrl + C] Stopped main task.\n", e)
+    print("[Ctrl + C] Stopped main task.\n", e)
