@@ -56,6 +56,7 @@ To start hosting your own QuranBot, you will need:
 And that's pretty much it.
 ---
 ## ⏾ Installation
+## 1. Docker Installation:
 ### Short Instructions
 - Create your bot
 - Get the auth token
@@ -92,6 +93,23 @@ docker compose down -v
 >Note: Please use this command responsibly, this will power down the container AND delete the saved PostgreSQL data.
 
 If you've done everything completely, you should see the bot's status as online while the container is running.
+## 2. Manual Python Installation:
+### Short Instructions:
+- Download the repository and extract it into a folder.
+- Create your .env file and fill it out.
+- Run `uv sync --frozen --no-dev` or `pip install -r requirements.txt` to install all the neccessary dependencies
+- Run `python main.py`
+
+And you're done.
+### Detailed Instructions:
+- Make sure to get your bot's token and store it in a .txt file or somewhere else.
+- Install [Python](https://www.python.org/downloads/) version 3.11
+- Download the repository, if you downloaded the .zip, extract it into a folder, name the folder something like "quranbot".
+- Create an .env file in the folder, fill it out accordingly to .env.example (You can remove Docker related variables and files if you're not going to use Docker).
+- Open up your terminal or command prompt, make sure you are in the quranbot folder's directory inside the terminal/command prompt
+- Run `uv sync --frozen --no-dev` if you use the uv package manager or run `pip install -r requirements.txt` if you prefer using requirements.txt, make sure pip is installed in your machine (If you want to install the uv package manager, either run `pip install uv` if you have pip or visit [here](https://docs.astral.sh/uv/getting-started/installation/)).
+![Example on what it should look like](docs/manual_py_ins.png)
+- Run `python main.py` and your bot will start running, press Ctrl+C inside the terminal when you want to stop the bot.
 ---
 ## ⏾ Feedback & Collaboration:
 Feel free to make discussions in [here](https://github.com/AzuritilDev/QuranBot/discussions) and report any bugs, vulnerabilities, mistakes etc. in the [issues](https://github.com/AzuritilDev/QuranBot/issues) section of the repository. <br />
