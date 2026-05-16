@@ -6,7 +6,6 @@ import time
 import asyncio
 from os import getenv
 from pathlib import Path
-from sys import argv
 import asyncpg
 
 # load in the .env file
@@ -83,6 +82,6 @@ async def main():
     await bot.start(BOT_TOKEN)
 
 try:
-    asyncio.run(main(argv))
+    asyncio.run(main())
 except KeyboardInterrupt as e:
     print("[Ctrl + C] Stopped main task.\n", e)
