@@ -14,6 +14,10 @@ load_dotenv()
 BOT_TOKEN = getenv("BOT_TOKEN")
 DEV_ENV = getenv("DEV_ENV") # to check if it's dev environment or not
 DB_SERVICE_URI = getenv("DB_URL")
+CON_MIN_SIZE = getenv("PG_MIN_SIZE") or 10
+CON_MAX_SIZE = getenv("PG_MAX_SIZE") or 20
+CON_LIFETIME = getenv("PG_LIFETIME") or 300
+MAX_QUERIES = getenv("PG_MAX_QUERIES") or 50000
 
 assert DB_SERVICE_URI, "Database service URI is set to None."
 
@@ -58,10 +62,11 @@ class Client(commands.Bot):
         try:
             self.db_pool = await asyncpg.create_pool(
                 dsn=DB_SERVICE_URI,
-                min_size=10,
-                max_size=19,
+                min_size=CON_MIN_SIZE,
+                max_size=CON_MAX_SIZE,
                 loop=asyncio.get_event_loop(),
-                max_inactive_connection_lifetime=300
+                max_inactive_connection_lifetime=CON_LIFETIME,
+                max_queries=MAX_QUERIES
             )
             print("Database pool initialized.")
         except Exception as e:
