@@ -14,6 +14,7 @@ Thank you for your interest in improving this project! We welcome your help.
 - Create a new branch for your specific fix or feature.
 - Commit your changes with descriptive commit messages.
 - Submit a Pull Request (PR) targeting the `main` branch.
+Please, make sure to test the application after you've done changes before you submit the Pull Request.
 
 ## Code of Conduct
 Please be kind, respectful, and clear in all communication. 
