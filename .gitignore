@@ -1,8 +1,14 @@
+# Enviromental Variables
 .env
+.env.production
+
+# Python
 __pycache__
 .venv/
 .uv/
-dist/
-build/
 *.egg-info/
 .ruff_cache
+
+# Builds
+dist/
+build/
