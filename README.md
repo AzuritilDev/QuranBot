@@ -51,7 +51,7 @@ Abu Huraira reported Allah's Messenger (ﷺ) as saying:
 ## ⏾ Requirements
 To start hosting your own QuranBot, you will need:
 - [Docker](https://www.docker.com/get-started/)
-- [Python (Preferably version 3.11 or 3.12)](https://www.python.org/downloads/)
+- [Python (Preferably version 3.11)](https://www.python.org/downloads/)
 >Note: You won't really need Python if you're going to use Docker.
 
 And that's pretty much it.
