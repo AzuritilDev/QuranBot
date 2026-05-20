@@ -75,6 +75,7 @@ Head to Applications -> Your Application -> Overview -> Bot <br />
 Click the "Reset Token" button, it will show you the bot's token, copy the token to your clipboard. <br />
 Create an ".env" file, the structure of the .env file should be the way it's instructed in .env.example, <br />
 fill out the .env file accordingly to what you have, whether it be bot tokens, PostgreSQL usernames, passwords, etc. <br />
+or you can just edit .env.example.clean to your preferences and then name it ".env" <br /> 
 After that, open up your terminal, go to the root directory of the project, and run the following: <br />
 
 ```bash
