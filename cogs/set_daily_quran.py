@@ -9,7 +9,7 @@ async def webhookWithExpectedNameAlreadyExists(interaction:  discord.Interaction
     if target:
         return True
 
-async def theGuildAlreadyHasAWebhookInRecords(interaction : discord.Interaction, db_pool : asyncpg.Pool)
+async def theGuildAlreadyHasAWebhookInRecords(interaction : discord.Interaction, db_pool : asyncpg.Pool):
     async with db_pool.acquire() as cur:
         row = await cur.fetchrow("""SELECT * FROM dailyquran
                                 WHERE channelid = $1""", interaction.channel_id)
