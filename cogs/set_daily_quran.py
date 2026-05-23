@@ -12,7 +12,7 @@ async def webhookWithExpectedNameAlreadyExists(interaction:  discord.Interaction
 async def theGuildAlreadyHasAWebhookInRecords(interaction : discord.Interaction, db_pool : asyncpg.Pool):
     async with db_pool.acquire() as cur:
         row = await cur.fetchrow("""SELECT * FROM dailyquran
-                                WHERE channelid = $1""", interaction.channel_id)
+                                WHERE channel_id = $1""", interaction.channel_id)
         if row != None:
             return True
 
@@ -27,12 +27,15 @@ class setDailyQuran(commands.Cog):
             return
         await interaction.response.defer(ephemeral=hide_response)
 
+        async with self.bot.db_pool.acquire() as cur:
+            await cur.execute("""CREATE TABLE IF NOT EXISTS dailyquran (channel_id BIGINT PRIMARY KEY)""")
+
         criteria1 = webhookWithExpectedNameAlreadyExists(interaction)
         criteria2 = theGuildAlreadyHasAWebhookInRecords(interaction, self.bot.db_pool)
 
         if not (criteria1 and criteria2) == False:
             async with self.bot.db_pool.acquire() as cur:
-                cur.execute("""INSERT INTO dailyquran ()""")
+                await cur.execute("""INSERT INTO dailyquran ()""")
                 # WIP
 
 async def setup(bot : commands.Bot) -> None:
