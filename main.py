@@ -33,6 +33,37 @@ hearts tremble at the remembrance of Allah,
 whose faith increases when His revelations are recited to them, 
 and who put their trust in their Lord."""
 
+async def initialize_tables(bot):
+    async with bot.db_pool.acquire() as cur:
+       await cur.execute("""CREATE TABLE IF NOT EXISTS dailyquran (channel_id BIGINT UNIQUE NOT NULL, guild_id BIGINT PRIMARY KEY, webhook_id BIGINT UNIQUE NOT NULL, timezone TEXT);""")
+
+async def cleanup_stale_guilds(bot):
+    current_guild_ids = {guild.id for guild in bot.guilds}
+
+    async with bot.db_pool.acquire() as cur:
+        rows = await cur.fetch("SELECT guild_id FROM dailyquran")
+
+        for row in rows:
+            if row["guild_id"] not in current_guild_ids:
+                await cur.execute(
+                    "DELETE FROM dailyquran WHERE guild_id = $1",
+                    row["guild_id"]
+                )
+
+async def cleanup_stale_webhooks(bot):
+    rows = await cur.fetch("SELECT guild_id, webhook_id FROM dailyquran")
+
+    async with bot.db_pool.acquire() as cur:
+        for row in rows:
+            try:
+                await bot.fetch_webhook(row["webhook_id"])
+
+            except discord.NotFound:
+                await cur.execute(
+                    "DELETE FROM dailyquran WHERE guild_id = $1",
+                    row["guild_id"]
+                )
+
 # bot blueprint
 class Client(commands.Bot):
     def __init__(self):
@@ -55,6 +86,10 @@ class Client(commands.Bot):
                 await self.load_extension(ext)
         except Exception as e:
             print("Setup hook cogs failed: ", e)
+
+        await initialize_tables(self)
+        await cleanup_stale_guilds(self)
+        await cleanup_stale_webhooks(self)
     async def on_ready(self):
         print(f"Logged in as {self.user}")
         self.launch_time = time.time()
