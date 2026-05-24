@@ -31,15 +31,14 @@ Abu Huraira reported Allah's Messenger (ﷺ) as saying:
 
 |||
 | ------------ | ------------ |
+| A command to display Qur'ânic verses. | ✓  |
 | Dockerized the application. | ✓  |
-| A basic command to display Qur'ânic verses. | ✓  |
 | Migrated to uv package manager. | ✓  |
 | Chat commands for displaying Qur'ânic verses. | ✓  |
-| CONTRIBUTING.md | ✓ |
+| Ability to set Daily verses on a specific channel. | /  |
 | A way to test the application using pytest. | /  |
 | Qur'ân SQLite database. | x  |
 | Custom quote changes to a random quote from a list of quotes periodically. | x  |
-| Daily verses on a specific channel. | x  |
 | A command to display Ahadith. | x  |
 | A command to display Tafsîr. | x  |
 | A command to display prayer times. | x  |
