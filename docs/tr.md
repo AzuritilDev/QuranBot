@@ -73,7 +73,7 @@ Başlamadan önce, projenin kaynak kodunu yükleyin ve bir klasöre ayrıştır�
 [Discord Developer Portal](https://discord.com/developers/applications)'ına girin ve bot uygulamanızı oluşturun. <br />
 Oluşturduktan sonra, botun Yetkilendirme Belirteci'ne (yani Authorization Token'ine) ihtiyaç duyucaksınız. <br />
 Şuraya gidin: Uygulamalar -> Uygulaman -> Genel Bakış -> Bot <br />
-![Token Reset](docs/assets/reset_token_location.png)
+![Belirteç Sıfırlama](assets/reset_token_location.png)
 "Sıfırla" tuşuna basın, size botun belirtecini gösterecektir, onu kopyalayın. <br />
 Klasörde bir ".env" dosyası oluşturun, bu dosyanın yapısı ".env.example"in yapısı ile uyuşmalı, ordaki talimatlara uyun, <br />
 .env dosyasını sahip olduklarınıza göre doldurun, bu bir belirteç olabilir, PostgreSQL kullanıcı adı, şifresi olabilir vesaire vesaire. <br />
@@ -112,7 +112,7 @@ Bu kadar.
 - Bir .env dosyası oluşturun, bu dosyayı .env.example'de anlatıldığına göre doldurun (Docker kullanmayacaksanız Docker ile ilgili değişkenleri silebilirsiniz).
 - Terminalinizi açın, kuranbot klasörünüzün içinde açtığınızdan emin olun.
 - Uv paket yöneticisini kullanıyorsanız `uv sync --frozen --no-dev` komutunu çalıştırın ama requirements.txt kullanmayı tercih ediyorsanız `pip install -r requirements.txt` komutunu çalıştırın, bunları yapmadan önce tabii ki cihazınızda pip paket yöneticisinin yüklü olduğundan emin olun (Uv paket yöneticisini yüklemek isterseniz, ya `pip install uv` komutunu çalıştırın ya da cihazınızda pip yüklü değil ise [burayı ziyaret edin](https://docs.astral.sh/uv/getting-started/installation/)).
-![Örnek](docs/assets/manual_py_ins.png)
+![Örnek](assets/manual_py_ins.png)
 - `python main.py` komutunu çalıştırın ve bot çalışacaktır, durdurmak istediğinizde terminal içinde Ctrl+C tuş kombinasyonuna basın.
 ---
 ## ⏾ Geri Bildirim & İşbirliği:
