@@ -1,4 +1,4 @@
-# Contributing to Project Name
+# Contributing to QuranBot
 
 Thank you for your interest in improving this project! We welcome your help.
 
