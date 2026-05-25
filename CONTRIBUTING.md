@@ -17,4 +17,4 @@ Thank you for your interest in improving this project! We welcome your help.
 Please, make sure to test the application after you've done changes before you submit the Pull Request.
 
 ## Code of Conduct
-Please be kind, respectful, and clear in all communication. 
+See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). Please be kind, respectful, and clear in all communication. 
