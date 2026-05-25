@@ -70,7 +70,7 @@ First things first, you need to create a new Discord application. <br />
 Head to the [Discord Developer Portal](https://discord.com/developers/applications) and create your bot application. <br />
 After you have done that, you will need to get its Authorization Token <br />
 Head to Applications -> Your Application -> Overview -> Bot <br />
-![Token Reset](docs/reset_token_location.png)
+![Token Reset](docs/assets/reset_token_location.png)
 Click the "Reset Token" button, it will show you the bot's token, copy the token to your clipboard. <br />
 Create an ".env" file, the structure of the .env file should be the way it's instructed in .env.example, <br />
 fill out the .env file accordingly to what you have, whether it be bot tokens, PostgreSQL usernames, passwords, etc. <br />
@@ -109,13 +109,13 @@ And you're done.
 - Create an .env file in the folder, fill it out accordingly to .env.example (You can remove Docker related variables and files if you're not going to use Docker).
 - Open up your terminal or command prompt, make sure you are in the quranbot folder's directory inside the terminal/command prompt
 - Run `uv sync --frozen --no-dev` if you use the uv package manager or run `pip install -r requirements.txt` if you prefer using requirements.txt, make sure pip is installed in your machine (If you want to install the uv package manager, either run `pip install uv` if you have pip or visit [here](https://docs.astral.sh/uv/getting-started/installation/)).
-![Example on what it should look like](docs/manual_py_ins.png)
+![Example on what it should look like](docs/assets/manual_py_ins.png)
 - Run `python main.py` and your bot will start running, press Ctrl+C inside the terminal when you want to stop the bot.
 ---
 ## ⏾ Feedback & Collaboration:
 Feel free to make discussions in [here](https://github.com/AzuritilDev/QuranBot/discussions) and report any bugs, vulnerabilities, mistakes etc. in the [issues](https://github.com/AzuritilDev/QuranBot/issues) section of the repository. <br />
 
-Please check the repository's guide on [contributing and the code of conduct](CONTRIBUTING.md).
+Please check the repository's guide on [contributing](CONTRIBUTING.md) and [the code of conduct](CODE_OF_CONDUCT.md).
 ---
 ## ⏾ Authors:
 [@AzuritilDev](https://github.com/AzuritilDev)
