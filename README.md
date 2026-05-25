@@ -3,7 +3,7 @@
 ## ⏾ Overview
 <br /> بسم الله الرحمن الرحيم
 
-This is an open-source discord.py-based discord bot I made for displaying Islamic scripture. <br />
+This is an open-source, discord.py-based discord bot I made for displaying Islamic scripture. <br />
 So that it is easy to access Islamic information while using Discord. <br />
 It's written in Python and supports Docker. <br />
 And the ease of use? So easy to set up that you might forget that you ever set it up! <br />
@@ -93,7 +93,7 @@ docker compose down -v
 ```
 >Note: Please use this command responsibly, this will power down the container AND delete the saved PostgreSQL data.
 
-If you've done everything completely, you should see the bot's status as online while the container is running.
+If you've done everything correctly, you should see the bot's status as online while the container is running.
 ## 2. Manual Python Installation:
 ### Short Instructions:
 - Download the repository and extract it into a folder.
@@ -123,3 +123,5 @@ Please check the repository's guide on [contributing](CONTRIBUTING.md) and [the 
 
 Made with passion & good intentions, <br />
 gifted to the Ummah ❤️
+## ⏾ License:
+Distributed under [MIT](LICENSE.md) license.
