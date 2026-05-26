@@ -1,7 +1,11 @@
+'''
+The general idea here is to create a webhook in the selected channel,
+and save all the neccessary data in the database so it can be used
+later in a background task
+'''
 import discord
 from discord.ext import commands
 from discord import app_commands
-import asyncpg
 
 DEFAULT_WEBHOOK_NAME = "Automatic Daily Qur'ân Verses"
 
