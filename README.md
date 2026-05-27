@@ -1,5 +1,7 @@
 # ﴾ QuranBot ﴿
+
 ---
+
 ## ⏾ Overview
 <br /> بسم الله الرحمن الرحيم
 
@@ -21,7 +23,9 @@ It was narrated by Abu Huraira that The Prophet(ﷺ) said:
 Abu Huraira reported Allah's Messenger (ﷺ) as saying:
 >"He who called (people) to righteousness, there would be reward (assured) for him like the rewards of those who adhered to it, without their rewards being diminished in any respect. And he who called (people) to error, he shall have to carry (the burden) of its sin, like those who committed it, without their sins being diminished in any respect."
 (Sahih Muslim 2674)
+
 ---
+
 ## ⏾ Highlights
 ### Features and things to implement
 
@@ -42,11 +46,15 @@ Abu Huraira reported Allah's Messenger (ﷺ) as saying:
 | A command to display Ahadith. | x  |
 | A command to display Tafsîr. | x  |
 | A command to display prayer times. | x  |
+
 ---
+
 ## ⏾ Features
 - `/help`: A slash command that displays all the available slash commands.
 - `/quran`: A slash command that takes two arguments of integer type as input, chapter and verse, it displays a Qur'ânic verse based on the given user input. (Example: `/quran chapter:2 verse:4` will display the contents of Surah Al-Baqarah, ayah number four.)
+
 ---
+
 ## ⏾ Requirements
 To start hosting your own QuranBot, you will need:
 - [Docker](https://www.docker.com/get-started/)
@@ -54,7 +62,9 @@ To start hosting your own QuranBot, you will need:
 >Note: You won't really need Python if you're going to use Docker.
 
 And that's pretty much it.
+
 ---
+
 ## ⏾ Installation
 ## 1. Docker Installation:
 ### Short Instructions
@@ -111,12 +121,16 @@ And you're done.
 - Run `uv sync --frozen --no-dev` if you use the uv package manager or run `pip install -r requirements.txt` if you prefer using requirements.txt, make sure pip is installed in your machine (If you want to install the uv package manager, either run `pip install uv` if you have pip or visit [here](https://docs.astral.sh/uv/getting-started/installation/)).
 ![Example on what it should look like](docs/assets/manual_py_ins.png)
 - Run `python main.py` and your bot will start running, press Ctrl+C inside the terminal when you want to stop the bot.
+
 ---
+
 ## ⏾ Feedback & Collaboration:
 Feel free to make discussions in [here](https://github.com/AzuritilDev/QuranBot/discussions) and report any bugs, mistakes etc. in the [issues](https://github.com/AzuritilDev/QuranBot/issues) section of the repository. <br />
 
 Please check the repository's guide on [contributing](CONTRIBUTING.md) and [the code of conduct](CODE_OF_CONDUCT.md).
+
 ---
+
 ## ⏾ Authors:
 [@AzuritilDev](https://github.com/AzuritilDev)
 

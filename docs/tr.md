@@ -1,5 +1,7 @@
 # ﴾ QuranBot ﴿
+
 ---
+
 ## ⏾ Genel Görünüm
 <br /> بسم الله الرحمن الرحيم
 
@@ -23,7 +25,9 @@ Ebû Hüreyre (r.a) tarafından rivayet edildiğine göre, Allah'ın Resûlü (�
 (Sâhîh-i Müslim 2674, kitap-içi referans: Kitap 47, Hadis 30)
 
 >Not: Bu hadisler Sunnah.com'daki İngilizce çeviriden Türkçe'ye çevrilmiştir, çeviride hata olabilir.
+
 ---
+
 ## ⏾ Öne Çıkan Noktalar
 ### Özellikler ve uygulanması gereken şeyler:
 
@@ -46,6 +50,7 @@ Ebû Hüreyre (r.a) tarafından rivayet edildiğine göre, Allah'ın Resûlü (�
 | Namaz vakitlerini gösteren bir komut. | x  |
 
 ---
+
 ## ⏾ Özellikler
 - `/help`: Diğer eğik çizgi komutlarının listesini gösteren bir komut.
 - `/quran`: İki tamsayı tipi argümanını giriş olarak kabul eder, sûre ve ayet, kullanıcının girdiği değerlere göre bir Kur'ân-ı Kerim ayeti gösterir. (Örnek: `/quran chapter:2 verse:4` Bakara Sûresi, 4. ayetin içeriğini gösterecektir.)
@@ -57,7 +62,9 @@ Kendi QuranBot uygulamanızı çalıştırmak için şunlara ihtiyaç duyacaksı
 >Not: Docker kullanacaksanız Python'a çokta ihtiyaç duymayacaksınız.
 
 Gereksinimler bu kadar.
+
 ---
+
 ## ⏾ Kurulum
 ## 1. Docker Kullanarak Kurulum:
 ### Kısa Talimatlar
@@ -114,7 +121,9 @@ Bu kadar.
 - Uv paket yöneticisini kullanıyorsanız `uv sync --frozen --no-dev` komutunu çalıştırın ama requirements.txt kullanmayı tercih ediyorsanız `pip install -r requirements.txt` komutunu çalıştırın, bunları yapmadan önce tabii ki cihazınızda pip paket yöneticisinin yüklü olduğundan emin olun (Uv paket yöneticisini yüklemek isterseniz, ya `pip install uv` komutunu çalıştırın ya da cihazınızda pip yüklü değil ise [burayı ziyaret edin](https://docs.astral.sh/uv/getting-started/installation/)).
 ![Örnek](assets/manual_py_ins.png)
 - `python main.py` komutunu çalıştırın ve bot çalışacaktır, durdurmak istediğinizde terminal içinde Ctrl+C tuş kombinasyonuna basın.
+
 ---
+
 ## ⏾ Geri Bildirim & İşbirliği:
 Lütfen [burada](https://github.com/AzuritilDev/QuranBot/discussions) tartışmalara katılın ve hataları, yanlışları vb. deponun [sorunlar](https://github.com/AzuritilDev/QuranBot/issues) bölümünde bildirin. <br />
 
