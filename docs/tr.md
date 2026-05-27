@@ -116,7 +116,7 @@ Bu kadar.
 - `python main.py` komutunu çalıştırın ve bot çalışacaktır, durdurmak istediğinizde terminal içinde Ctrl+C tuş kombinasyonuna basın.
 ---
 ## ⏾ Geri Bildirim & İşbirliği:
-Lütfen [burada](https://github.com/AzuritilDev/QuranBot/discussions) tartışmalara katılın ve hataları, güvenlik açıklarını, yanlışları vb. deponun [sorunlar](https://github.com/AzuritilDev/QuranBot/issues) bölümünde bildirin. <br />
+Lütfen [burada](https://github.com/AzuritilDev/QuranBot/discussions) tartışmalara katılın ve hataları, yanlışları vb. deponun [sorunlar](https://github.com/AzuritilDev/QuranBot/issues) bölümünde bildirin. <br />
 
 Lütfen [katkıda bulunma](CONTRIBUTING.md) ve [davranış kuralları](CODE_OF_CONDUCT.md) ile ilgili depo kılavuzunu inceleyin.
 ## ⏾ Yazarlar:

@@ -113,7 +113,7 @@ And you're done.
 - Run `python main.py` and your bot will start running, press Ctrl+C inside the terminal when you want to stop the bot.
 ---
 ## ⏾ Feedback & Collaboration:
-Feel free to make discussions in [here](https://github.com/AzuritilDev/QuranBot/discussions) and report any bugs, vulnerabilities, mistakes etc. in the [issues](https://github.com/AzuritilDev/QuranBot/issues) section of the repository. <br />
+Feel free to make discussions in [here](https://github.com/AzuritilDev/QuranBot/discussions) and report any bugs, mistakes etc. in the [issues](https://github.com/AzuritilDev/QuranBot/issues) section of the repository. <br />
 
 Please check the repository's guide on [contributing](CONTRIBUTING.md) and [the code of conduct](CODE_OF_CONDUCT.md).
 ---
