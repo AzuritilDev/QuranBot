@@ -1,12 +1,14 @@
 # dependencies/libraries
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 from dotenv import load_dotenv
 import time
 import asyncio
 from os import getenv
 from pathlib import Path
 import asyncpg
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 # load in the .env file
 load_dotenv()
@@ -35,7 +37,7 @@ and who put their trust in their Lord."""
 
 async def initialize_tables(bot):
     async with bot.db_pool.acquire() as cur:
-       await cur.execute("""CREATE TABLE IF NOT EXISTS dailyquran (channel_id BIGINT UNIQUE NOT NULL, guild_id BIGINT PRIMARY KEY, webhook_id BIGINT UNIQUE NOT NULL, timezone TEXT);""")
+       await cur.execute("""CREATE TABLE IF NOT EXISTS dailyquran (channel_id BIGINT UNIQUE NOT NULL, guild_id BIGINT PRIMARY KEY, webhook_id BIGINT UNIQUE NOT NULL, timezone TEXT, last_sent_date DATE);""")
 
 async def cleanup_stale_guilds(bot):
     current_guild_ids = {guild.id for guild in bot.guilds}
@@ -113,6 +115,76 @@ class Client(commands.Bot):
             print(f"Synced {len(synced)} commands.")
         except Exception as e:
             print(e)
+        
+        @tasks.loop(minutes=1)
+        async def daily_quran_task(self):
+            async with self.bot.db_pool.acquire() as cur:
+                rows = await cur.fetch("""
+                    SELECT *
+                    FROM dailyquran
+                """)
+
+            utc_now = datetime.utcnow().replace(tzinfo=ZoneInfo("UTC"))
+
+            for row in rows:
+                try:
+                    tz = ZoneInfo(row["timezone"])
+                    local_time = utc_now.astimezone(tz)
+
+                    # Example:
+                    # send every day at 09:00 local time
+                    if local_time.hour != 9 or local_time.minute != 0:
+                        continue
+
+                    today = local_time.date()
+
+                    # already sent today
+                    if row["last_sent_date"] == today:
+                        continue
+
+                    try:
+                        webhook = await self.bot.fetch_webhook(
+                            row["webhook_id"]
+                        )
+
+                    except discord.NotFound:
+                        # webhook deleted manually
+                        async with self.bot.db_pool.acquire() as cur:
+                            await cur.execute(
+                                """
+                                DELETE FROM dailyquran
+                                WHERE guild_id = $1
+                                """,
+                                row["guild_id"]
+                            )
+                        continue
+
+                    verse_text = (
+                        "Indeed, Allah is with the patient.\n"
+                        "— Qur'an 2:153"
+                    )
+
+                    await webhook.send(verse_text)
+
+                    async with self.bot.db_pool.acquire() as cur:
+                        await cur.execute(
+                            """
+                            UPDATE dailyquran
+                            SET last_sent_date = $1
+                            WHERE guild_id = $2
+                            """,
+                            today,
+                            row["guild_id"]
+                        )
+
+                except Exception as e:
+                    print(
+                        f"Failed daily Quran task for guild "
+                        f"{row['guild_id']}: {e}"
+                    )
+        @daily_quran_task.before_loop
+        async def before_daily_quran_task(self):
+            await self.bot.wait_until_ready()
 
 # bot object
 bot = Client()

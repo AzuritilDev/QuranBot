@@ -27,6 +27,7 @@ def timezoneIsValid(tz_string):
 class setDailyQuran(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
+        self.daily_quran_task.start()
 
     @app_commands.command(name="set-daily-quran", description="Set a channel to display daily Qur'ân verses in.")
     @app_commands.default_permissions(manage_channels=True)
@@ -112,6 +113,8 @@ class setDailyQuran(commands.Cog):
         except Exception:
             await new_webhook.delete(reason="Database insert failed")
             raise
+    def cog_unload(self):
+        self.daily_quran_task.cancel()
 
 async def setup(bot : commands.Bot) -> None:
     await bot.add_cog(setDailyQuran(bot))
