@@ -15,6 +15,7 @@ class Help(commands.Cog):
         # available commands
         embed.add_field(name="/help", value="(Lists all the available slash commands of the bot.).", inline=False)
         embed.add_field(name="/quran", value="(Displays a Qur'ân verse based on the user's input.).", inline=False)
+        embed.add_field(name="/set-daily-quran", value="(Displays daily verses on a selected channel.).", inline=False)
         await interaction.response.send_message(embed=embed, ephemeral=hide_response)
 
 async def setup(bot : commands.Bot) -> None:
