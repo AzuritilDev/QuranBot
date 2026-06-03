@@ -8,6 +8,9 @@ class Quran(commands.Cog):
         self.bot = bot
 
     @app_commands.command(name="quran", description="Display a Qur'ân verse.")
+    @app_commands.allowed_installs(guilds=True, users=True)
+    @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+    @app_commands.user_install()
     async def quran(self, interaction : discord.Interaction, chapter : int, verse : int, hide_response : bool = False):
         try:
             embed = discord.Embed(title=f"Qur'ân {metadata_fetch.QuranMetadata(chapter)}, Reference: {chapter}:{verse}", description=quran_fetch.fetch(chapter, verse), color=discord.Color.green())

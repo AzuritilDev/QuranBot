@@ -6,6 +6,7 @@ later in a background task
 import discord
 from discord.ext import commands
 from discord import app_commands
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 DEFAULT_WEBHOOK_NAME = "Automatic Daily Qur'ân Verses"
 
@@ -14,32 +15,29 @@ async def webhookWithExpectedNameAlreadyExists(channel : discord.TextChannel):
     target = discord.utils.get(webhooks, name=DEFAULT_WEBHOOK_NAME)
     return target is None
         
-from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
-
 def timezoneIsValid(tz_string):
     try:
         ZoneInfo(tz_string)
         return True
     except (ZoneInfoNotFoundError, ValueError):
-        # ValueError may be raised for non-conforming keys (e.g., up-level references)
         return False
 
 class setDailyQuran(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.daily_quran_task.start()
 
     @app_commands.command(name="set-daily-quran", description="Set a channel to display daily Qur'ân verses in.")
     @app_commands.default_permissions(manage_channels=True)
-    async def set_daily_quran(self, interaction : discord.Interaction, channel : discord.TextChannel, timezone : str, hide_response : bool = False):
-        # check user permissions before complying
+    async def setDailyQuran(self, interaction : discord.Interaction, channel : discord.TextChannel, timezone : str, hide_response : bool = False):
         if not interaction.user.guild_permissions.manage_channels:
             await interaction.response.send_message("You need to have the `Manage Channels` guild permission in order to run this command.", ephemeral=hide_response)
             return
-        # database queries may take time to finish
+
         await interaction.response.defer(ephemeral=hide_response)
 
-        # create the table for Daily Quran channels if it does not exist and check if the guild already has a notifier
+        # Flag to track if we need to remove a stale row from the DB
+        should_delete_stale = False
+
         async with self.bot.db_pool.acquire() as cur:
             row = await cur.fetchrow("""SELECT * FROM dailyquran WHERE guild_id = $1;""", interaction.guild_id)
             if row:
@@ -53,18 +51,21 @@ class setDailyQuran(commands.Cog):
                     return
 
                 except discord.NotFound:
-                    # webhook deleted manually
-                    async with self.bot.db_pool.acquire() as cur:
-                        await cur.execute(
-                            "DELETE FROM dailyquran WHERE guild_id = $1",
-                            interaction.guild_id
-                        )
+                    # Mark for deletion outside this block to avoid deadlocks
+                    should_delete_stale = True
 
                 except discord.Forbidden:
                     await interaction.followup.send(
                         "I no longer have access to the existing webhook."
                     )
                     return
+
+            # FIX: Execute the delete using the SAME connection context, or safely down here
+            if should_delete_stale:
+                await cur.execute(
+                    "DELETE FROM dailyquran WHERE guild_id = $1",
+                    interaction.guild_id
+                )
 
         criteria1 = await webhookWithExpectedNameAlreadyExists(channel)
         criteria2 = timezoneIsValid(timezone)
@@ -78,7 +79,6 @@ class setDailyQuran(commands.Cog):
             return
 
         bot_permissions = channel.permissions_for(interaction.guild.me)
-
         missing_permissions = []
 
         if not bot_permissions.view_channel:
@@ -113,8 +113,6 @@ class setDailyQuran(commands.Cog):
         except Exception:
             await new_webhook.delete(reason="Database insert failed")
             raise
-    def cog_unload(self):
-        self.daily_quran_task.cancel()
 
 async def setup(bot : commands.Bot) -> None:
     await bot.add_cog(setDailyQuran(bot))

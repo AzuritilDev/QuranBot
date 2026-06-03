@@ -16,10 +16,10 @@ load_dotenv()
 BOT_TOKEN = getenv("BOT_TOKEN")
 DEV_ENV = getenv("DEV_ENV") # to check if it's dev environment or not
 DB_SERVICE_URI = getenv("DB_URL")
-CON_MIN_SIZE = getenv("PG_MIN_SIZE") or 10
-CON_MAX_SIZE = getenv("PG_MAX_SIZE") or 20
-CON_LIFETIME = getenv("PG_LIFETIME") or 300
-MAX_QUERIES = getenv("PG_MAX_QUERIES") or 50000
+CON_MIN_SIZE = int(getenv("PG_MIN_SIZE", 10))
+CON_MAX_SIZE = int(getenv("PG_MAX_SIZE", 20))
+CON_LIFETIME = float(getenv("PG_LIFETIME", 300))
+MAX_QUERIES = int(getenv("PG_MAX_QUERIES", 50000))
 
 assert DB_SERVICE_URI, "Database service URI is set to None."
 
@@ -36,10 +36,12 @@ whose faith increases when His revelations are recited to them,
 and who put their trust in their Lord."""
 
 async def initialize_tables(bot):
+    print("Initializing database tables...")
     async with bot.db_pool.acquire() as cur:
        await cur.execute("""CREATE TABLE IF NOT EXISTS dailyquran (channel_id BIGINT UNIQUE NOT NULL, guild_id BIGINT PRIMARY KEY, webhook_id BIGINT UNIQUE NOT NULL, timezone TEXT, last_sent_date DATE);""")
 
 async def cleanup_stale_guilds(bot):
+    print("Cleaning up stale guilds...")
     current_guild_ids = {guild.id for guild in bot.guilds}
 
     async with bot.db_pool.acquire() as cur:
@@ -53,15 +55,19 @@ async def cleanup_stale_guilds(bot):
                 )
 
 async def cleanup_stale_webhooks(bot):
-    rows = await cur.fetch("SELECT guild_id, webhook_id FROM dailyquran")
-
-    async with bot.db_pool.acquire() as cur:
+    print("Cleaning up stale webhooks...")
+    
+    # Open the connection block FIRST
+    async with bot.db_pool.acquire() as conn:
+        # NOW execute the fetch using 'conn' inside the block
+        rows = await conn.fetch("SELECT guild_id, webhook_id FROM dailyquran")
+        
         for row in rows:
             try:
                 await bot.fetch_webhook(row["webhook_id"])
 
             except discord.NotFound:
-                await cur.execute(
+                await conn.execute(
                     "DELETE FROM dailyquran WHERE guild_id = $1",
                     row["guild_id"]
                 )
@@ -74,6 +80,19 @@ class Client(commands.Bot):
         self.launch_time = None
         self.db_pool = None
     async def setup_hook(self):
+        try:
+            self.db_pool = await asyncpg.create_pool(
+                dsn=DB_SERVICE_URI,
+                min_size=CON_MIN_SIZE,
+                max_size=CON_MAX_SIZE,
+                loop=asyncio.get_event_loop(),
+                max_inactive_connection_lifetime=CON_LIFETIME,
+                max_queries=MAX_QUERIES
+            )
+            print("Database pool initialized.")
+        except Exception as e:
+            print("Database pool did not initialize. ", e)
+
         listenercogs_dir = Path(__file__).parent / "listenercogs"
         listenercogs = [f"listenercogs.{f.stem}" for f in listenercogs_dir.glob("*.py") if not f.name.startswith("_")]
 
@@ -97,94 +116,11 @@ class Client(commands.Bot):
         self.launch_time = time.time()
 
         try:
-            self.db_pool = await asyncpg.create_pool(
-                dsn=DB_SERVICE_URI,
-                min_size=CON_MIN_SIZE,
-                max_size=CON_MAX_SIZE,
-                loop=asyncio.get_event_loop(),
-                max_inactive_connection_lifetime=CON_LIFETIME,
-                max_queries=MAX_QUERIES
-            )
-            print("Database pool initialized.")
-        except Exception as e:
-            print("Database pool did not initialize. ", e)
-
-        try:
             await self.change_presence(activity=discord.Activity(type=discord.ActivityType.custom, name="custom", state=custom_state))
             synced = await self.tree.sync()
             print(f"Synced {len(synced)} commands.")
         except Exception as e:
             print(e)
-        
-        @tasks.loop(minutes=1)
-        async def daily_quran_task(self):
-            async with self.bot.db_pool.acquire() as cur:
-                rows = await cur.fetch("""
-                    SELECT *
-                    FROM dailyquran
-                """)
-
-            utc_now = datetime.utcnow().replace(tzinfo=ZoneInfo("UTC"))
-
-            for row in rows:
-                try:
-                    tz = ZoneInfo(row["timezone"])
-                    local_time = utc_now.astimezone(tz)
-
-                    # Example:
-                    # send every day at 09:00 local time
-                    if local_time.hour != 9 or local_time.minute != 0:
-                        continue
-
-                    today = local_time.date()
-
-                    # already sent today
-                    if row["last_sent_date"] == today:
-                        continue
-
-                    try:
-                        webhook = await self.bot.fetch_webhook(
-                            row["webhook_id"]
-                        )
-
-                    except discord.NotFound:
-                        # webhook deleted manually
-                        async with self.bot.db_pool.acquire() as cur:
-                            await cur.execute(
-                                """
-                                DELETE FROM dailyquran
-                                WHERE guild_id = $1
-                                """,
-                                row["guild_id"]
-                            )
-                        continue
-
-                    verse_text = (
-                        "Indeed, Allah is with the patient.\n"
-                        "— Qur'an 2:153"
-                    )
-
-                    await webhook.send(verse_text)
-
-                    async with self.bot.db_pool.acquire() as cur:
-                        await cur.execute(
-                            """
-                            UPDATE dailyquran
-                            SET last_sent_date = $1
-                            WHERE guild_id = $2
-                            """,
-                            today,
-                            row["guild_id"]
-                        )
-
-                except Exception as e:
-                    print(
-                        f"Failed daily Quran task for guild "
-                        f"{row['guild_id']}: {e}"
-                    )
-        @daily_quran_task.before_loop
-        async def before_daily_quran_task(self):
-            await self.bot.wait_until_ready()
 
 # bot object
 bot = Client()
