@@ -11,58 +11,55 @@ from zoneinfo import ZoneInfo
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut, GeocoderServiceError
 from timezonefinder import TimezoneFinder
+import traceback
 
 USER_AGENT = "QuranBot"
 
 geolocator = Nominatim(user_agent=USER_AGENT)
 tf = TimezoneFinder()
 
-def get_city_coordinates(theCity : str):
+def get_city_coordinates(theCity: str):
     clean_input = theCity.strip()
     
     if not clean_input:
-        return "Error: Input cannot be empty."
+        return {"error": "Input cannot be empty."}
 
     try:
         location = geolocator.geocode(clean_input, featuretype="settlement", addressdetails=True)
         
         if not location:
-            return f"Error: '{clean_input}' could not be resolved to a known location."
+            return {"error": f"'{clean_input}' could not be resolved to a known location."}
 
         raw_data = location.raw
         place_type = raw_data.get("type", "")
         valid_types = ["city", "town", "village", "administrative"]
         
         if place_type not in valid_types:
-            return f"Error: '{clean_input}' points to a {place_type}, not a valid city."
+            return {"error": f"'{clean_input}' points to a {place_type}, not a valid city."}
             
         # Success path
         return {
-            # "display_name": location.address,
             "latitude": location.latitude,
-            "longitude": location.longitude,
-            # "city_name": raw_data["address"].get("city") or raw_data["address"].get("town")
+            "longitude": location.longitude
         }
 
     # Handle network and API exceptions gracefully
     except GeocoderTimedOut:
-        return "Error: The geocoding service timed out. Please try again."
+        return {"error": "The geocoding service timed out. Please try again."}
     except GeocoderServiceError as e:
-        return f"Error: Geocoding service issue ({e})."
+        return {"error": f"Geocoding service issue ({e})."}
 
 def fetchTzString(city : str):
-    location : dict = get_city_coordinates(city)
+    location = get_city_coordinates(city)
 
     if location:
-        lat, lng = location.latitude, location.longitude
-        print(f"Coordinates: {lat}, {lng}")
+        lat, lng = location["latitude"], location["longitude"]
         
         tz_string = tf.timezone_at(lng=lng, lat=lat)
         # print(f"ZoneInfo String: {tz_string}")
 
         local_tz = ZoneInfo(tz_string)
-        location.update({"tz_string": local_tz})
-        return location
+        return location, tz_string
         # print(f"Active ZoneInfo object: {local_tz}")
     else:
         print("Location not found.")
@@ -71,70 +68,96 @@ def fetchPrayerTimes(year : int, month : int, day : int, city : str, method : Ca
     date = DateComponents(year, month, day)
     params = CalculationParameters(method=method)
     params.madhab = madhab
-    location_and_timezone = fetchTzString(city)
-    coordinates = (location_and_timezone.latitude, location_and_timezone.longitude)
-
+    location, local_tz = fetchTzString(city)
+    coordinates = (float(location["latitude"]), float(location["longitude"]))
     prayer_times = PrayerTimes(coordinates, date, calculation_parameters=params)
 
-    prayer_times.update({"tz_string": location_and_timezone.tz_string})
-    return prayer_times
+    return {"prayer_times": prayer_times, "local_tz": local_tz}
 
 
-class PrayerTimes(commands.Cog):
+class PrayerTime(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
     @app_commands.command(name="prayer-times", description="Display prayer times based on given user input.")
-    async def prayertimes(self, interaction: discord.Interaction, city : str, method : CalculationMethod, madhab : Madhab, hide_response : bool = False):
+    async def prayertime(self, interaction: discord.Interaction, city : str, method : CalculationMethod, madhab : Madhab, hide_response : bool = False):
         await interaction.response.defer(ephemeral=hide_response)
         format = "%I:%M %p"
 
-        prayer_times = fetchPrayerTimes(
-            datetime.today().year, 
-            datetime.today().month,
-            datetime.today().day,
-            city,
-            method,
-            madhab
-            )
-        
-        next_prayer_enum = prayer_times.next_prayer()
-        next_prayer_time = prayer_times.time_for_prayer(next_prayer_enum)
+        try:
+            fetchedPrayerTimes = fetchPrayerTimes(
+                datetime.today().year, 
+                datetime.today().month,
+                datetime.today().day,
+                city,
+                method,
+                madhab
+                )
+            prayer_times = fetchedPrayerTimes["prayer_times"]
 
-        current_time = datetime.now(next_prayer_time.tzinfo)
+            prayers = {
+                "Fajr": prayer_times.fajr,
+                "Sunrise": prayer_times.sunrise,
+                "Dhuhr": prayer_times.dhuhr,
+                "Asr": prayer_times.asr,
+                "Maghrib": prayer_times.maghrib,
+                "Isha": prayer_times.isha
+            }
 
-        time_difference = next_prayer_time - current_time
-        total_seconds = int(time_difference.total_seconds())
+            current_time = datetime.now(ZoneInfo("UTC"))
 
-        hours = total_seconds // 3600
-        minutes = (total_seconds % 3600) // 60
+            next_prayer_name = None
+            next_prayer_time = None
 
-        if hours > 0:
-            countdown_text = f"{hours} hour{'s' if hours > 1 else ''} and {minutes} minute{'s' if minutes != 1 else ''} left until next prayer."
-        else:
-            countdown_text = f"{minutes} minute{'s' if minutes != 1 else ''} left until next prayer."
+            for name, p_time in sorted(prayers.items(), key=lambda item: item[1]):
+                if p_time > current_time:
+                    next_prayer_name = name
+                    next_prayer_time = p_time
+                    break
 
-        tz = prayer_times.tz_string
+            if not next_prayer_time:
+                next_prayer_name = "Fajr (Tomorrow)"
+                total_seconds = 0 
+            else:
+                total_seconds = int(next_prayer_time.timestamp() - current_time.timestamp())
 
-        fajr = prayer_times.fajr.astimezone(tz).strftime(format)
-        sunrise = prayer_times.sunrise.astimezone(tz).strftime(format)
-        dhuhr = prayer_times.dhuhr.astimezone(tz).strftime(format)
-        asr = prayer_times.asr.astimezone(tz).strftime(format)
-        maghrib = prayer_times.maghrib.astimezone(tz).strftime(format)
-        isha = prayer_times.isha.astimezone(tz).strftime(format)
 
-        embed = discord.Embed(title="Islamic Prayer Times of Today", description=f"Current Time: {datetime.today().astimezone(tz).strftime(format)}", color=self.bot.signature_color)
-        embed.set_author(f"Next Prayer: {next_prayer_enum.name}")
-        embed.add_field(name="Fajr", value=fajr, inline=False)
-        embed.add_field(name="Sunrise", value=sunrise, inline=False)
-        embed.add_field(name="Dhuhr", value=dhuhr, inline=False)
-        embed.add_field(name="Asr", value=asr, inline=False)
-        embed.add_field(name="Maghrib", value=maghrib, inline=False)
-        embed.add_field(name="Isha", value=isha, inline=False)
-        embed.set_footer(countdown_text)
+            time_difference = next_prayer_time - current_time
+            total_seconds = int(time_difference.total_seconds())
 
-        await interaction.followup.send(embed=embed, ephemeral=hide_response)
+            hours = total_seconds // 3600
+            minutes = (total_seconds % 3600) // 60
+
+            if total_seconds == 0:
+                countdown_text = "All of today's prayers have concluded."
+            elif hours > 0:
+                countdown_text = f"{hours} hour{'s' if hours > 1 else ''} and {minutes} minute{'s' if minutes != 1 else ''} left until next prayer."
+            else:
+                countdown_text = f"{minutes} minute{'s' if minutes != 1 else ''} left until next prayer."
+
+            tz = ZoneInfo(fetchedPrayerTimes["local_tz"])
+
+            fajr = prayer_times.fajr.astimezone(tz).strftime(format)
+            sunrise = prayer_times.sunrise.astimezone(tz).strftime(format)
+            dhuhr = prayer_times.dhuhr.astimezone(tz).strftime(format)
+            asr = prayer_times.asr.astimezone(tz).strftime(format)
+            maghrib = prayer_times.maghrib.astimezone(tz).strftime(format)
+            isha = prayer_times.isha.astimezone(tz).strftime(format)
+
+            embed = discord.Embed(title="Islamic Prayer Times of Today", description=f"Current Time: {datetime.today().astimezone(tz).strftime(format)}", color=self.bot.signature_color)
+            embed.set_author(name=f"Next Prayer: {next_prayer_name}")
+            embed.add_field(name="Fajr", value=fajr, inline=False)
+            embed.add_field(name="Sunrise", value=sunrise, inline=False)
+            embed.add_field(name="Dhuhr", value=dhuhr, inline=False)
+            embed.add_field(name="Asr", value=asr, inline=False)
+            embed.add_field(name="Maghrib", value=maghrib, inline=False)
+            embed.add_field(name="Isha", value=isha, inline=False)
+            embed.set_footer(text=countdown_text)
+
+            await interaction.followup.send(embed=embed, ephemeral=hide_response)
+        except Exception as e:
+            await interaction.followup.send(f"An error occured while fetching prayer times: {e}")
 
 
 async def setup(bot : commands.Bot) -> None:
-    await bot.add_cog(PrayerTimes(bot))
+    await bot.add_cog(PrayerTime(bot))
