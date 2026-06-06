@@ -5,6 +5,7 @@ from discord import app_commands
 from adhanpy.util.DateComponents import DateComponents
 from adhanpy.calculation.CalculationMethod import CalculationMethod
 from adhanpy.calculation.CalculationParameters import CalculationParameters
+from adhanpy.calculation.HighLatitudeRule import HighLatitudeRule
 from adhanpy.calculation.Madhab import Madhab
 from adhanpy.PrayerTimes import PrayerTimes
 from zoneinfo import ZoneInfo
@@ -67,6 +68,10 @@ def fetchTzString(city : str):
 def fetchPrayerTimes(year : int, month : int, day : int, city : str, method : CalculationMethod, madhab : Madhab):
     date = DateComponents(year, month, day)
     params = CalculationParameters(method=method)
+
+    # CRITICAL: Force a high latitude rule to prevent None values during summer/extreme zones
+    params.high_latitude_rule = HighLatitudeRule.TWILIGHT_ANGLE
+
     params.madhab = madhab
     location, local_tz = fetchTzString(city)
     coordinates = (float(location["latitude"]), float(location["longitude"]))
@@ -156,7 +161,7 @@ class PrayerTime(commands.Cog):
 
             await interaction.followup.send(embed=embed, ephemeral=hide_response)
         except Exception as e:
-            await interaction.followup.send(f"An error occured while fetching prayer times: {e}")
+            await interaction.followup.send(f"An error occured while fetching prayer times: {e} {traceback.extract_tb(e.__traceback__)}")
 
 
 async def setup(bot : commands.Bot) -> None:
