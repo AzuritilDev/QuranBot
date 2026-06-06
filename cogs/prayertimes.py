@@ -129,6 +129,7 @@ class PrayerTimes(commands.Cog):
         embed.add_field(name="Sunrise", value=sunrise, inline=False)
         embed.add_field(name="Dhuhr", value=dhuhr, inline=False)
         embed.add_field(name="Asr", value=asr, inline=False)
+        embed.add_field(name="Maghrib", value=maghrib, inline=False)
         embed.add_field(name="Isha", value=isha, inline=False)
         embed.set_footer(countdown_text)
 
