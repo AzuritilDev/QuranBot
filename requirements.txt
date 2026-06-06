@@ -3,3 +3,5 @@ python-dotenv
 asyncpg
 pytest
 adhanpy
+geopy
+timezonefinder

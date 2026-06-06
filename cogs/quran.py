@@ -13,7 +13,7 @@ class Quran(commands.Cog):
     @app_commands.user_install()
     async def quran(self, interaction : discord.Interaction, chapter : int, verse : int, hide_response : bool = False):
         try:
-            embed = discord.Embed(title=f"Qur'ân {metadata_fetch.QuranMetadata(chapter)}, Reference: {chapter}:{verse}", description=quran_fetch.fetch(chapter, verse), color=discord.Color.green())
+            embed = discord.Embed(title=f"Qur'ân {metadata_fetch.QuranMetadata(chapter)}, Reference: {chapter}:{verse}", description=quran_fetch.fetch(chapter, verse), color=self.bot.signature_color)
             embed.set_footer(text="(Sahîh International English Translation)")
             await interaction.response.send_message(embed=embed)
         except Exception as e:

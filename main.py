@@ -79,6 +79,7 @@ class Client(commands.Bot):
         
         self.launch_time = None
         self.db_pool = None
+        self.signature_color = discord.Color.green()
     async def setup_hook(self):
         try:
             self.db_pool = await asyncpg.create_pool(
