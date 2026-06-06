@@ -26,7 +26,7 @@ def get_city_coordinates(theCity: str):
         return {"error": "Input cannot be empty."}
 
     try:
-        location = geolocator.geocode(clean_input, featuretype="settlement", addressdetails=True)
+        location = geolocator.geocode(clean_input, addressdetails=True)
         
         if not location:
             return {"error": f"'{clean_input}' could not be resolved to a known location."}
@@ -115,14 +115,14 @@ class PrayerTime(commands.Cog):
             next_prayer_time = None
 
             for name, p_time in sorted(prayers.items(), key=lambda item: item[1]):
-                if p_time > current_time:
+                if p_time and p_time > current_time:
                     next_prayer_name = name
                     next_prayer_time = p_time
                     break
 
             if not next_prayer_time:
                 next_prayer_name = "Fajr (Tomorrow)"
-                total_seconds = 0 
+                total_seconds = 0
             else:
                 total_seconds = int(next_prayer_time.timestamp() - current_time.timestamp())
 
@@ -161,7 +161,7 @@ class PrayerTime(commands.Cog):
 
             await interaction.followup.send(embed=embed, ephemeral=hide_response)
         except Exception as e:
-            await interaction.followup.send(f"An error occured while fetching prayer times: {e} {traceback.extract_tb(e.__traceback__)}")
+            await interaction.followup.send(f"An error occured while fetching prayer times: {e}")
 
 
 async def setup(bot : commands.Bot) -> None:
