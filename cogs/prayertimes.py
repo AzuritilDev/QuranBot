@@ -2,92 +2,29 @@ import discord
 from datetime import datetime
 from discord.ext import commands
 from discord import app_commands
-from adhanpy.util.DateComponents import DateComponents
 from adhanpy.calculation.CalculationMethod import CalculationMethod
-from adhanpy.calculation.CalculationParameters import CalculationParameters
-from adhanpy.calculation.HighLatitudeRule import HighLatitudeRule
 from adhanpy.calculation.Madhab import Madhab
-from adhanpy.PrayerTimes import PrayerTimes
 from zoneinfo import ZoneInfo
-from geopy.geocoders import Nominatim
-from geopy.exc import GeocoderTimedOut, GeocoderServiceError
-from timezonefinder import TimezoneFinder
-import traceback
-
-USER_AGENT = "QuranBot"
-
-geolocator = Nominatim(user_agent=USER_AGENT)
-tf = TimezoneFinder()
-
-def get_city_coordinates(theCity: str):
-    clean_input = theCity.strip()
-    
-    if not clean_input:
-        return {"error": "Input cannot be empty."}
-
-    try:
-        location = geolocator.geocode(clean_input, addressdetails=True)
-        
-        if not location:
-            return {"error": f"'{clean_input}' could not be resolved to a known location."}
-
-        raw_data = location.raw
-        place_type = raw_data.get("type", "")
-        valid_types = ["city", "town", "village", "administrative"]
-        
-        if place_type not in valid_types:
-            return {"error": f"'{clean_input}' points to a {place_type}, not a valid city."}
-            
-        # Success path
-        return {
-            "latitude": location.latitude,
-            "longitude": location.longitude
-        }
-
-    # Handle network and API exceptions gracefully
-    except GeocoderTimedOut:
-        return {"error": "The geocoding service timed out. Please try again."}
-    except GeocoderServiceError as e:
-        return {"error": f"Geocoding service issue ({e})."}
-
-def fetchTzString(city : str):
-    location = get_city_coordinates(city)
-
-    if location:
-        lat, lng = location["latitude"], location["longitude"]
-        
-        tz_string = tf.timezone_at(lng=lng, lat=lat)
-        # print(f"ZoneInfo String: {tz_string}")
-
-        local_tz = ZoneInfo(tz_string)
-        return location, tz_string
-        # print(f"Active ZoneInfo object: {local_tz}")
-    else:
-        print("Location not found.")
-
-def fetchPrayerTimes(year : int, month : int, day : int, city : str, method : CalculationMethod, madhab : Madhab):
-    date = DateComponents(year, month, day)
-    params = CalculationParameters(method=method)
-
-    # CRITICAL: Force a high latitude rule to prevent None values during summer/extreme zones
-    params.high_latitude_rule = HighLatitudeRule.TWILIGHT_ANGLE
-
-    params.madhab = madhab
-    location, local_tz = fetchTzString(city)
-    coordinates = (float(location["latitude"]), float(location["longitude"]))
-    prayer_times = PrayerTimes(coordinates, date, calculation_parameters=params)
-
-    return {"prayer_times": prayer_times, "local_tz": local_tz}
-
+from utils.geography import fetchPrayerTimes, availableTimeFormats
 
 class PrayerTime(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
     @app_commands.command(name="prayer-times", description="Display prayer times based on given user input.")
-    async def prayertime(self, interaction: discord.Interaction, city : str, method : CalculationMethod, madhab : Madhab, hide_response : bool = False):
+    @app_commands.describe(city="Times given according to which city?")
+    @app_commands.describe(time_format="The time format, whether you want a 24-hour military time based output (Example: 18:30) or a 12-hour time output (Example: 6:30 PM). Default is 24-hour military time.")
+    @app_commands.describe(method="Based on which calculation method, default is Moon Sighting Committee.")
+    @app_commands.describe(madhab="The Asr calculation method. Default is Hanafi.")
+    @app_commands.describe(display_city_name="Whether you want to display the name of the city selected or not. Default is True.")
+    @app_commands.describe(times_inline="Whether you want the times inside the embed to be inline or not. Default is True.")
+    async def prayertime(self, interaction: discord.Interaction, city : str, time_format : availableTimeFormats = availableTimeFormats.TWENTY_FOUR_HOUR_MILITARY_TIME, method : CalculationMethod = CalculationMethod.MOON_SIGHTING_COMMITTEE, madhab : Madhab = Madhab.HANAFI, display_city_name : bool = True, times_inline : bool = True, hide_response : bool = False):
+        if len(city) > 170:
+            await interaction.response.send_message("City name is too long.")
+            return
+        
         await interaction.response.defer(ephemeral=hide_response)
-        format = "%I:%M %p"
+        used_format = time_format.value
 
         try:
             fetchedPrayerTimes = fetchPrayerTimes(
@@ -142,22 +79,25 @@ class PrayerTime(commands.Cog):
 
             tz = ZoneInfo(fetchedPrayerTimes["local_tz"])
 
-            fajr = prayer_times.fajr.astimezone(tz).strftime(format)
-            sunrise = prayer_times.sunrise.astimezone(tz).strftime(format)
-            dhuhr = prayer_times.dhuhr.astimezone(tz).strftime(format)
-            asr = prayer_times.asr.astimezone(tz).strftime(format)
-            maghrib = prayer_times.maghrib.astimezone(tz).strftime(format)
-            isha = prayer_times.isha.astimezone(tz).strftime(format)
+            fajr = prayer_times.fajr.astimezone(tz).strftime(used_format)
+            sunrise = prayer_times.sunrise.astimezone(tz).strftime(used_format)
+            dhuhr = prayer_times.dhuhr.astimezone(tz).strftime(used_format)
+            asr = prayer_times.asr.astimezone(tz).strftime(used_format)
+            maghrib = prayer_times.maghrib.astimezone(tz).strftime(used_format)
+            isha = prayer_times.isha.astimezone(tz).strftime(used_format)
 
-            embed = discord.Embed(title="Islamic Prayer Times of Today", description=f"Current Time: {datetime.today().astimezone(tz).strftime(format)}", color=self.bot.signature_color)
+            safe_city_name = discord.utils.escape_markdown(city)
+            embed_title = f"City: {safe_city_name}\nIslamic Prayer Times of Today" if display_city_name else "Islamic Prayer Times of Today"
+
+            embed = discord.Embed(title=embed_title, description=f"Current Time: {datetime.today().astimezone(tz).strftime(used_format)}", color=self.bot.signature_color)
             embed.set_author(name=f"Next Prayer: {next_prayer_name}")
-            embed.add_field(name="Fajr", value=fajr, inline=False)
-            embed.add_field(name="Sunrise", value=sunrise, inline=False)
-            embed.add_field(name="Dhuhr", value=dhuhr, inline=False)
-            embed.add_field(name="Asr", value=asr, inline=False)
-            embed.add_field(name="Maghrib", value=maghrib, inline=False)
-            embed.add_field(name="Isha", value=isha, inline=False)
-            embed.set_footer(text=countdown_text)
+            embed.add_field(name="Fajr", value=fajr, inline=times_inline)
+            embed.add_field(name="Sunrise", value=sunrise, inline=times_inline)
+            embed.add_field(name="Dhuhr", value=dhuhr, inline=times_inline)
+            embed.add_field(name="Asr", value=asr, inline=times_inline)
+            embed.add_field(name="Maghrib", value=maghrib, inline=times_inline)
+            embed.add_field(name="Isha", value=isha, inline=times_inline)
+            embed.set_footer(text=f"{countdown_text}\nPlease note that the default calculation method is according to the Moon Sighting Committee and the default Asr method is according to Hanafi.\n(Incase you didn't select a calculation method and madhab/asr method.)", icon_url=self.bot.user.avatar.url)
 
             await interaction.followup.send(embed=embed, ephemeral=hide_response)
         except Exception as e:
