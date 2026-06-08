@@ -12,6 +12,8 @@ class PrayerTime(commands.Cog):
         self.bot = bot
 
     @app_commands.command(name="prayer-times", description="Display prayer times based on given user input.")
+    @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+    @app_commands.user_install()
     @app_commands.describe(city="Times given according to which city?")
     @app_commands.describe(time_format="The time format, whether you want a 24-hour military time based output (Example: 18:30) or a 12-hour time output (Example: 6:30 PM). Default is 24-hour military time.")
     @app_commands.describe(method="Based on which calculation method, default is Moon Sighting Committee.")
@@ -97,7 +99,7 @@ class PrayerTime(commands.Cog):
             embed.add_field(name="Asr", value=asr, inline=times_inline)
             embed.add_field(name="Maghrib", value=maghrib, inline=times_inline)
             embed.add_field(name="Isha", value=isha, inline=times_inline)
-            embed.set_footer(text=f"{countdown_text}\n\nCalculation Method: {method}\nAsr Method: {madhab}", icon_url=self.bot.user.avatar.url)
+            embed.set_footer(text=f"{countdown_text}\n\nCalculation Method: {method.value}\nAsr Method: {madhab.value}", icon_url=self.bot.user.avatar.url)
 
             await interaction.followup.send(embed=embed, ephemeral=hide_response)
         except Exception as e:
