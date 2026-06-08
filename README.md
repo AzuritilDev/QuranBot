@@ -39,9 +39,9 @@ Abu Huraira reported Allah's Messenger (ﷺ) as saying:
 | Dockerized the application. | ✓  |
 | Migrated to uv package manager. | ✓  |
 | Chat commands for displaying Qur'ânic verses. | ✓  |
+| A command to display prayer times. | ✓  |
 | Ability to set Daily verses on a specific channel. | /  |
 | A way to test the application using pytest. | /  |
-| A command to display prayer times. | /  |
 | Qur'ân SQLite database. | x  |
 | Custom quote changes to a random quote from a list of quotes periodically. | x  |
 | A command to display Ahadith. | x  |
