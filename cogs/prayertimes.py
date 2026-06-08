@@ -97,7 +97,7 @@ class PrayerTime(commands.Cog):
             embed.add_field(name="Asr", value=asr, inline=times_inline)
             embed.add_field(name="Maghrib", value=maghrib, inline=times_inline)
             embed.add_field(name="Isha", value=isha, inline=times_inline)
-            embed.set_footer(text=f"{countdown_text}\nPlease note that the default calculation method is according to the Moon Sighting Committee and the default Asr method is according to Hanafi.\n(Incase you didn't select a calculation method and madhab/asr method.)", icon_url=self.bot.user.avatar.url)
+            embed.set_footer(text=f"{countdown_text}\n\nCalculation Method: {method}\nAsr Method: {madhab}", icon_url=self.bot.user.avatar.url)
 
             await interaction.followup.send(embed=embed, ephemeral=hide_response)
         except Exception as e:
