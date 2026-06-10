@@ -29,7 +29,7 @@ class PrayerTime(commands.Cog):
         used_format = time_format.value
 
         try:
-            fetchedPrayerTimes = fetchPrayerTimes(
+            fetchedPrayerTimes = await fetchPrayerTimes(
                 datetime.today().year, 
                 datetime.today().month,
                 datetime.today().day,
