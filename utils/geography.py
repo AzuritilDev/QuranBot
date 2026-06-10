@@ -40,8 +40,8 @@ async def get_city_coordinates(theCity: str):
                 return {"error": f"'{clean_input}' could not be resolved to a known location."}
 
             raw_data = location.raw
-            place_type = raw_data.get("type", "")
-            valid_types = ["city", "town", "village", "administrative"]
+            place_type = raw_data.get("addresstype", "")
+            valid_types = ["city", "town", "village", "administrative", "municipality", "province", "state_district", "region"]
             
             if place_type not in valid_types:
                 return {"error": f"'{clean_input}' points to a {place_type}, not a valid city."}

@@ -1,5 +1,5 @@
 import discord
-from datetime import datetime
+from datetime import datetime, timedelta
 from discord.ext import commands
 from discord import app_commands
 from adhanpy.calculation.CalculationMethod import CalculationMethod
@@ -37,18 +37,29 @@ class PrayerTime(commands.Cog):
                 method,
                 madhab
                 )
+            
+            if "error" in fetchedPrayerTimes:
+                await interaction.followup.send(f"# Error\n{fetchedPrayerTimes['error']}", ephemeral=hide_response)
+                return
+
             prayer_times = fetchedPrayerTimes["prayer_times"]
-
+            tz = ZoneInfo(fetchedPrayerTimes["local_tz"])
+        except Exception as e:
+            await interaction.followup.send(f"An error occured while fetching prayer times: {e}")
+            return
+        
+        try:
             prayers = {
-                "Fajr": prayer_times.fajr,
-                "Sunrise": prayer_times.sunrise,
-                "Dhuhr": prayer_times.dhuhr,
-                "Asr": prayer_times.asr,
-                "Maghrib": prayer_times.maghrib,
-                "Isha": prayer_times.isha
+                "Fajr": prayer_times.fajr.replace(tzinfo=tz),
+                "Sunrise": prayer_times.sunrise.replace(tzinfo=tz),
+                "Dhuhr": prayer_times.dhuhr.replace(tzinfo=tz),
+                "Asr": prayer_times.asr.replace(tzinfo=tz),
+                "Maghrib": prayer_times.maghrib.replace(tzinfo=tz),
+                "Isha": prayer_times.isha.replace(tzinfo=tz)
             }
+            print(prayers)
 
-            current_time = datetime.now(ZoneInfo("UTC"))
+            current_time = datetime.now(tz)
 
             next_prayer_name = None
             next_prayer_time = None
@@ -59,12 +70,23 @@ class PrayerTime(commands.Cog):
                     next_prayer_time = p_time
                     break
 
-            if not next_prayer_time:
-                next_prayer_name = "Fajr (Tomorrow)"
-                total_seconds = 0
-            else:
-                total_seconds = int(next_prayer_time.timestamp() - current_time.timestamp())
 
+            if next_prayer_time is None:
+                next_prayer_name = "Fajr (Tomorrow)"
+
+                # fetch tomorrow's prayer times
+                tomorrow = datetime.now(tz) + timedelta(days=1)
+
+                tomorrow_prayers = await fetchPrayerTimes(
+                    tomorrow.year,
+                    tomorrow.month,
+                    tomorrow.day,
+                    city,
+                    method,
+                    madhab
+                )
+
+                next_prayer_time = tomorrow_prayers["prayer_times"].fajr.astimezone(tz)
 
             time_difference = next_prayer_time - current_time
             total_seconds = int(time_difference.total_seconds())
@@ -72,7 +94,7 @@ class PrayerTime(commands.Cog):
             hours = total_seconds // 3600
             minutes = (total_seconds % 3600) // 60
 
-            if total_seconds == 0:
+            if total_seconds <= 0:
                 countdown_text = "All of today's prayers have concluded."
             elif hours > 0:
                 countdown_text = f"{hours} hour{'s' if hours > 1 else ''} and {minutes} minute{'s' if minutes != 1 else ''} left until next prayer."
@@ -99,11 +121,11 @@ class PrayerTime(commands.Cog):
             embed.add_field(name="Asr", value=asr, inline=times_inline)
             embed.add_field(name="Maghrib", value=maghrib, inline=times_inline)
             embed.add_field(name="Isha", value=isha, inline=times_inline)
-            embed.set_footer(text=f"{countdown_text}\n\nCalculation Method: {method.name}\nAsr Method: {madhab.name}", icon_url=self.bot.user.avatar.url)
+            embed.set_footer(text=f"{countdown_text}\n\nCalculation Method: {method.name}\nAsr Method: {madhab.name}", icon_url=self.bot.user.default_avatar.url)
 
             await interaction.followup.send(embed=embed, ephemeral=hide_response)
         except Exception as e:
-            await interaction.followup.send(f"An error occured while fetching prayer times: {e}")
+            await interaction.followup.send(f"Something happend while trying to display prayer times.\n\nError message:\n```bash\n{e}\n```")
 
 
 async def setup(bot : commands.Bot) -> None:
