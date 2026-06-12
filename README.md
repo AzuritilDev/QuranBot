@@ -52,6 +52,9 @@ Abu Huraira reported Allah's Messenger (ﷺ) as saying:
 ## ⏾ Features
 - `/help`: A slash command that displays all the available slash commands.
 - `/quran`: A slash command that takes two arguments of integer type as input, chapter and verse, it displays a Qur'ânic verse based on the given user input. (Example: `/quran chapter:2 verse:4` will display the contents of Surah Al-Baqarah, ayah number four.)
+- `/set-daily-quran`: A slash command that takes a channel as its only argument, when ran it will set a webhook on the selected channel where it will send verses daily. (Example usage: `/set-daily-quran channel:#general`)
+- `/prayer-times`: A slash command that shows the obligatory Islamic prayer times of the day based on the geographic location of the given city. (Example usage: `/prayer-times city:Paris`)
+- `/status`: Displays system information about the bot.
 
 ---
 
@@ -103,7 +106,18 @@ docker compose down -v
 ```
 >Note: Please use this command responsibly, this will power down the container AND delete the saved PostgreSQL data.
 
-If you've done everything correctly, you should see the bot's status as online while the container is running.
+If you've done everything correctly, you should see the bot's status as online while the container is running. <br />
+
+If you've updated the source code for your custom build make sure to run it using:
+```bash
+docker compose up --build
+```
+To keep it up to date with your changes. <br />
+
+If you want to run the container as a background task without logs filling up your terminal, run it with the `-d` flag:
+```bash
+docker compose up -d
+```
 ## 2. Manual Python Installation:
 ### Short Instructions:
 - Download the repository and extract it into a folder.

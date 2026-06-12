@@ -73,6 +73,7 @@ class PrayerTime(commands.Cog):
 
 
             if next_prayer_time is None:
+                today_or_tmrw = "Tomorrow"
                 next_prayer_name = "Fajr (Tomorrow)"
 
                 # fetch tomorrow's prayer times
@@ -88,6 +89,8 @@ class PrayerTime(commands.Cog):
                 )
 
                 next_prayer_time = tomorrow_prayers["prayer_times"].fajr.astimezone(tz)
+            else:
+                today_or_tmrw = "Today"
 
             time_difference = next_prayer_time - current_time
             total_seconds = int(time_difference.total_seconds())
@@ -112,7 +115,7 @@ class PrayerTime(commands.Cog):
             isha = prayer_times.isha.astimezone(tz).strftime(used_format)
 
             safe_city_name = discord.utils.escape_markdown(city)
-            embed_title = f"City: {safe_city_name}\nIslamic Prayer Times of Today" if display_city_name else "Islamic Prayer Times of Today"
+            embed_title = f"City: {safe_city_name}\nIslamic Prayer Times of {today_or_tmrw}" if display_city_name else f"Islamic Prayer Times of {today_or_tmrw}"
 
             embed = discord.Embed(title=embed_title, description=f"Current Time: {datetime.today().astimezone(tz).strftime(used_format)}", color=self.bot.signature_color)
             embed.set_author(name=f"Next Prayer: {next_prayer_name}")
@@ -122,7 +125,7 @@ class PrayerTime(commands.Cog):
             embed.add_field(name="Asr", value=asr, inline=times_inline)
             embed.add_field(name="Maghrib", value=maghrib, inline=times_inline)
             embed.add_field(name="Isha", value=isha, inline=times_inline)
-            embed.set_footer(text=f"{countdown_text}\n\nCalculation Method: {beautifyCalculationMethodClassName(method.name)}\nAsr Method: {beautifyCalculationMethodClassName(madhab.name)}", icon_url=self.bot.user.default_avatar.url)
+            embed.set_footer(text=f"{countdown_text}\n\nCalculation Method: {beautifyCalculationMethodClassName(method.name)}\nAsr Method: {beautifyCalculationMethodClassName(madhab.name)}", icon_url=self.bot.user.avatar.url)
 
             await interaction.followup.send(embed=embed, ephemeral=hide_response)
         except Exception as e:

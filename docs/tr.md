@@ -2,6 +2,10 @@
 
 ---
 
+## Dökümantasyon Hakkında Uyarı:
+Bu çeviri orijinal İngilizce olan dökümantasyon ile ([README.md](README.md)) güncel olmayabilir, <br />
+o yüzden sadece orijinal İngilizce dökümantasyonu kesin doğru bilgi kaynağı olarak kabul ediniz. <br />
+**NOT:** QuranBot'un dökümantasyonunun spesifik olarak Türkçe çevirisi proje sorumlusu [@AzuritilDev](https://github.com/AzuritilDev) tarafından çevriliyordur. 
 ## ⏾ Genel Görünüm
 <br /> بسم الله الرحمن الرحيم
 
@@ -14,15 +18,15 @@ Bu projeyi yapmamın sebepleri arasında bunlar var:
 
 Osman (r.a) tarafından rivayet edildiğine göre, Hz. Peygamber (ﷺ) şöyle dedi:
 >"Aranızda en iyi olanlar Kur'ân'ı öğrenenler ve öğretenlerdir."
-(Sâhîh-i Buhâri 5027, kitap-içi referans: Kitap 66, Hadis 49)
+(Sâhîh-i Buhâri 5027, kitap-içi referans: 66. Kitap, 49. Hadis)
 
 Ebû Hüreyre (r.a) tarafından rivayet edildiğine göre, Hz. Peygamber (ﷺ) şöyle dedi:
 >"Bir adam vefat ettiğinde, onun amelleri, şu üçü hariç, sona erir: Tekrarlayan sadaka, veya (insanların) faydalandığı ilim, ya da onun için dua eden dindar bir çocuk."
-(Sâhîh-i Müslim 1631, kitap-içi referans: Kitap 25, Hadis 20)
+(Sâhîh-i Müslim 1631, kitap-içi referans: 25. Kitap, 20. Hadis)
 
 Ebû Hüreyre (r.a) tarafından rivayet edildiğine göre, Allah'ın Resûlü (ﷺ) dedi ki:
 >"İnsanları doğru yola çağıranın, doğru yolda kalanlarınki gibi bir mükafatı vardır; onların mükafatları hiçbir şekilde eksiltilmez. İnsanları sapıklığa çağıranın ise, sapıklığı işleyenlerin günahları gibi onun günahının yükünü taşıması gerekir; onların günahları hiçbir şekilde eksiltilmez."
-(Sâhîh-i Müslim 2674, kitap-içi referans: Kitap 47, Hadis 30)
+(Sâhîh-i Müslim 2674, kitap-içi referans: 47. Kitap, 30. Hadis)
 
 >Not: Bu hadisler Sunnah.com'daki İngilizce çeviriden Türkçe'ye çevrilmiştir, çeviride hata olabilir.
 
@@ -54,6 +58,10 @@ Ebû Hüreyre (r.a) tarafından rivayet edildiğine göre, Allah'ın Resûlü (�
 ## ⏾ Özellikler
 - `/help`: Diğer eğik çizgi komutlarının listesini gösteren bir komut.
 - `/quran`: İki tamsayı tipi argümanını giriş olarak kabul eder, sûre ve ayet, kullanıcının girdiği değerlere göre bir Kur'ân-ı Kerim ayeti gösterir. (Örnek: `/quran chapter:2 verse:4` Bakara Sûresi, 4. ayetin içeriğini gösterecektir.)
+- `/set-daily-quran`: Seçilen muhabbet kanalında bir webhook oluşturur ve o kanala günlük ayetler gönderir. (Kullanış Örneği: `/set-daily-quran channel:#genel`)
+- `/prayer-times`: Seçilen şehrin coğrafik konumuna göre günün içindeki farz olan namazların vakitlerini gösterir. (Kullanış Örneği: `/prayer-times city:Istanbul`)
+- `/status`: Bot hakkında sistem bilgileri gösterir. 
+
 ---
 ## ⏾ Gereksinimler
 Kendi QuranBot uygulamanızı çalıştırmak için şunlara ihtiyaç duyacaksınız:
@@ -103,7 +111,18 @@ docker compose down -v
 ```
 >Note: Lütfen bu komutu sorumluluk alarak çalıştırın, bu konteynerin gücünü kesecek VE hem de kaydedilmiş PostgreSQL verilerini silecektir.
 
-Eğer herşeyi doğru yaptıysanız, botun durumunu çevrim içi olarak ve konteynırı çalışıyor olarak görüceksiniz.
+Eğer herşeyi doğru yaptıysanız, botun durumunu çevrim içi olarak ve konteynırı çalışıyor olarak görüceksiniz. <br />
+
+Özel yapınızın kaynak kodunu güncellediyseniz aşağıdakileri kullanarak çalıştırdığınızdan emin olun:
+``` bash
+docker compose up --build
+```
+Değişikliklerinizle güncel tutmak için. <br />
+
+Konteyneri, loglar terminalinizi doldurmadan arka plan görevi olarak çalıştırmak istiyorsanız, bunu `-d` parametresi ile çalıştırın:
+``` bash
+docker compose up -d
+```
 ## 2. Manuel Python Kurulumu:
 ### Kısa Talimatlar:
 - Projenin kaynak kodunu yükleyin ve bir klasöre ayrıştırın.

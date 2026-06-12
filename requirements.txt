@@ -6,3 +6,4 @@ adhanpy
 geopy
 timezonefinder
 tzdata
+psutil

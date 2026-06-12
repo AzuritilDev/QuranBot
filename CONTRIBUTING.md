@@ -18,6 +18,7 @@ Please, make sure to test the application after you've done changes before you s
 
 ### 3. Translation
 - You can translate the docs (documentation). For example [tr.md](docs/tr.md) in the docs folder is a Turkish translation of [README.md](README.md).
+- Make sure to add a disclaimer in your translated version of the documentation like "(This translated version of [README.md](README.md) may be outdated, please refer to the original English documentation for the absolute true information.)."
 
 ## Code of Conduct
 See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). Please be kind, respectful, and clear in all communication. 
