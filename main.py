@@ -7,8 +7,6 @@ import asyncio
 from os import getenv
 from pathlib import Path
 import asyncpg
-from datetime import datetime
-from zoneinfo import ZoneInfo
 
 # load in the .env file
 load_dotenv()
