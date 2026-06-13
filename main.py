@@ -92,13 +92,16 @@ class Client(commands.Bot):
         except Exception as e:
             print("Database pool did not initialize. ", e)
 
+        loopcogs_dir = Path(__file__).parent / "loopcogs"
+        loopcogs = [f"loopcogs.{f.stem}" for f in loopcogs_dir.glob("*.py") if not f.name.startswith("_")]
+
         listenercogs_dir = Path(__file__).parent / "listenercogs"
         listenercogs = [f"listenercogs.{f.stem}" for f in listenercogs_dir.glob("*.py") if not f.name.startswith("_")]
 
         cogs_dir = Path(__file__).parent / "cogs"
         cogs = [f"cogs.{f.stem}" for f in cogs_dir.glob("*.py") if not f.name.startswith("_")]
         
-        all_of_the_cogs = cogs + listenercogs
+        all_of_the_cogs = cogs + listenercogs + loopcogs
 
         print(f"Loading cogs: {all_of_the_cogs}")
         try:
