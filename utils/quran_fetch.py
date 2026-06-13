@@ -90,3 +90,24 @@ def ranged_fetch(reference: str):
         return final_text[:4090] + "..."
 
     return final_text
+
+def any_fetch(reference : str):
+    """
+    This determines what to return based on if the input is ranged or not
+    For example:
+    user enters 2:4 -> use fetch()
+    user enters 2:5-10 -> use ranged_fetch()
+    """
+    try:
+        surah_part, ayah_part = reference.split(":")
+        surah = int(surah_part)
+
+        if "-" in ayah_part:
+            data = ranged_fetch(reference)
+            return data, reference
+        else:
+            ayah = int(ayah_part)
+            data = fetch(surah, ayah)
+            return data, reference
+    except ValueError:
+        return None

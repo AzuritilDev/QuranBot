@@ -1,7 +1,10 @@
 import discord
-from discord.ext import commands, tasks
 import datetime
+import random
+from discord.ext import commands, tasks
 from zoneinfo import ZoneInfo
+from utils.quran_fetch import any_fetch
+from utils.quotables import quotable_verses
 
 class VerseLoop(commands.Cog):
     def __init__(self, bot):
@@ -53,9 +56,12 @@ class VerseLoop(commands.Cog):
                         )
                     continue
 
+                selected_verse = random.choice(quotable_verses)
+                verse_contents, verse_reference = any_fetch(selected_verse)
+
                 verse_text = (
-                    "Indeed, Allah is with the patient.\n"
-                    "— Qur'an 2:153"
+                    f"{verse_contents}\n"
+                    f"— Qur'ân {verse_reference}"
                 )
 
                 await webhook.send(verse_text)
