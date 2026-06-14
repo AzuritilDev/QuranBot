@@ -1,8 +1,8 @@
 # ﴾ QuranBot ﴿
 
-<img src="docs/assets/quranbotlogo.webp" style="vertical-align: middle;" />
-
----
+<p align="center">
+  <img src="docs/assets/quranbotlogo.webp" width="350" />
+</p>
 
 ## ⏾ Overview
 <br /> بسم الله الرحمن الرحيم

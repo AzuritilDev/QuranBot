@@ -1,8 +1,8 @@
 # ﴾ QuranBot ﴿
 
-<img src="docs/assets/quranbotlogo.webp" style="vertical-align: middle;" />
-
----
+<p align="center">
+  <img src="docs/assets/quranbotlogo.webp" width="350" />
+</p>
 
 ## Dökümantasyon Hakkında Uyarı:
 Bu çeviri orijinal İngilizce olan dökümantasyon ile ([README.md](README.md)) güncel olmayabilir, <br />
