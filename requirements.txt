@@ -7,3 +7,4 @@ geopy
 timezonefinder
 tzdata
 psutil
+pytest

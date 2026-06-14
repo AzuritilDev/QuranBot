@@ -943,6 +943,11 @@ dependencies = [
     { name = "tzdata" },
 ]
 
+[package.dev-dependencies]
+dev = [
+    { name = "pytest" },
+]
+
 [package.metadata]
 requires-dist = [
     { name = "adhanpy", specifier = ">=1.0.5" },
@@ -955,6 +960,9 @@ requires-dist = [
     { name = "timezonefinder", specifier = ">=8.2.4" },
     { name = "tzdata", specifier = ">=2026.2" },
 ]
+
+[package.metadata.requires-dev]
+dev = [{ name = "pytest", specifier = ">=9.0.3" }]
 
 [[package]]
 name = "timezonefinder"

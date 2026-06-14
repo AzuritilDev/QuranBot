@@ -15,3 +15,8 @@ dependencies = [
     "timezonefinder>=8.2.4",
     "tzdata>=2026.2",
 ]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.3",
+]
