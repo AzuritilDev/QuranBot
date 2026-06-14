@@ -1,5 +1,7 @@
 # ﴾ QuranBot ﴿
 
+<img src="docs/assets/quranbotlogo.webp" style="vertical-align: middle;" />
+
 ---
 
 ## Dökümantasyon Hakkında Uyarı:
@@ -8,6 +10,8 @@ o yüzden sadece orijinal İngilizce dökümantasyonu kesin doğru bilgi kaynağ
 **NOT:** QuranBot'un dökümantasyonunun spesifik olarak Türkçe çevirisi proje sorumlusu [@AzuritilDev](https://github.com/AzuritilDev) tarafından çevriliyordur. 
 ## ⏾ Genel Görünüm
 <br /> بسم الله الرحمن الرحيم
+
+<img src="docs/assets/quranbotthumbnail.jpg.png" style="vertical-align: middle;" />
 
 Bu benim kutsal İslami metinleri göstermek amaçlı yaptığım discord.py tabanlı, açık kaynak bir Discord botudur. <br />
 Bu sayede Discord kullanırken kutsal İslami metinlere ulaşım daha kolay olur. <br />
@@ -74,6 +78,9 @@ Gereksinimler bu kadar.
 ---
 
 ## ⏾ Kurulum
+
+Kurmadan Önce: Repo'yu "<> Kod" kısmı üzerinden bir .zip dosyası olarak ya da terminalinizde `git clone https://github.com/AzuritilDev/QuranBot` kodu üzerinden klonladığınızdan emin olun.
+
 ## 1. Docker Kullanarak Kurulum:
 ### Kısa Talimatlar
 - Botunuzu Discord Developer Portalı'ndan oluşturun

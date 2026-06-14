@@ -1,9 +1,13 @@
 # ﴾ QuranBot ﴿
 
+<img src="docs/assets/quranbotlogo.webp" style="vertical-align: middle;" />
+
 ---
 
 ## ⏾ Overview
 <br /> بسم الله الرحمن الرحيم
+
+<img src="docs/assets/quranbotthumbnail.jpg.png" style="vertical-align: middle;" />
 
 This is an open-source, discord.py-based discord bot I made for displaying Islamic scripture. <br />
 So that it is easy to access Islamic information while using Discord. <br />
@@ -69,6 +73,9 @@ And that's pretty much it.
 ---
 
 ## ⏾ Installation
+
+Before Installation: Make sure you have cloned the repository either via the "<> Code" section as .zip file or via using the `git clone https://github.com/AzuritilDev/QuranBot` command in your terminal.
+
 ## 1. Docker Installation:
 ### Short Instructions
 - Create your bot
