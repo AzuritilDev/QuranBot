@@ -1,12 +1,15 @@
 # dependencies/libraries
-import discord
-from discord.ext import commands, tasks
-from dotenv import load_dotenv
-import time
+import asyncpg
 import asyncio
+import time
+import discord
+from discord.ext import commands
+from dotenv import load_dotenv
 from os import getenv
 from pathlib import Path
-import asyncpg
+from geopy.geocoders import Nominatim
+from geopy.adapters import AioHTTPAdapter
+from utils.geography import USER_AGENT, GEOPY_CLIENT_TIMEOUT
 
 # load in the .env file
 load_dotenv()
@@ -78,6 +81,7 @@ class Client(commands.Bot):
         self.launch_time = None
         self.db_pool = None
         self.signature_color = discord.Color.green()
+        self.geolocator = Nominatim(user_agent=USER_AGENT, adapter_factory=AioHTTPAdapter, timeout=GEOPY_CLIENT_TIMEOUT)
     async def setup_hook(self):
         try:
             self.db_pool = await asyncpg.create_pool(

@@ -36,7 +36,8 @@ class PrayerTime(commands.Cog):
                 datetime.today().day,
                 city,
                 method,
-                madhab
+                madhab,
+                self.bot.geolocator
                 )
             
             if "error" in fetchedPrayerTimes:

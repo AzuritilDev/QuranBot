@@ -8,6 +8,23 @@
 Bu çeviri orijinal İngilizce olan dökümantasyon ile ([README.md](README.md)) güncel olmayabilir, <br />
 o yüzden sadece orijinal İngilizce dökümantasyonu kesin doğru bilgi kaynağı olarak kabul ediniz. <br />
 **NOT:** QuranBot'un dökümantasyonunun spesifik olarak Türkçe çevirisi proje sorumlusu [@AzuritilDev](https://github.com/AzuritilDev) tarafından çevriliyordur. 
+
+## Yasal ve Dini Uyarılar
+
+### 1. Dini Uyarı
+Bu uygulamada sunulan Kur'an-ı Kerim mealleri Saheeh International çevirisinden alınmıştır. Bu çeviri dünya çapında güvenilir ve saygın kabul edilse de, hiçbir meal orijinal Arapça metnin derinliğini, nüanslarını ve tam anlamını eksiksiz bir şekilde yansıtamaz. Bu yorumlar tamamen mütercimlerin ilmi çalışmalarının bir sonucudur. Kesin hükümler veya detaylı araştırmalar için kullanıcıların yetkin İslam alimlerine danışmaları tavsiye edilir.
+
+### 2. Hesaplama Uyarısı
+Namaz vakitleri, [Adhanpy](https://github.com/alphahm/adhanpy/) (Adhan) kütüphanesi kullanılarak otomatik olarak hesaplanmaktadır. Bu hesaplamalar, yüksek hassasiyetli astronomik denklemlere ve küresel standart hesaplama yöntemlerine (örneğin ISNA, MWL) dayanmaktadır. Küçük coğrafi ve atmosferik farklılıklar nedeniyle bu namaz vakitleri birer tahmindir. Kullanıcıların vakitleri gözle veya en yakın camiden okunan yerel ezanı dinleyerek doğrulamaları önerilir.
+
+### 3. Sorumluluk Sınırlandırması
+Bu uygulamanın geliştiricileri ve katkıda bulunanları; burada sunulan bilgilerin, namaz vakitlerinin veya meallerin kullanımından, yorumlanmasından veya bunlara güvenilmesinden kaynaklanabilecek doğrudan, dolaylı veya arızi hiçbir zarardan veya kâr kaybından sorumlu tutulamaz.
+
+### 4. Açık Kaynak ve Telif Hakkı Bildirimi
+Bu uygulama, açık kaynaklı yazılımlar ve telif hakkı korumalı materyaller kullanmaktadır:
+* **Adhanpy / Adhan Kütüphanesi:** MIT Lisansı altında dağıtılan, alphahm tarafından geliştirilen ve Batoul Apps Adhan ekosistemini temel alan açık kaynaklı adhanpy kütüphanesinden güç almaktadır.
+* **Saheeh International Kur'an Meali:** Kur'an-ı Kerim anlamlarının dijital olarak görüntülenmesi ve dağıtılmasına ilişkin standart izinlere uygun olarak kullanılmaktadır.
+
 ## ⏾ Genel Görünüm
 <br /> بسم الله الرحمن الرحيم
 

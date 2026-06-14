@@ -4,6 +4,22 @@
   <img src="docs/assets/quranbotlogo.webp" width="350" />
 </p>
 
+## Disclaimers
+
+### 1. Religious Disclaimer
+The translations of the Holy Quran provided in this application are sourced from the Saheeh International translation. While this translation is widely trusted and highly regarded, no translation can perfectly capture the absolute depth, nuance, and meaning of the original Arabic text. The interpretations remain the scholarly effort of the translators. Users should consult qualified Islamic scholars for definitive rulings or detailed study.
+
+### 2. Calculation Disclaimer
+Prayer times are calculated automatically using the [Adhanpy](https://github.com/alphahm/adhanpy/) (Adhan) library. These calculations are based on high-precision astronomical equations and standard global calculation methods (e.g., ISNA, MWL). Because slight geographic and atmospheric variations exist, these prayer times are estimates. Users are encouraged to verify times visually or by listening to the local Adhan from their nearest mosque.
+
+### 3. Limitation of Liability
+The developers and contributors of this application shall not be held liable for any direct, indirect, or incidental damages or loss of profits arising from the use, interpretation, or reliance on the information, prayer times, or translations provided herein.
+
+### 4. Open Source and Copyright Acknowledgment
+This application utilizes open-source software and copyrighted materials:
+* **Adhanpy / Adhan Library:** Powered by the open-source adhanpy library (developed by alphahm), based on the upstream Batoul Apps Adhan ecosystem, and distributed under the MIT License.
+* **Saheeh International Quran:** Used in accordance with standard permissions for the digital display and distribution of the meaning of the Quran.
+
 ## ⏾ Overview
 <br /> بسم الله الرحمن الرحيم
 

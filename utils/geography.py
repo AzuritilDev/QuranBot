@@ -7,7 +7,6 @@ from adhanpy.calculation.Madhab import Madhab
 from adhanpy.PrayerTimes import PrayerTimes
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut, GeocoderServiceError
-from geopy.adapters import AioHTTPAdapter
 from timezonefinder import TimezoneFinder
 from enum import Enum
 # from zoneinfo import ZoneInfo
@@ -25,7 +24,7 @@ class availableTimeFormats(Enum):
     TWELVE_HOUR_TIME = "%I:%M %p"
     TWENTY_FOUR_HOUR_MILITARY_TIME = "%H:%M"
 
-async def get_city_coordinates(theCity: str):
+async def get_city_coordinates(theCity: str, bot_geolocator : Nominatim):
     clean_input = theCity.strip()
     
     if not clean_input:
@@ -33,7 +32,7 @@ async def get_city_coordinates(theCity: str):
 
     for attempt in range(GEOPY_MAXIMUM_RETRIES):
         try:
-            async with Nominatim(user_agent=USER_AGENT, adapter_factory=AioHTTPAdapter, timeout=GEOPY_CLIENT_TIMEOUT) as geolocator:
+            async with bot_geolocator as geolocator:
                 location = await geolocator.geocode(clean_input, addressdetails=True)
             
             if not location:
@@ -58,8 +57,8 @@ async def get_city_coordinates(theCity: str):
         except GeocoderServiceError as e:
             return {"error": f"Geocoding service issue ({e})."}
     
-async def fetchLocationAndTzString(city : str):
-    location = await get_city_coordinates(city)
+async def fetchLocationAndTzString(city : str, geolocator : Nominatim):
+    location = await get_city_coordinates(city, geolocator)
 
     if location and "error" not in location:
         lat, lng = location["latitude"], location["longitude"]
@@ -73,7 +72,7 @@ async def fetchLocationAndTzString(city : str):
         print(f"Error: {error_msg}")
         return None, None
 
-async def fetchPrayerTimes(year : int, month : int, day : int, city : str, method : CalculationMethod, madhab : Madhab):
+async def fetchPrayerTimes(year : int, month : int, day : int, city : str, method : CalculationMethod, madhab : Madhab, geolocator : Nominatim):
     date = DateComponents(year, month, day)
     params = CalculationParameters(method=method)
 
@@ -81,7 +80,7 @@ async def fetchPrayerTimes(year : int, month : int, day : int, city : str, metho
     params.high_latitude_rule = HighLatitudeRule.TWILIGHT_ANGLE
 
     params.madhab = madhab
-    location, local_tz = await fetchLocationAndTzString(city)
+    location, local_tz = await fetchLocationAndTzString(city, geolocator)
     coordinates = (float(location["latitude"]), float(location["longitude"]))
     prayer_times = PrayerTimes(coordinates, date, calculation_parameters=params)
 
