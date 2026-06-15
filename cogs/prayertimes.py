@@ -86,7 +86,8 @@ class PrayerTime(commands.Cog):
                     tomorrow.day,
                     city,
                     method,
-                    madhab
+                    madhab,
+                    self.bot.geolocator
                 )
 
                 next_prayer_time = tomorrow_prayers["prayer_times"].fajr.astimezone(tz)
