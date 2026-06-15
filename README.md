@@ -4,6 +4,36 @@
   <img src="docs/assets/quranbotlogo.webp" width="350" />
 </p>
 
+<p>
+  <a href="LICENSE">
+    <img alt="GitHub License" src="https://img.shields.io/github/license/AzuritilDev/QuranBot">
+  </a>
+  <a href="https://github.com/AzuritilDev/QuranBot/commit/main">
+        <img src="https://img.shields.io/github/last-commit/AzuritilDev/QuranBot">
+  </a>
+  <a href="https://github.com/AzuritilDev/QuranBot/issues">
+        <img src="https://img.shields.io/github/issues/AzuritilDev/QuranBot">
+  </a>
+  <a href="https://github.com/AzuritilDev/QuranBot/releases/latest">
+      <img src="https://img.shields.io/github/v/release/AzuritilDev/QuranBot">
+  </a>
+  <a href="https://github.com/AzuritilDev/QuranBot/stargazers">
+    <img src="https://img.shields.io/github/stars/AzuritilDev/QuranBot">
+  </a>
+  <a href="https://www.docker.com/">
+    <img src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff">
+  </a>
+  <a href="https://www.python.org/">
+    <img src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff">
+  </a>
+  <a href="https://docs.astral.sh/uv/">
+    <img src="https://img.shields.io/badge/uv-261230.svg?logo=uv&logoColor=#de5fe9">
+  </a>
+  <a href="https://www.postgresql.org/">
+    <img src="https://img.shields.io/badge/Postgres-%23316192.svg?logo=postgresql&logoColor=white">
+  </a>
+</p>
+
 ## Disclaimers
 
 ### 1. Religious Disclaimer
