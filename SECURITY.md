@@ -1,5 +1,11 @@
 # Security Policy
 
+## Supported Versions
+
+Security patches are provided only for the latest stable release. Older versions will not receive retroactive security updates. 
+
+If you find a vulnerability in an older version, please update to the latest release to verify if the issue still exists.
+
 ## Reporting a Vulnerability
 
 Please do not report security vulnerabilities through public GitHub issues. 
@@ -11,7 +17,7 @@ To report a vulnerability, email the project maintainer **azuriteluadev@proton.m
 *   Step-by-step instructions to reproduce the issue.
 *   Potential impact (e.g., unauthorized data access, bot hijacking).
 
-You will receive an acknowledgment of your report within 48 hours. We will keep you updated on our progress as we work on a fix.
+Reports are reviewed as time permits. We will update you on our progress if the vulnerability is verified.
 
 ## Critical Security Guidelines for Self-Hosting
 
@@ -24,7 +30,7 @@ If you are hosting this bot yourself, you must secure your environment:
 
 ### 2. PostgreSQL Security
 *   **Avoid the `postgres` Superuser:** Create a dedicated database user for the bot with limited privileges (only `SELECT`, `INSERT`, `UPDATE`, `DELETE` on the bot database).
-*   **Restrict Network Access:** If the database is on the same machine, bind PostgreSQL to `localhost` (`127.0.0.1`). Do not expose port `5432` to the public internet.
+*   **Restrict Network Access:** If the database is on the same machine, bind PostgreSQL to `localhost` (`127.0.0.1`). Do not expose port `5432` (or whatever port your PostgreSQL service is in) to the public internet.
 *   **SQL Injection Prevention:** Our bot uses parameterized queries/an ORM. If you modify the source code, never use string concatenation to build SQL queries.
 
 ### 3. Discord Permissions
