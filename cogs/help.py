@@ -10,7 +10,7 @@ class Help(commands.Cog):
     async def help(self, interaction: discord.Interaction, hide_response : bool = False):
         embed = discord.Embed(
             title="📘 Help - Command List",
-            color=discord.Color.red()
+            color=self.bot.signature_color
         )
         # available commands
         embed.add_field(name="/help", value="(Lists all the available slash commands of the bot.).", inline=False)
