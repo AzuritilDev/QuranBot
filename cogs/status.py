@@ -46,7 +46,7 @@ class Status(commands.Cog):
             embed.add_field(name="Database Version", value=version)
             embed.add_field(name="Database Status", value=db_status)
 
-            embed.set_footer(text=f"System Uptime: {round(uptime / 3600, 2)} hours\nBot Uptime: {uptime_str}\nGitHub Repository: [AzuritilDev/QuranBot](https://github.com/AzuritilDev/QuranBot)", icon_url=self.bot.user.avatar.url)
+            embed.set_footer(text=f"System Uptime: {round(uptime / 3600, 2)} hours\nBot Uptime: {uptime_str}\nGitHub Repository: https://github.com/AzuritilDev/QuranBot", icon_url=self.bot.user.avatar.url)
             
             await interaction.followup.send(embed=embed, ephemeral=hide_response)
         except Exception as e:
