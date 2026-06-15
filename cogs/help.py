@@ -17,6 +17,7 @@ class Help(commands.Cog):
         embed.add_field(name="/quran", value="(Displays a Qur'ân verse based on the user's input.).", inline=False)
         embed.add_field(name="/set-daily-quran", value="(Displays verses on a selected channel daily.).", inline=False)
         embed.add_field(name="/prayer-times", value="(Displays the Islamic prayer times based on selected city.).", inline=False)
+        embed.add_field(name="/status", value="(Displays system information about the bot.).", inline=False)
         await interaction.response.send_message(embed=embed, ephemeral=hide_response)
 
 async def setup(bot : commands.Bot) -> None:
