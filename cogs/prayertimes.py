@@ -5,8 +5,10 @@ from discord import app_commands
 from adhanpy.calculation.CalculationMethod import CalculationMethod
 from adhanpy.calculation.Madhab import Madhab
 from zoneinfo import ZoneInfo
-from utils.geography import fetchPrayerTimes, availableTimeFormats
+from utils.geography import fetchPrayerTimes, availableTimeFormats, USER_AGENT, GEOPY_CLIENT_TIMEOUT
 from utils.beautify import beautifyCalculationMethodClassName
+from geopy.geocoders import Nominatim
+from geopy.adapters import AioHTTPAdapter
 
 class PrayerTime(commands.Cog):
     def __init__(self, bot: commands.Bot):
@@ -30,15 +32,16 @@ class PrayerTime(commands.Cog):
         used_format = time_format.value
 
         try:
-            fetchedPrayerTimes = await fetchPrayerTimes(
-                datetime.today().year, 
-                datetime.today().month,
-                datetime.today().day,
-                city,
-                method,
-                madhab,
-                self.bot.geolocator
-                )
+            async with Nominatim(user_agent=USER_AGENT, adapter_factory=AioHTTPAdapter, timeout=GEOPY_CLIENT_TIMEOUT) as geolocator:
+                fetchedPrayerTimes = await fetchPrayerTimes(
+                    datetime.today().year, 
+                    datetime.today().month,
+                    datetime.today().day,
+                    city,
+                    method,
+                    madhab,
+                    geolocator
+                    )
             
             if "error" in fetchedPrayerTimes:
                 await interaction.followup.send(f"# Error\n{fetchedPrayerTimes['error']}", ephemeral=hide_response)
@@ -80,15 +83,16 @@ class PrayerTime(commands.Cog):
                 # fetch tomorrow's prayer times
                 tomorrow = datetime.now(tz) + timedelta(days=1)
 
-                tomorrow_prayers = await fetchPrayerTimes(
-                    tomorrow.year,
-                    tomorrow.month,
-                    tomorrow.day,
-                    city,
-                    method,
-                    madhab,
-                    self.bot.geolocator
-                )
+                async with Nominatim(user_agent=USER_AGENT, adapter_factory=AioHTTPAdapter, timeout=GEOPY_CLIENT_TIMEOUT) as geolocator:
+                    tomorrow_prayers = await fetchPrayerTimes(
+                        tomorrow.year,
+                        tomorrow.month,
+                        tomorrow.day,
+                        city,
+                        method,
+                        madhab,
+                        geolocator
+                    )
 
                 next_prayer_time = tomorrow_prayers["prayer_times"].fajr.astimezone(tz)
             else:

@@ -32,15 +32,26 @@ async def get_city_coordinates(theCity: str, bot_geolocator : Nominatim):
 
     for attempt in range(GEOPY_MAXIMUM_RETRIES):
         try:
-            async with bot_geolocator as geolocator:
-                location = await geolocator.geocode(clean_input, addressdetails=True)
+            location = await bot_geolocator.geocode(
+                clean_input,
+                addressdetails=True
+            )
             
             if not location:
                 return {"error": f"'{clean_input}' could not be resolved to a known location."}
 
             raw_data = location.raw
             place_type = raw_data.get("addresstype", "")
-            valid_types = ["city", "town", "village", "administrative", "municipality", "province", "state_district", "region"]
+            valid_types = [
+                "city",
+                "town",
+                "village",
+                "administrative",
+                "municipality",
+                "province",
+                "state_district",
+                "region",
+            ]
             
             if place_type not in valid_types:
                 return {"error": f"'{clean_input}' points to a {place_type}, not a valid city."}
