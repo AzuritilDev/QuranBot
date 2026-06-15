@@ -17,7 +17,7 @@ class Status(commands.Cog):
         await interaction.response.defer(ephemeral=hide_response)
         try:
             uptime = time.time() - psutil.boot_time()
-            embed = discord.Embed(title="Bot Status", color=0x2ecc71)
+            embed = discord.Embed(title="Bot Status", color=self.bot.signature_color)
             now = time.time()
             uptime_seconds = int(now - self.bot.launch_time)
             uptime_str = str(timedelta(seconds=uptime_seconds))
@@ -25,8 +25,9 @@ class Status(commands.Cog):
             try:
                 start = time.perf_counter()
                 async with self.bot.db_pool.acquire() as cur:
-                        await cur.execute("SELECT VERSION();")
-                        version = (await cur.fetchone())[0]
+                        row = await cur.fetchrow("SELECT VERSION();")
+                        split_ver_string = str(row[0]).split(" ")
+                        version = f"{split_ver_string[0]} {split_ver_string[1]}"
                 ping = (time.perf_counter() - start) * 1000
                 db_status = f"✅ Connected (`{int(ping)} ms`)"
             except Exception as e:
@@ -42,7 +43,7 @@ class Status(commands.Cog):
             embed.add_field(name="RAM Usage", value=f"{psutil.virtual_memory().percent}%")
             embed.add_field(name="System", value=platform.system())
 
-            embed.add_field(name="Database", value="MySQL / MariaDB")
+            embed.add_field(name="Database", value="PostgreSQL")
             embed.add_field(name="Database Version", value=version)
             embed.add_field(name="Database Status", value=db_status)
 
