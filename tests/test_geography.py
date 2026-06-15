@@ -6,7 +6,7 @@ from geopy.geocoders import Nominatim
 from geopy.adapters import AioHTTPAdapter
 from zoneinfo import ZoneInfo
 
-async def main():
+async def test_geography():
     # Test 1: get_city_coordinates() results.
     async with Nominatim(user_agent=USER_AGENT, adapter_factory=AioHTTPAdapter, timeout=GEOPY_CLIENT_TIMEOUT) as geolocator:
         city_coordinates_raw = {'latitude': 21.420847, 'longitude': 39.826869}
@@ -45,5 +45,3 @@ async def main():
         assert actual_prayer_times.asr.astimezone(tz).strftime(format_2) == "04:59 PM"
         assert actual_prayer_times.maghrib.astimezone(tz).strftime(format_2) == "07:04 PM"
         assert actual_prayer_times.isha.astimezone(tz).strftime(format_2) == "08:34 PM"
-
-asyncio.run(main())

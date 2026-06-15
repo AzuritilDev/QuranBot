@@ -8,3 +8,4 @@ timezonefinder
 tzdata
 psutil
 pytest
+pytest-asyncio
