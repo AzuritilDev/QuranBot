@@ -6,7 +6,7 @@ from geopy.geocoders import Nominatim
 from geopy.adapters import AioHTTPAdapter
 from zoneinfo import ZoneInfo
 
-async def test_geography():
+async def test_city_coordinates():
     # Test 1: get_city_coordinates() results.
     async with Nominatim(user_agent=USER_AGENT, adapter_factory=AioHTTPAdapter, timeout=GEOPY_CLIENT_TIMEOUT) as geolocator:
         city_coordinates_raw = {'latitude': 21.420847, 'longitude': 39.826869}
@@ -14,6 +14,7 @@ async def test_geography():
         print(city_coordinates_raw, city_coordinates_result)
         assert city_coordinates_raw == city_coordinates_result, "Raw coordinates data does not match the fetched result. [get_city_coordinates()]"
 
+async def test_location_and_tz_string():
     # Test 2: fetchLocationAndTzString() results.
     async with Nominatim(user_agent=USER_AGENT, adapter_factory=AioHTTPAdapter, timeout=GEOPY_CLIENT_TIMEOUT) as geolocator:
         location_raw, tz_string_raw = {'latitude': 21.420847, 'longitude': 39.826869}, "Asia/Riyadh"
@@ -22,6 +23,7 @@ async def test_geography():
         assert location_raw == location, "Locations don't match. [fetchLocationAndTzString()]"
         assert tz_string_raw == tz_string, "Tz Strings don't match. [fetchLocationAndTzString()]"
     
+async def test_prayer_times():
     # Test 3: fetchPrayerTimes() results.
     async with Nominatim(user_agent=USER_AGENT, adapter_factory=AioHTTPAdapter, timeout=GEOPY_CLIENT_TIMEOUT) as geolocator:
         prayer_times = await fetchPrayerTimes(2026, 6, 14, "Makkah", CalculationMethod.UMM_AL_QURA, Madhab.HANAFI, geolocator)
