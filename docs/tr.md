@@ -32,6 +32,9 @@
   <a href="https://www.postgresql.org/">
     <img src="https://img.shields.io/badge/Postgres-%23316192.svg?logo=postgresql&logoColor=white">
   </a>
+  <a href="https://redis.io/">
+    <img src="https://img.shields.io/badge/Redis-%23DD0031.svg?logo=redis&logoColor=white">
+  </a>
 </p>
 
 ## Dökümantasyon Hakkında Uyarı:
