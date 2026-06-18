@@ -9,3 +9,4 @@ tzdata
 psutil
 pytest
 pytest-asyncio
+redis
