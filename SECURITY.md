@@ -24,9 +24,11 @@ Reports are reviewed as time permits. We will update you on our progress if the 
 If you are hosting this bot yourself, you must secure your environment:
 
 ### 1. Token & Credential Management
-*   **Never hardcode credentials:** Keep your Discord bot token and PostgreSQL passwords out of the source code.
+*   **Never hardcode credentials:** Keep your Discord bot token, Redis and PostgreSQL passwords out of the source code.
 *   **Use Environment Variables:** Store secrets in a `.env` file and add `.env` to your `.gitignore`.
 *   **Rotate Secrets:** If a token or database password is accidentally leaked, rotate it immediately in the Discord Developer Portal and your database config.
+
+>Note: Never share Discord tokens, PostgreSQL passwords, Redis passwords, API keys, or any other secrets in bug reports, screenshots, logs, or GitHub issues. 
 
 ### 2. PostgreSQL Security
 *   **Avoid the `postgres` Superuser:** Create a dedicated database user for the bot with limited privileges (only `SELECT`, `INSERT`, `UPDATE`, `DELETE` on the bot database).
@@ -36,3 +38,16 @@ If you are hosting this bot yourself, you must secure your environment:
 ### 3. Discord Permissions
 *   **Principle of Least Privilege:** Only grant the bot the specific permissions it needs to function. Avoid granting the `Administrator` permission.
 *   **Privileged Intents:** Turn off Gateway Intents (like Presence or Guild Members) in the Discord Developer Portal if your custom build does not use them.
+
+### 4. Redis Security
+*   **Do Not Expose Redis Publicly:** Redis should only be accessible from trusted services (such as the bot container). Do not publish Redis port (e.g. `6379`) to the public internet unless absolutely necessary.
+*   **Use Docker Internal Networking:** When using Docker Compose, allow containers to communicate through the Compose network instead of exposing Redis to the host machine.
+*   **Enable Authentication if Exposed:** If Redis must be reachable outside the internal Docker network, configure authentication and appropriate network restrictions.
+*   **Do Not Store Secrets in Redis:** Redis may contain cached data and temporary application state. Do not use it as a secure secret store.
+Regularly Update Redis Images: Pull updated Redis container images to receive security patches and bug fixes.
+
+### 5. Docker Security
+*   **Review Port Mappings:** Only expose ports that are required for external access.
+*   **Protect Environment Files:** Never commit .env files containing tokens, database passwords, or Redis credentials.
+*   **Use Trusted Images:** Only use official or otherwise trusted container images.
+*   **Run With Least Privilege:** Avoid running containers with unnecessary privileges, host networking, or privileged mode unless required.
