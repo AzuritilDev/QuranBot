@@ -3,10 +3,12 @@ import asyncpg
 import asyncio
 import time
 import discord
+import redis.asyncio as aioredis
 from discord.ext import commands
 from dotenv import load_dotenv
 from os import getenv
 from pathlib import Path
+from redis.asyncio.cluster import RedisCluster, ClusterNode
 
 # load in the .env file
 load_dotenv()
@@ -77,6 +79,7 @@ class Client(commands.Bot):
         
         self.launch_time = None
         self.db_pool = None
+        self.redis : RedisCluster = None
         self.signature_color = discord.Color.green()
     async def setup_hook(self):
         try:
@@ -91,6 +94,26 @@ class Client(commands.Bot):
             print("Database pool initialized.")
         except Exception as e:
             print("Database pool did not initialize. ", e)
+
+        print("Initializing Redis Cluster...")
+        try:
+            # Nodes
+            startup_nodes = [
+                ClusterNode("127.0.0.1", 7000),
+                ClusterNode("127.0.0.1", 7001)
+            ]
+
+            # Actual initialization
+            self.redis = RedisCluster(
+                startup_nodes=startup_nodes,
+                decode_responses=True  # Automatically strings instead of raw bytes
+            )
+
+            # Lastly, verification
+            await self.redis.ping()
+            print("Successfully connected to Redis Cluster!")
+        except Exception as e:
+            print("Redis Cluster Initialization Error: ", e)
 
         loopcogs_dir = Path(__file__).parent / "loopcogs"
         loopcogs = [f"loopcogs.{f.stem}" for f in loopcogs_dir.glob("*.py") if not f.name.startswith("_")]

@@ -62,7 +62,7 @@ class PrayerTime(commands.Cog):
                 "Maghrib": prayer_times.maghrib.replace(tzinfo=tz),
                 "Isha": prayer_times.isha.replace(tzinfo=tz)
             }
-            print(prayers)
+            # print(prayers)
 
             current_time = datetime.now(tz)
 
