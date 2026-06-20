@@ -93,7 +93,7 @@ Abu Huraira reported Allah's Messenger (ﷺ) as saying:
 | Migrated to uv package manager. | ✓  |
 | Chat commands for displaying Qur'ânic verses. | ✓  |
 | A command to display prayer times. | ✓  |
-| Ability to set Daily verses on a specific channel. | /  |
+| Ability to set Daily verses on a specific channel. | ✓  |
 | A way to test the application using pytest. | /  |
 | Qur'ân SQLite database. | x  |
 | Custom quote changes to a random quote from a list of quotes periodically. | x  |

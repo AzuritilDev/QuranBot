@@ -100,7 +100,7 @@ Ebû Hüreyre (r.a) tarafından rivayet edildiğine göre, Allah'ın Resûlü (�
 | Uv Paket Yöneticisi'ne taşınıldı. | ✓  |
 | Muhabbet yerinde kullanılabilen, Kur'ânı Kerim ayetlerini gösteren komutlar. | ✓  |
 | Namaz vakitlerini gösteren bir komut. | ✓  |
-| Belirli bir kanalda günlük Kur'ân-ı Kerim ayetleri gösterebilme özelliği. | /  |
+| Belirli bir kanalda günlük Kur'ân-ı Kerim ayetleri gösterebilme özelliği. | ✓  |
 | Uygulamayı pytest ile test edebilme yolu. | /  |
 | Kur'ân-ı Kerim SQLite veritabanı. | x  |
 | Botun özel sözü periyodik bir şekilde listeden seçilen rastgele bir söze değişebilmesi. | x  |
