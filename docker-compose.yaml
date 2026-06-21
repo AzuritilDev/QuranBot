@@ -25,7 +25,7 @@ services:
      - "${REDIS_HOST_PORT}:${REDIS_CONTAINER_PORT}"
     command: redis-server --save ${REDIS_SAVE_EVERY_X_SECONDS} ${REDIS_SAVE_IF_ATLEAST_X_CHANGES_WERE_MADE} --loglevel warning --requirepass ${REDIS_PASSWORD}
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
       interval: 5s
       timeout: 3s
       retries: 3

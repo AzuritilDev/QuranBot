@@ -1,5 +1,6 @@
+import json
 import discord
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from discord.ext import commands
 from discord import app_commands
 from adhanpy.calculation.CalculationMethod import CalculationMethod
@@ -31,38 +32,94 @@ class PrayerTime(commands.Cog):
         await interaction.response.defer(ephemeral=hide_response)
         used_format = time_format.value
 
+        cache_key = (
+            f"prayer_times:"
+            f"{datetime.today().year}:{datetime.today().month}:{datetime.today().day}:"
+            f"{city.lower()}:"
+            f"{method.name}:"
+            f"{madhab.name}"
+        )
+
+        cached = await self.bot.redis.get(cache_key)
+
         try:
-            async with Nominatim(user_agent=USER_AGENT, adapter_factory=AioHTTPAdapter, timeout=GEOPY_CLIENT_TIMEOUT) as geolocator:
-                fetchedPrayerTimes = await fetchPrayerTimes(
-                    datetime.today().year, 
-                    datetime.today().month,
-                    datetime.today().day,
-                    city,
-                    method,
-                    madhab,
-                    geolocator
+            if cached:
+                fetchedPrayerTimes = json.loads(cached)
+            else:
+                async with Nominatim(user_agent=USER_AGENT, adapter_factory=AioHTTPAdapter, timeout=GEOPY_CLIENT_TIMEOUT) as geolocator:
+                    fetchedPrayerTimes = await fetchPrayerTimes(
+                        datetime.today().year, 
+                        datetime.today().month,
+                        datetime.today().day,
+                        city,
+                        method,
+                        madhab,
+                        geolocator
                     )
+
+                tz = ZoneInfo(fetchedPrayerTimes["local_tz"])
+
+                cache_data = {
+                    "local_tz": fetchedPrayerTimes["local_tz"],
+                    "prayer_times": {
+                        "fajr": fetchedPrayerTimes["prayer_times"].fajr.replace(tzinfo=timezone.utc).astimezone(tz).isoformat(),
+                        "sunrise": fetchedPrayerTimes["prayer_times"].sunrise.replace(tzinfo=timezone.utc).astimezone(tz).isoformat(),
+                        "dhuhr": fetchedPrayerTimes["prayer_times"].dhuhr.replace(tzinfo=timezone.utc).astimezone(tz).isoformat(),
+                        "asr": fetchedPrayerTimes["prayer_times"].asr.replace(tzinfo=timezone.utc).astimezone(tz).isoformat(),
+                        "maghrib": fetchedPrayerTimes["prayer_times"].maghrib.replace(tzinfo=timezone.utc).astimezone(tz).isoformat(),
+                        "isha": fetchedPrayerTimes["prayer_times"].isha.replace(tzinfo=timezone.utc).astimezone(tz).isoformat(),
+                    }
+                }
+
+                now = datetime.now(tz)
+                midnight = (now + timedelta(days=1)).replace(
+                    hour=0,
+                    minute=0,
+                    second=0,
+                    microsecond=0
+                )
+
+                ttl = int((midnight - now).total_seconds())
+
+                await self.bot.redis.set(
+                    cache_key,
+                    json.dumps(cache_data),
+                    ex=ttl
+                )
             
             if "error" in fetchedPrayerTimes:
                 await interaction.followup.send(f"# Error\n{fetchedPrayerTimes['error']}", ephemeral=hide_response)
                 return
 
             prayer_times = fetchedPrayerTimes["prayer_times"]
-            tz = ZoneInfo(fetchedPrayerTimes["local_tz"])
         except Exception as e:
             await interaction.followup.send(f"An error occured while fetching prayer times: {e}")
             return
         
         try:
-            prayers = {
-                "Fajr": prayer_times.fajr.replace(tzinfo=tz),
-                "Sunrise": prayer_times.sunrise.replace(tzinfo=tz),
-                "Dhuhr": prayer_times.dhuhr.replace(tzinfo=tz),
-                "Asr": prayer_times.asr.replace(tzinfo=tz),
-                "Maghrib": prayer_times.maghrib.replace(tzinfo=tz),
-                "Isha": prayer_times.isha.replace(tzinfo=tz)
-            }
-            # print(prayers)
+            if cached:
+                cached = json.loads(cached)
+
+                prayers = {
+                    "Fajr": datetime.fromisoformat(cached["prayer_times"]["fajr"]),
+                    "Sunrise": datetime.fromisoformat(cached["prayer_times"]["sunrise"]),
+                    "Dhuhr": datetime.fromisoformat(cached["prayer_times"]["dhuhr"]),
+                    "Asr": datetime.fromisoformat(cached["prayer_times"]["asr"]),
+                    "Maghrib": datetime.fromisoformat(cached["prayer_times"]["maghrib"]),
+                    "Isha": datetime.fromisoformat(cached["prayer_times"]["isha"]),
+                }
+
+                tz = ZoneInfo(cached["local_tz"])
+            else:
+                prayers = {
+                    "Fajr": prayer_times.fajr.astimezone(tz),
+                    "Sunrise": prayer_times.sunrise.astimezone(tz),
+                    "Dhuhr": prayer_times.dhuhr.astimezone(tz),
+                    "Asr": prayer_times.asr.astimezone(tz),
+                    "Maghrib": prayer_times.maghrib.astimezone(tz),
+                    "Isha": prayer_times.isha.astimezone(tz)
+                }
+                # print(prayers)
 
             current_time = datetime.now(tz)
 
@@ -113,12 +170,12 @@ class PrayerTime(commands.Cog):
 
             tz = ZoneInfo(fetchedPrayerTimes["local_tz"])
 
-            fajr = prayer_times.fajr.astimezone(tz).strftime(used_format)
-            sunrise = prayer_times.sunrise.astimezone(tz).strftime(used_format)
-            dhuhr = prayer_times.dhuhr.astimezone(tz).strftime(used_format)
-            asr = prayer_times.asr.astimezone(tz).strftime(used_format)
-            maghrib = prayer_times.maghrib.astimezone(tz).strftime(used_format)
-            isha = prayer_times.isha.astimezone(tz).strftime(used_format)
+            fajr = prayers["Fajr"].strftime(used_format)
+            sunrise = prayers["Sunrise"].strftime(used_format)
+            dhuhr = prayers["Dhuhr"].strftime(used_format)
+            asr = prayers["Asr"].strftime(used_format)
+            maghrib = prayers["Maghrib"].strftime(used_format)
+            isha = prayers["Isha"].strftime(used_format)
 
             safe_city_name = discord.utils.escape_markdown(city)
             embed_title = f"City: {safe_city_name}\nIslamic Prayer Times of {today_or_tmrw}" if display_city_name else f"Islamic Prayer Times of {today_or_tmrw}"

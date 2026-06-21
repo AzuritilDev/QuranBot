@@ -8,7 +8,7 @@ from discord.ext import commands
 from dotenv import load_dotenv
 from os import getenv
 from pathlib import Path
-from redis.asyncio.cluster import RedisCluster, ClusterNode
+from redis.asyncio import Redis
 
 # load in the .env file
 load_dotenv()
@@ -20,6 +20,8 @@ CON_MIN_SIZE = int(getenv("PG_MIN_SIZE", 10))
 CON_MAX_SIZE = int(getenv("PG_MAX_SIZE", 20))
 CON_LIFETIME = float(getenv("PG_LIFETIME", 300))
 MAX_QUERIES = int(getenv("PG_MAX_QUERIES", 50000))
+REDIS_CONTAINER_PORT = int(getenv("REDIS_CONTAINER_PORT"))
+REDIS_PASSWORD = str(getenv("REDIS_PASSWORD"))
 
 assert DB_SERVICE_URI, "Database service URI is set to None."
 
@@ -79,7 +81,7 @@ class Client(commands.Bot):
         
         self.launch_time = None
         self.db_pool = None
-        self.redis : RedisCluster = None
+        self.redis = None
         self.signature_color = discord.Color.green()
     async def setup_hook(self):
         try:
@@ -97,23 +99,19 @@ class Client(commands.Bot):
 
         print("Initializing Redis Cluster...")
         try:
-            # Nodes
-            startup_nodes = [
-                ClusterNode("127.0.0.1", 7000),
-                ClusterNode("127.0.0.1", 7001)
-            ]
-
-            # Actual initialization
-            self.redis = RedisCluster(
-                startup_nodes=startup_nodes,
-                decode_responses=True  # Automatically strings instead of raw bytes
+            # Redis initialization
+            self.redis = Redis(
+                host="redis",  # container service name from docker-compose
+                port=REDIS_CONTAINER_PORT,
+                password=REDIS_PASSWORD,
+                decode_responses=True # Automatically strings instead of bytes
             )
 
             # Lastly, verification
             await self.redis.ping()
-            print("Successfully connected to Redis Cluster!")
+            print("Successfully connected to Redis!")
         except Exception as e:
-            print("Redis Cluster Initialization Error: ", e)
+            print("Redis Initialization Error: ", e)
 
         loopcogs_dir = Path(__file__).parent / "loopcogs"
         loopcogs = [f"loopcogs.{f.stem}" for f in loopcogs_dir.glob("*.py") if not f.name.startswith("_")]
