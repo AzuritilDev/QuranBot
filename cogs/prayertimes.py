@@ -119,7 +119,6 @@ class PrayerTime(commands.Cog):
                     "Maghrib": prayer_times.maghrib.astimezone(tz),
                     "Isha": prayer_times.isha.astimezone(tz)
                 }
-                # print(prayers)
 
             current_time = datetime.now(tz)
 
