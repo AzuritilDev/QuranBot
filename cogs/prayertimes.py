@@ -32,6 +32,7 @@ class PrayerTime(commands.Cog):
         await interaction.response.defer(ephemeral=hide_response)
         used_format = time_format.value
 
+        # 1st caching layer for today's prayer times
         cache_key = (
             f"prayer_times:"
             f"{datetime.today().year}:{datetime.today().month}:{datetime.today().day}:"
@@ -71,15 +72,17 @@ class PrayerTime(commands.Cog):
                     }
                 }
 
-                now = datetime.now(tz)
-                midnight = (now + timedelta(days=1)).replace(
-                    hour=0,
-                    minute=0,
-                    second=0,
-                    microsecond=0
+                isha_time = (
+                    fetchedPrayerTimes["prayer_times"]
+                    .isha
+                    .replace(tzinfo=timezone.utc)
+                    .astimezone(tz)
                 )
 
-                ttl = int((midnight - now).total_seconds())
+                now = datetime.now(tz)
+
+                # NOTE TO SELF: Redis won't accept negative expiry, be careful
+                ttl = max(1, int((isha_time - now).total_seconds()))
 
                 await self.bot.redis.set(
                     cache_key,
@@ -139,18 +142,62 @@ class PrayerTime(commands.Cog):
                 # fetch tomorrow's prayer times
                 tomorrow = datetime.now(tz) + timedelta(days=1)
 
-                async with Nominatim(user_agent=USER_AGENT, adapter_factory=AioHTTPAdapter, timeout=GEOPY_CLIENT_TIMEOUT) as geolocator:
-                    tomorrow_prayers = await fetchPrayerTimes(
-                        tomorrow.year,
-                        tomorrow.month,
-                        tomorrow.day,
-                        city,
-                        method,
-                        madhab,
-                        geolocator
+                # 2nd caching layer for tomorrow's prayer times
+                cache_key_tmrw = (
+                    f"prayer_times:"
+                    f"{tomorrow.year}:{tomorrow.month}:{tomorrow.day}:"
+                    f"{city.lower()}:"
+                    f"{method.name}:"
+                    f"{madhab.name}"
+                )
+
+                cached_tmrw = await self.bot.redis.get(cache_key_tmrw)
+
+                if cached_tmrw:
+                    fetchedPrayerTimes = json.loads(cached_tmrw)
+
+                    next_prayer_time = fetchedPrayerTimes["prayer_times"]["fajr"].astimezone(tz)
+                else:
+                    async with Nominatim(user_agent=USER_AGENT, adapter_factory=AioHTTPAdapter, timeout=GEOPY_CLIENT_TIMEOUT) as geolocator:
+                        tomorrow_prayers = await fetchPrayerTimes(
+                            tomorrow.year,
+                            tomorrow.month,
+                            tomorrow.day,
+                            city,
+                            method,
+                            madhab,
+                            geolocator
+                        )
+
+                    cache_data_tmrw = {
+                        "local_tz": fetchedPrayerTimes["local_tz"],
+                        "prayer_times": {
+                            "fajr": fetchedPrayerTimes["prayer_times"].fajr.replace(tzinfo=timezone.utc).astimezone(tz).isoformat(),
+                            "sunrise": fetchedPrayerTimes["prayer_times"].sunrise.replace(tzinfo=timezone.utc).astimezone(tz).isoformat(),
+                            "dhuhr": fetchedPrayerTimes["prayer_times"].dhuhr.replace(tzinfo=timezone.utc).astimezone(tz).isoformat(),
+                            "asr": fetchedPrayerTimes["prayer_times"].asr.replace(tzinfo=timezone.utc).astimezone(tz).isoformat(),
+                            "maghrib": fetchedPrayerTimes["prayer_times"].maghrib.replace(tzinfo=timezone.utc).astimezone(tz).isoformat(),
+                            "isha": fetchedPrayerTimes["prayer_times"].isha.replace(tzinfo=timezone.utc).astimezone(tz).isoformat(),
+                        }
+                    }
+
+                    now = datetime.now(tz)
+                    midnight = (now + timedelta(days=1)).replace(
+                        hour=0,
+                        minute=0,
+                        second=0,
+                        microsecond=0
                     )
 
-                next_prayer_time = tomorrow_prayers["prayer_times"].fajr.astimezone(tz)
+                    ttl = int((midnight - now).total_seconds())
+
+                    await self.bot.redis.set(
+                        cache_key,
+                        json.dumps(cache_data_tmrw),
+                        ex=ttl
+                    )
+
+                    next_prayer_time = tomorrow_prayers["prayer_times"].fajr.astimezone(tz)
             else:
                 today_or_tmrw = "Today"
 
