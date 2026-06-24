@@ -94,9 +94,9 @@ Abu Huraira reported Allah's Messenger (ﷺ) as saying:
 | Chat commands for displaying Qur'ânic verses. | ✓  |
 | A command to display prayer times. | ✓  |
 | Ability to set Daily verses on a specific channel. | ✓  |
+| Custom quote changes to a random quote from a list of quotes periodically. | ✓  |
 | A way to test the application using pytest. | /  |
 | Qur'ân SQLite database. | x  |
-| Custom quote changes to a random quote from a list of quotes periodically. | x  |
 | A command to display Ahadith. | x  |
 | A command to display Tafsîr. | x  |
 

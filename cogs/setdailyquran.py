@@ -13,7 +13,7 @@ DEFAULT_WEBHOOK_NAME = "Automatic Daily Qur'ân Verses"
 async def webhookWithExpectedNameAlreadyExists(channel : discord.TextChannel):
     webhooks = await channel.webhooks()
     target = discord.utils.get(webhooks, name=DEFAULT_WEBHOOK_NAME)
-    return target is None
+    return target
         
 def timezoneIsValid(tz_string):
     try:
@@ -46,7 +46,8 @@ class setDailyQuran(commands.Cog):
 
                     # webhook still exists
                     await interaction.followup.send(
-                        f"This server already has a notifier in <#{row['channel_id']}>."
+                        f"This server already has a notifier in <#{row['channel_id']}>.",
+                        ephemeral=hide_response
                     )
                     return
 
@@ -56,7 +57,8 @@ class setDailyQuran(commands.Cog):
 
                 except discord.Forbidden:
                     await interaction.followup.send(
-                        "I no longer have access to the existing webhook."
+                        "I no longer have access to the existing webhook.",
+                        ephemeral=hide_response
                     )
                     return
 
@@ -71,11 +73,11 @@ class setDailyQuran(commands.Cog):
         criteria2 = timezoneIsValid(timezone)
 
         if criteria1:
-            await interaction.followup.send(f"There is already a webhook in <#{channel.id}> named '{DEFAULT_WEBHOOK_NAME}'.\n\nEither delete it or change its name from the channel's settings.")
+            await interaction.followup.send(f"There is already a webhook in <#{channel.id}> named '{DEFAULT_WEBHOOK_NAME}'.\n\nEither delete it or change its name from the channel's settings.", ephemeral=hide_response)
             return
         
         if not criteria2:
-            await interaction.followup.send("Timezone is not valid.\n\nThe valid format should look something like `Area/Location`.\nExamples:\n```America/New_York\nEurope/London\nAsia/Tokyo\nAustralia/Sydney```\n\nPlease check [IANA Time Zone Database](https://www.iana.org/time-zones) and [List of tz database time zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) for more info.\nThis bot uses Python's ZoneInfo module, also the input may be case-sensetive.")
+            await interaction.followup.send("Timezone is not valid.\n\nThe valid format should look something like `Area/Location`.\nExamples:\n```America/New_York\nEurope/London\nAsia/Tokyo\nAustralia/Sydney```\n\nPlease check [IANA Time Zone Database](https://www.iana.org/time-zones) and [List of tz database time zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) for more info.\nThis bot uses Python's ZoneInfo module, also the input may be case-sensetive.", ephemeral=hide_response)
             return
 
         bot_permissions = channel.permissions_for(interaction.guild.me)
@@ -90,15 +92,17 @@ class setDailyQuran(commands.Cog):
         if missing_permissions:
             await interaction.followup.send(
                 "I am missing the following permissions in that channel:\n- "
-                + "\n- ".join(missing_permissions)
+                + "\n- ".join(missing_permissions),
+                ephemeral=hide_response
             )
             return
 
         avatar_bytes = await self.bot.user.display_avatar.read()
         try:
             new_webhook = await channel.create_webhook(name=DEFAULT_WEBHOOK_NAME, avatar=avatar_bytes)
+            await interaction.followup.send(f"Created webhook in <#{channel.id}> named '{DEFAULT_WEBHOOK_NAME}'.", ephemeral=hide_response)
         except discord.Forbidden:
-            await interaction.followup.send("A problem occurred while creating the webhook.\n\nTry again later.")
+            await interaction.followup.send("A problem occurred while creating the webhook.\n\nTry again later.", ephemeral=hide_response)
             return
 
         try:

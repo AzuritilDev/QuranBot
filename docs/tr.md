@@ -101,9 +101,9 @@ Ebû Hüreyre (r.a) tarafından rivayet edildiğine göre, Allah'ın Resûlü (�
 | Muhabbet yerinde kullanılabilen, Kur'ânı Kerim ayetlerini gösteren komutlar. | ✓  |
 | Namaz vakitlerini gösteren bir komut. | ✓  |
 | Belirli bir kanalda günlük Kur'ân-ı Kerim ayetleri gösterebilme özelliği. | ✓  |
+| Botun özel sözü periyodik bir şekilde listeden seçilen rastgele bir söze değişebilmesi. | ✓  |
 | Uygulamayı pytest ile test edebilme yolu. | /  |
 | Kur'ân-ı Kerim SQLite veritabanı. | x  |
-| Botun özel sözü periyodik bir şekilde listeden seçilen rastgele bir söze değişebilmesi. | x  |
 | Hadis-i Şerif rivayetleri gösteren bir komut | x  |
 | Tefsir gösteren bir komut. | x  |
 

@@ -3,12 +3,14 @@ import asyncpg
 import asyncio
 import time
 import discord
+import random
 import redis.asyncio as aioredis
 from discord.ext import commands
 from dotenv import load_dotenv
 from os import getenv
 from pathlib import Path
 from redis.asyncio import Redis
+from utils.custom_states import quotes
 
 # load in the .env file
 load_dotenv()
@@ -132,6 +134,10 @@ class Client(commands.Bot):
     async def on_ready(self):
         print(f"Logged in as {self.user}")
         self.launch_time = time.time()
+
+        # Initial quote before the quote loop cog actually starts
+        selected_quote = random.choice(quotes)
+        await self.change_presence(activity=discord.Activity(type=discord.ActivityType.custom, name="custom", state=selected_quote))
 
         try:
             synced = await self.tree.sync()
