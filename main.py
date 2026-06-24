@@ -32,11 +32,6 @@ intents.messages = True
 intents.emojis = True
 intents.message_content = True
 
-custom_state = """The ˹true˺ believers are only those whose 
-hearts tremble at the remembrance of Allah, 
-whose faith increases when His revelations are recited to them, 
-and who put their trust in their Lord."""
-
 async def initialize_tables(bot):
     print("Initializing database tables...")
     async with bot.db_pool.acquire() as cur:
@@ -139,7 +134,6 @@ class Client(commands.Bot):
         self.launch_time = time.time()
 
         try:
-            await self.change_presence(activity=discord.Activity(type=discord.ActivityType.custom, name="custom", state=custom_state))
             synced = await self.tree.sync()
             print(f"Synced {len(synced)} commands.")
         except Exception as e:
