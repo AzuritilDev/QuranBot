@@ -17,12 +17,12 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql
     ports:
-      - "${PG_HOST_PORT}:${PG_CONTAINER_PORT}"
+      - "${PG_CONTAINER_PORT}"
   redis:
     container_name: redis-cache
     image: redis:8-alpine
     ports:
-     - "${REDIS_HOST_PORT}:${REDIS_CONTAINER_PORT}"
+     - "${REDIS_CONTAINER_PORT}"
     command: redis-server --save ${REDIS_SAVE_EVERY_X_SECONDS} ${REDIS_SAVE_IF_ATLEAST_X_CHANGES_WERE_MADE} --loglevel warning --requirepass ${REDIS_PASSWORD}
     healthcheck:
       test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
