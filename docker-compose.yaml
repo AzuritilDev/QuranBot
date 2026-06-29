@@ -3,7 +3,7 @@ version: '3.8'
 services:
   db:
     container_name: quran-bot-postgres-db
-    image: postgres:18
+    image: postgres:18-alpine
     environment:
       POSTGRES_USER: ${PG_USER}
       POSTGRES_PASSWORD: ${PG_PASSWORD}
