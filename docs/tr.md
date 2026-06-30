@@ -122,7 +122,9 @@ Ebû Hüreyre (r.a) tarafından rivayet edildiğine göre, Allah'ın Resûlü (�
 Kendi QuranBot uygulamanızı çalıştırmak için şunlara ihtiyaç duyacaksınız:
 - [Docker](https://www.docker.com/get-started/)
 - [Python (Preferably version 3.11)](https://www.python.org/downloads/)
->Not: Docker kullanacaksanız Python'a çokta ihtiyaç duymayacaksınız.
+- [PostgreSQL](https://www.postgresql.org/download/)
+- [Redis](https://redis.io/downloads/)
+>Not: Docker kullanacaksanız Python, PostgreSQL ve Redis'i bağımsız olarak yüklemeye çokta ihtiyaç duymayacaksınız.
 
 Gereksinimler bu kadar.
 

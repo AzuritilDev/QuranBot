@@ -106,7 +106,7 @@ Abu Huraira reported Allah's Messenger (ﷺ) as saying:
 - `/help`: A slash command that displays all the available slash commands.
 - `/quran`: A slash command that takes two arguments of integer type as input, chapter and verse, it displays a Qur'ânic verse based on the given user input. (Example: `/quran chapter:2 verse:4` will display the contents of Surah Al-Baqarah, ayah number four.)
 - `/set-daily-quran`: A slash command that takes a channel as its only argument, when ran it will set a webhook on the selected channel where it will send verses daily. (Example usage: `/set-daily-quran channel:#general`)
-- `/prayer-times`: A slash command that shows the obligatory Islamic prayer times of the day based on the geographic location of the given city. (Example usage: `/prayer-times city:Paris`)
+- `/prayer-times`: A slash command that shows the obligatory Islamic prayer times of the day based on the geographic location of the given city. (Example usage: `/prayer-times city:London`)
 - `/status`: Displays system information about the bot.
 - `/prefix`: Changes the bot's prefix for chat commands.
 
@@ -116,7 +116,9 @@ Abu Huraira reported Allah's Messenger (ﷺ) as saying:
 To start hosting your own QuranBot, you will need:
 - [Docker](https://www.docker.com/get-started/)
 - [Python (Preferably version 3.11)](https://www.python.org/downloads/)
->Note: You won't really need Python if you're going to use Docker.
+- [PostgreSQL](https://www.postgresql.org/download/)
+- [Redis](https://redis.io/downloads/)
+>Note: You won't really need to independently install Python, PostgreSQL and Redis if you're going to use Docker.
 
 And that's pretty much it.
 
