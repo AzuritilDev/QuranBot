@@ -5,34 +5,34 @@
 </p>
 
 <p>
-  <a href="LICENSE">
+  <a href="LICENSE" style="text-decoration:none">
     <img alt="GitHub License" src="https://img.shields.io/github/license/AzuritilDev/QuranBot">
   </a>
-  <a href="https://github.com/AzuritilDev/QuranBot/commit/main">
+  <a href="https://github.com/AzuritilDev/QuranBot/commit/main" style="text-decoration:none">
         <img src="https://img.shields.io/github/last-commit/AzuritilDev/QuranBot">
   </a>
-  <a href="https://github.com/AzuritilDev/QuranBot/issues">
+  <a href="https://github.com/AzuritilDev/QuranBot/issues" style="text-decoration:none">
         <img src="https://img.shields.io/github/issues/AzuritilDev/QuranBot">
   </a>
-  <a href="https://github.com/AzuritilDev/QuranBot/releases/latest">
+  <a href="https://github.com/AzuritilDev/QuranBot/releases/latest" style="text-decoration:none">
       <img src="https://img.shields.io/github/v/release/AzuritilDev/QuranBot">
   </a>
-  <a href="https://github.com/AzuritilDev/QuranBot/stargazers">
+  <a href="https://github.com/AzuritilDev/QuranBot/stargazers" style="text-decoration:none">
     <img src="https://img.shields.io/github/stars/AzuritilDev/QuranBot">
   </a>
-  <a href="https://www.docker.com/">
+  <a href="https://www.docker.com/" style="text-decoration:none">
     <img src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff">
   </a>
-  <a href="https://www.python.org/">
+  <a href="https://www.python.org/" style="text-decoration:none">
     <img src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff">
   </a>
-  <a href="https://docs.astral.sh/uv/">
+  <a href="https://docs.astral.sh/uv/" style="text-decoration:none">
     <img src="https://img.shields.io/badge/uv-261230.svg?logo=uv&logoColor=#de5fe9">
   </a>
-  <a href="https://www.postgresql.org/">
+  <a href="https://www.postgresql.org/" style="text-decoration:none">
     <img src="https://img.shields.io/badge/Postgres-%23316192.svg?logo=postgresql&logoColor=white">
   </a>
-  <a href="https://redis.io/">
+  <a href="https://redis.io/" style="text-decoration:none">
     <img src="https://img.shields.io/badge/Redis-%23DD0031.svg?logo=redis&logoColor=white">
   </a>
 </p>
