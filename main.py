@@ -27,6 +27,8 @@ REDIS_PASSWORD = str(getenv("REDIS_PASSWORD"))
 
 assert DB_SERVICE_URI, "Database service URI is set to None."
 
+DEAFULT_PREFIX = ","
+
 # intents
 intents = discord.Intents.default()
 intents.typing = True
@@ -38,6 +40,7 @@ async def initialize_tables(bot):
     print("Initializing database tables...")
     async with bot.db_pool.acquire() as cur:
        await cur.execute("""CREATE TABLE IF NOT EXISTS dailyquran (channel_id BIGINT UNIQUE NOT NULL, guild_id BIGINT PRIMARY KEY, webhook_id BIGINT UNIQUE NOT NULL, timezone TEXT, last_sent_date DATE);""")
+       await cur.execute("""CREATE TABLE IF NOT EXISTS prefixes (guild_id BIGINT PRIMARY KEY, prefix VARCHAR(1))""")
 
 async def cleanup_stale_guilds(bot):
     print("Cleaning up stale guilds...")
@@ -74,12 +77,13 @@ async def cleanup_stale_webhooks(bot):
 # bot blueprint
 class Client(commands.Bot):
     def __init__(self):
-        super().__init__(command_prefix='!', intents=intents)
+        super().__init__(command_prefix=DEAFULT_PREFIX, intents=intents)
         
         self.launch_time = None
         self.db_pool = None
         self.redis = None
         self.signature_color = discord.Color.green()
+        self.default_prefix = DEAFULT_PREFIX
     async def setup_hook(self):
         try:
             self.db_pool = await asyncpg.create_pool(

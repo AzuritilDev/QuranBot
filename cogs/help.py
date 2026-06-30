@@ -7,6 +7,8 @@ class Help(commands.Cog):
         self.bot = bot
 
     @app_commands.command(name="help", description="Show all available commands and usage.")
+    @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+    @app_commands.user_install()
     async def help(self, interaction: discord.Interaction, hide_response : bool = False):
         embed = discord.Embed(
             title="📘 Help - Command List",
@@ -18,6 +20,7 @@ class Help(commands.Cog):
         embed.add_field(name="/set-daily-quran", value="Displays verses on a selected channel daily.", inline=False)
         embed.add_field(name="/prayer-times", value="Displays the Islamic prayer times based on selected city.", inline=False)
         embed.add_field(name="/status", value="Displays system information about the bot.", inline=False)
+        embed.add_field(name="/prefix", value="Sets the preferred prefix the bot uses in your guild/server.", inline=False)
         await interaction.response.send_message(embed=embed, ephemeral=hide_response)
 
 async def setup(bot : commands.Bot) -> None:

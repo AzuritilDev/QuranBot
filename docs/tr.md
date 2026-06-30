@@ -114,7 +114,8 @@ Ebû Hüreyre (r.a) tarafından rivayet edildiğine göre, Allah'ın Resûlü (�
 - `/quran`: İki tamsayı tipi argümanını giriş olarak kabul eder, sûre ve ayet, kullanıcının girdiği değerlere göre bir Kur'ân-ı Kerim ayeti gösterir. (Örnek: `/quran chapter:2 verse:4` Bakara Sûresi, 4. ayetin içeriğini gösterecektir.)
 - `/set-daily-quran`: Seçilen muhabbet kanalında bir webhook oluşturur ve o kanala günlük ayetler gönderir. (Kullanış Örneği: `/set-daily-quran channel:#genel`)
 - `/prayer-times`: Seçilen şehrin coğrafik konumuna göre günün içindeki farz olan namazların vakitlerini gösterir. (Kullanış Örneği: `/prayer-times city:Istanbul`)
-- `/status`: Bot hakkında sistem bilgileri gösterir. 
+- `/status`: Bot hakkında sistem bilgileri gösterir.
+- `/prefix`: Bot'un muhabbet (chat) komutlarının prefix'ini değiştirir. 
 
 ---
 ## ⏾ Gereksinimler

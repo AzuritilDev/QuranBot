@@ -108,6 +108,7 @@ Abu Huraira reported Allah's Messenger (ﷺ) as saying:
 - `/set-daily-quran`: A slash command that takes a channel as its only argument, when ran it will set a webhook on the selected channel where it will send verses daily. (Example usage: `/set-daily-quran channel:#general`)
 - `/prayer-times`: A slash command that shows the obligatory Islamic prayer times of the day based on the geographic location of the given city. (Example usage: `/prayer-times city:Paris`)
 - `/status`: Displays system information about the bot.
+- `/prefix`: Changes the bot's prefix for chat commands.
 
 ---
 
