@@ -26,11 +26,8 @@ async def sendQuranVerseRanged(message : discord.Message, chapter : int, verses_
 
 async def sendQuranAny_Forwarder(msg : discord.Message, *params : list[str]):
     reference : str = params[0][0]
-    print("im working ", reference)
     if ":" in reference:
-        print(": exists")
         if "-" in reference.split(":")[1]:
-            print("there is a - in verses")
             await sendQuranVerseRanged(
                 msg,
                 int(reference.split(":")[0]),
@@ -39,7 +36,6 @@ async def sendQuranAny_Forwarder(msg : discord.Message, *params : list[str]):
                 reference
             )
         else:
-            print("there isn't a - in verses")
             await sendQuranVerse(
                 msg,
                 int(reference.split(":")[0]),
@@ -60,7 +56,6 @@ async def handle_commands(msg : discord.Message):
     '''
 
     cmd, *params = msg_txt.split(" ")
-    print(cmd, params)
     if cmd in cmds:
         await cmds[cmd](msg, params)
 
