@@ -34,15 +34,21 @@ class Prefix(commands.Cog):
         '''
         # safe guard
         assert TTL_EXPIRATION_TIME >= 0, "[CRITICAL ERROR] (Prefix Command): Redis does not accept negative expiry. Please change the value to either something equal to zero or something above zero."
+        
+        await interaction.response.defer(ephemeral=hide_response)
 
         if len(prefix) > 1:
-            interaction.response.send_message(f"The prefix can only be a single character like ',' or '!'.\nNot full words, phrases or sentences.\nYou entered: '{prefix}' which is {len(prefix)} characters long.", ephemeral=hide_response)
-        elif not prefix.isascii():
-            interaction.response.send_message(f"The prefix must be an ASCII character.\n\nYou entered: {prefix}", ephemeral=hide_response)
-        elif prefix.isalpha():
-            interaction.response.send_message(f"The prefix cannot be an alphabetical letter (a-z).\n\nYou entered: {prefix}", ephemeral=hide_response)
-        elif prefix == " " or prefix == self.bot.default_prefix:
-            await interaction.response.defer(ephemeral=hide_response)
+            message_template = f"The prefix can only be a single character like ',' or '!'.\nNot full words, phrases or sentences.\nYou entered: '{prefix}' which is {len(prefix)} characters long."
+            message_to_send = f"The prefix CANNOT be above 1 character,\nthe prefix you tried to use is {len(prefix)} characters long." if len(message_template) > 2000 else message_template
+            await interaction.followup.send(message_to_send, ephemeral=hide_response)
+            return
+        if prefix.isascii() == False:
+            await interaction.followup.send(f"The prefix must be an ASCII character.\n\nYou entered: {prefix}", ephemeral=hide_response)
+            return
+        if prefix.isalpha():
+            await interaction.followup.send(f"The prefix cannot be an alphabetical letter (a-z).\n\nYou entered: `{prefix}`", ephemeral=hide_response)
+            return
+        if prefix == " " or prefix == self.bot.default_prefix:
             # Remove any records from the relational database that is associated with the said guild 
             try:
                 async with self.bot.db_pool.acquire() as cur:
@@ -52,10 +58,11 @@ class Prefix(commands.Cog):
                                 """, interaction.guild_id)
             except Exception as e:
                 await interaction.followup.send(f"[POSTGRES] Something went wrong while removing the existing prefix from the database.\n\nError message: {e}", ephemeral=hide_response)
-            
+                return
+
             # Add it to the in-memory database
             cache_key = (
-            f"prefix:"
+            "prefix:"
             f"{interaction.guild_id}"
             )
 
@@ -71,9 +78,7 @@ class Prefix(commands.Cog):
                 await interaction.followup.send("[REDIS] Something went wrong while saving the prefix into the in-memory database.\n\nError message: {e}", ephemeral=hide_response)
                 
             await interaction.followup.send(f"The prefix for the guild '{interaction.guild.name}' `(id:{interaction.guild_id})` has been set to `{prefix}` (The default prefix).\nBecause you either entered an empty prefix or the default prefix of the bot which is `{self.bot.default_prefix}`.", ephemeral=hide_response)
-
-        await interaction.response.defer(ephemeral=hide_response)
-
+            return
         try:
             async with self.bot.db_pool.acquire() as cur:
                 await cur.execute("""
@@ -87,7 +92,7 @@ class Prefix(commands.Cog):
             await interaction.followup.send(f"[POSTGRES] Something went wrong while saving the prefix into the database.\n\nError message: {e}", ephemeral=hide_response)
 
         cache_key = (
-            f"prefix:"
+            "prefix:"
             f"{interaction.guild_id}"
         )
 
