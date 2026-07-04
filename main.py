@@ -4,7 +4,6 @@ import asyncio
 import time
 import discord
 import random
-import redis.asyncio as aioredis
 from discord.ext import commands
 from dotenv import load_dotenv
 from os import getenv
