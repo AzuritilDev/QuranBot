@@ -12,7 +12,7 @@ class StateLoop(commands.Cog):
     @tasks.loop(hours=1)
     async def custom_state_task(self):
         selected_quote = random.choice(quotes)
-        await self.change_presence(activity=discord.Activity(type=discord.ActivityType.custom, name="custom", state=selected_quote))
+        await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.custom, name="custom", state=selected_quote))
     
     @custom_state_task.before_loop
     async def before_custom_state_task(self):
