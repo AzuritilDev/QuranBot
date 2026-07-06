@@ -126,7 +126,7 @@ And that's pretty much it.
 
 ## ⏾ Installation
 
-Before Installation: Make sure you have cloned the repository either via the "<> Code" section as .zip file or via using the `git clone https://github.com/AzuritilDev/QuranBot` command in your terminal.
+Before Installation: Make sure you have cloned the repository either via the "<> Code" section as .zip file or via using the `git clone https://github.com/AzuritilDev/QuranBot` command in your terminal and then change the directory by running the `cd quranbot` command.
 
 ## 1. Docker Installation:
 ### Short Instructions

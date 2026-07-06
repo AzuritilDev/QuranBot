@@ -6,7 +6,7 @@ from utils.custom_states import quotes
 class StateLoop(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        # 1. Start the loop right when the Cog loads
+        # Start the loop right when the Cog loads
         self.custom_state_task.start()
 
     @tasks.loop(hours=1)
@@ -16,7 +16,7 @@ class StateLoop(commands.Cog):
     
     @custom_state_task.before_loop
     async def before_custom_state_task(self):
-        # 1. Wait for Discord to be fully ready
+        # Wait for Discord to be fully ready
         await self.bot.wait_until_ready()
 
     def cog_unload(self):

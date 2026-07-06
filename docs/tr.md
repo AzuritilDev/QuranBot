@@ -132,7 +132,7 @@ Gereksinimler bu kadar.
 
 ## ⏾ Kurulum
 
-Kurmadan Önce: Repo'yu "<> Kod" kısmı üzerinden bir .zip dosyası olarak ya da terminalinizde `git clone https://github.com/AzuritilDev/QuranBot` kodu üzerinden klonladığınızdan emin olun.
+Kurmadan Önce: Repo'yu "<> Kod" kısmı üzerinden bir .zip dosyası olarak ya da terminalinizde `git clone https://github.com/AzuritilDev/QuranBot` kodu üzerinden klonladığınızdan emin olun ve `cd quranbot` komutunu çalıştırarak terminalde o klasöre geçin.
 
 ## 1. Docker Kullanarak Kurulum:
 ### Kısa Talimatlar
