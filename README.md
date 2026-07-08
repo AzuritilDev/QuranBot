@@ -4,38 +4,20 @@
   <img src="docs/assets/quranbotlogo.webp" width="350" />
 </p>
 
-<p>
-  <a href="LICENSE" style="text-decoration:none">
-    <img alt="GitHub License" src="https://img.shields.io/github/license/AzuritilDev/QuranBot">
-  </a>
-  <a href="https://github.com/AzuritilDev/QuranBot/commit/main" style="text-decoration:none">
-        <img src="https://img.shields.io/github/last-commit/AzuritilDev/QuranBot">
-  </a>
-  <a href="https://github.com/AzuritilDev/QuranBot/issues" style="text-decoration:none">
-        <img src="https://img.shields.io/github/issues/AzuritilDev/QuranBot">
-  </a>
-  <a href="https://github.com/AzuritilDev/QuranBot/releases/latest" style="text-decoration:none">
-      <img src="https://img.shields.io/github/v/release/AzuritilDev/QuranBot">
-  </a>
-  <a href="https://github.com/AzuritilDev/QuranBot/stargazers" style="text-decoration:none">
-    <img src="https://img.shields.io/github/stars/AzuritilDev/QuranBot">
-  </a>
-  <a href="https://www.docker.com/" style="text-decoration:none">
-    <img src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff">
-  </a>
-  <a href="https://www.python.org/" style="text-decoration:none">
-    <img src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff">
-  </a>
-  <a href="https://docs.astral.sh/uv/" style="text-decoration:none">
-    <img src="https://img.shields.io/badge/uv-261230.svg?logo=uv&logoColor=#de5fe9">
-  </a>
-  <a href="https://www.postgresql.org/" style="text-decoration:none">
-    <img src="https://img.shields.io/badge/Postgres-%23316192.svg?logo=postgresql&logoColor=white">
-  </a>
-  <a href="https://redis.io/" style="text-decoration:none">
-    <img src="https://img.shields.io/badge/Redis-%23DD0031.svg?logo=redis&logoColor=white">
-  </a>
-</p>
+[![GitHub repo](https://img.shields.io/badge/GitHub-AzuritilDev%2FQuranBot-green.svg?style=plastic&logo=github)](https://github.com/AzuritilDev/QuranBot)
+[![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/AzuritilDev/QuranBot?color=green&label=Code%20Size&style=plastic&logo=github)](https://github.com/AzuritilDev/QuranBot)
+[![GitHub license](https://img.shields.io/github/license/AzuritilDev/QuranBot?color=green&logo=github&style=plastic&label=License)](https://github.com/AzuritilDev/QuranBot)
+[![GitHub last commit](https://img.shields.io/github/last-commit/AzuritilDev/QuranBot?color=green&logo=github&style=plastic&label=Last%20Commit)](https://github.com/AzuritilDev/QuranBot)
+[![GitHub issues](https://img.shields.io/github/issues/AzuritilDev/QuranBot?color=green&logo=github&style=plastic&label=Issues)](https://github.com/AzuritilDev/QuranBot)
+[![GitHub release](https://img.shields.io/github/release/AzuritilDev/QuranBot?color=green&logo=github&style=plastic&label=Release)](https://github.com/AzuritilDev/QuranBot)
+[![GitHub stars](https://img.shields.io/github/stars/AzuritilDev/QuranBot?color=green&logo=github&style=plastic&label=Stars)](https://github.com/AzuritilDev/QuranBot)
+![CI](https://github.com/AzuritilDev/QuranBot/actions/workflows/ci.yml/badge.svg)
+
+[![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff)](https://www.docker.com/)
+[![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff)](https://www.python.org/)
+[![uv](https://img.shields.io/badge/uv-261230.svg?logo=uv&logoColor=#de5fe9)](https://docs.astral.sh/uv/)
+[![PostgreSQL](https://img.shields.io/badge/Postgres-%23316192.svg?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Redis](https://img.shields.io/badge/Redis-%23DD0031.svg?logo=redis&logoColor=white)](https://redis.io/)
 
 ## Disclaimers
 
