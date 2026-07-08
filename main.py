@@ -97,7 +97,7 @@ class Client(commands.Bot):
         except Exception as e:
             print("Database pool did not initialize. ", e)
 
-        print("Initializing Redis Cluster...")
+        print("Initializing Redis...")
         try:
             # Redis initialization
             self.redis = Redis(

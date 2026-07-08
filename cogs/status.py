@@ -22,17 +22,40 @@ class Status(commands.Cog):
             uptime_seconds = int(now - self.bot.launch_time)
             uptime_str = str(timedelta(seconds=uptime_seconds))
 
+            # for PostgreSQL
             try:
                 start = time.perf_counter()
                 async with self.bot.db_pool.acquire() as cur:
                         row = await cur.fetchrow("SELECT VERSION();")
                         split_ver_string = str(row[0]).split(" ")
-                        version = f"{split_ver_string[0]} {split_ver_string[1]}"
+                        version = f"{split_ver_string[1]}"
                 ping = (time.perf_counter() - start) * 1000
-                db_status = f"✅ Connected (`{int(ping)} ms`)"
+                if ping > 100:
+                    db_status = f"⚠️ Connected (`{int(ping)} ms`) [Abnormally Slow]"
+                else:
+                    db_status = f"✅ Connected (`{int(ping)} ms`) [Healthy]"
             except Exception as e:
                 version = "N/A"
                 db_status = f"❌ Disconnected ({type(e).__name__})"
+
+            # for Redis
+            try:
+                start_2 = time.perf_counter()
+
+                redis_is_connected = await self.bot.redis.ping()
+                if redis_is_connected:
+                    redis_latency = (time.perf_counter() - start_2) * 1000
+                
+                    if redis_latency > 5:
+                        redis_status = f"⚠️ Connected (`{int(redis_latency)} ms`) [Abnormally Slow]"
+                    else:
+                        redis_status = f"✅ Connected (`{int(redis_latency)} ms`) [Healthy]"
+
+                    redis_info = await self.bot.redis.info()
+                    redis_version = redis_info["redis_version"]
+            except Exception as e:
+                redis_version = "N/A"
+                redis_status = f"❌ Disconnected ({type(e).__name__})"
 
             embed.set_thumbnail(url=self.bot.user.avatar.url)
 
@@ -43,9 +66,15 @@ class Status(commands.Cog):
             embed.add_field(name="RAM Usage", value=f"{psutil.virtual_memory().percent}%")
             embed.add_field(name="System", value=platform.system())
 
-            embed.add_field(name="Database", value="PostgreSQL")
-            embed.add_field(name="Database Version", value=version)
-            embed.add_field(name="Database Status", value=db_status)
+            # Relational DB
+            embed.add_field(name="Relational Database", value="PostgreSQL")
+            embed.add_field(name="Relational Database Version", value=version)
+            embed.add_field(name="Relational Database Status", value=db_status)
+
+            # In-Memory DB
+            embed.add_field(name="In-Memory Database", value="Redis")
+            embed.add_field(name="In-Memory Database Version", value=redis_version)
+            embed.add_field(name="In-Memory Database Status", value=redis_status)
 
             embed.set_footer(text=f"System Uptime: {round(uptime / 3600, 2)} hours\nBot Uptime: {uptime_str}\nGitHub Repository: https://github.com/AzuritilDev/QuranBot", icon_url=self.bot.user.avatar.url)
             
