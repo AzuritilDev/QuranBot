@@ -1,7 +1,7 @@
 # ﴾ QuranBot ﴿
 
 <p align="center">
-  <img src="docs/assets/quranbotlogo.webp" width="350" />
+  <img src="./assets/quranbotlogo.webp" width="350" />
 </p>
 
 [![GitHub repo](https://img.shields.io/badge/GitHub-AzuritilDev%2FQuranBot-green.svg?style=plastic&logo=github)](https://github.com/AzuritilDev/QuranBot)
