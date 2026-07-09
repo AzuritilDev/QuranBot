@@ -43,7 +43,7 @@ Bu uygulama, açık kaynaklı yazılımlar ve telif hakkı korumalı materyaller
 ## ⏾ Genel Görünüm
 <br /> بسم الله الرحمن الرحيم
 
-<img src="docs/assets/quranbotthumbnail.jpg.png" style="vertical-align: middle;" />
+<img src="./assets/quranbotthumbnail.jpg.png" style="vertical-align: middle;" />
 
 Bu benim kutsal İslami metinleri göstermek amaçlı yaptığım discord.py tabanlı, açık kaynak bir Discord botudur. <br />
 Bu sayede Discord kullanırken kutsal İslami metinlere ulaşım daha kolay olur. <br />
