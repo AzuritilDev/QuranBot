@@ -9,5 +9,6 @@ tzdata
 psutil
 pytest
 pytest-asyncio
+dpytest
 redis
 hiredis

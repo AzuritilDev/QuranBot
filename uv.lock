@@ -366,6 +366,20 @@ wheels = [
 ]
 
 [[package]]
+name = "dpytest"
+version = "0.7.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "discord-py" },
+    { name = "pytest" },
+    { name = "pytest-asyncio" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/7c/4f/d04bb7cd18acc6c4a626eb624f443c33c4e9c1727d2261dd7af47c1daea4/dpytest-0.7.0.tar.gz", hash = "sha256:9f16d58347591756a8d662a44c2307864698c8a5656408a584d0bb5d69c83bbb", size = 85233, upload-time = "2023-06-19T15:42:57.002Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c7/b3/172293411e30a0c255e4c86914e71ce3338844c43f90d36eb8c7d13967bf/dpytest-0.7.0-py3-none-any.whl", hash = "sha256:b9febeb860e6bc05bac3d433882becdba1b965ff4db1667e2d629acbc868b0d2", size = 30344, upload-time = "2023-06-19T15:42:55.391Z" },
+]
+
+[[package]]
 name = "flatbuffers"
 version = "25.12.19"
 source = { registry = "https://pypi.org/simple" }
@@ -1029,12 +1043,13 @@ wheels = [
 
 [[package]]
 name = "quranbot"
-version = "0.1.0"
+version = "2.4.12"
 source = { virtual = "." }
 dependencies = [
     { name = "adhanpy" },
     { name = "asyncpg" },
     { name = "discord" },
+    { name = "dpytest" },
     { name = "geopy" },
     { name = "hiredis" },
     { name = "psutil" },
@@ -1056,6 +1071,7 @@ requires-dist = [
     { name = "adhanpy", specifier = ">=1.0.5" },
     { name = "asyncpg", specifier = ">=0.31.0" },
     { name = "discord", specifier = ">=2.3.2" },
+    { name = "dpytest", specifier = ">=0.7.0" },
     { name = "geopy", specifier = ">=2.4.1" },
     { name = "hiredis", specifier = ">=3.4.0" },
     { name = "psutil", specifier = ">=7.2.2" },

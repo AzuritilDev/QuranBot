@@ -26,7 +26,8 @@ REDIS_PASSWORD = str(getenv("REDIS_PASSWORD"))
 
 assert DB_SERVICE_URI, "Database service URI is set to None."
 
-DEAFULT_PREFIX = ","
+DEFAULT_PREFIX = ","
+SIGNATURE_COLOR = discord.Color.green()
 
 # intents
 intents = discord.Intents.default()
@@ -76,13 +77,13 @@ async def cleanup_stale_webhooks(bot):
 # bot blueprint
 class Client(commands.Bot):
     def __init__(self):
-        super().__init__(command_prefix=DEAFULT_PREFIX, intents=intents)
+        super().__init__(command_prefix=DEFAULT_PREFIX, intents=intents)
         
         self.launch_time = None
         self.db_pool = None
         self.redis = None
-        self.signature_color = discord.Color.green()
-        self.default_prefix = DEAFULT_PREFIX
+        self.signature_color = SIGNATURE_COLOR
+        self.default_prefix = DEFAULT_PREFIX
     async def setup_hook(self):
         try:
             self.db_pool = await asyncpg.create_pool(
@@ -155,7 +156,8 @@ bot = Client()
 async def main():
     await bot.start(BOT_TOKEN)
 
-try:
-    asyncio.run(main())
-except KeyboardInterrupt as e:
-    print("[Ctrl + C] Stopped main task.\n", e)
+if __name__ == "__main__":
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt as e:
+        print("[Ctrl + C] Stopped main task.\n", e)
