@@ -21,7 +21,7 @@ CON_MIN_SIZE = int(getenv("PG_MIN_SIZE", 10))
 CON_MAX_SIZE = int(getenv("PG_MAX_SIZE", 20))
 CON_LIFETIME = float(getenv("PG_LIFETIME", 300))
 MAX_QUERIES = int(getenv("PG_MAX_QUERIES", 50000))
-REDIS_CONTAINER_PORT = int(getenv("REDIS_CONTAINER_PORT"))
+REDIS_CONTAINER_PORT = int(getenv("REDIS_CONTAINER_PORT")) or 6379
 REDIS_PASSWORD = str(getenv("REDIS_PASSWORD"))
 
 assert DB_SERVICE_URI, "Database service URI is set to None."
