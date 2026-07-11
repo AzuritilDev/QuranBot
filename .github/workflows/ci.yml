@@ -35,4 +35,4 @@ jobs:
           uv pip install pytest pytest-asyncio dpytest
     - name: Test with pytest
       run: |
-        uv run pytest
+        TESTING=1 uv run pytest

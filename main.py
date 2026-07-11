@@ -11,30 +11,31 @@ from pathlib import Path
 from redis.asyncio import Redis
 from utils.custom_states import quotes
 
-# load in the .env file
-load_dotenv()
-
-BOT_TOKEN = getenv("BOT_TOKEN")
-DEV_ENV = getenv("DEV_ENV") # to check if it's dev environment or not
-DB_SERVICE_URI = getenv("DB_URL")
-CON_MIN_SIZE = int(getenv("PG_MIN_SIZE", 10))
-CON_MAX_SIZE = int(getenv("PG_MAX_SIZE", 20))
-CON_LIFETIME = float(getenv("PG_LIFETIME", 300))
-MAX_QUERIES = int(getenv("PG_MAX_QUERIES", 50000))
-REDIS_CONTAINER_PORT = int(getenv("REDIS_CONTAINER_PORT") or 6379)
-REDIS_PASSWORD = str(getenv("REDIS_PASSWORD"))
-
-assert DB_SERVICE_URI, "Database service URI is set to None."
-
 DEFAULT_PREFIX = ","
 SIGNATURE_COLOR = discord.Color.green()
 
-# intents
-intents = discord.Intents.default()
-intents.typing = True
-intents.messages = True
-intents.emojis = True
-intents.message_content = True
+if not getenv("TESTING"):
+    # load in the .env file
+    load_dotenv()
+
+    BOT_TOKEN = getenv("BOT_TOKEN")
+    DEV_ENV = getenv("DEV_ENV") # to check if it's dev environment or not
+    DB_SERVICE_URI = getenv("DB_URL")
+    CON_MIN_SIZE = int(getenv("PG_MIN_SIZE", 10))
+    CON_MAX_SIZE = int(getenv("PG_MAX_SIZE", 20))
+    CON_LIFETIME = float(getenv("PG_LIFETIME", 300))
+    MAX_QUERIES = int(getenv("PG_MAX_QUERIES", 50000))
+    REDIS_CONTAINER_PORT = int(getenv("REDIS_CONTAINER_PORT"))
+    REDIS_PASSWORD = str(getenv("REDIS_PASSWORD"))
+
+    assert DB_SERVICE_URI, "Database service URI is set to None."
+
+    # intents
+    intents = discord.Intents.default()
+    intents.typing = True
+    intents.messages = True
+    intents.emojis = True
+    intents.message_content = True
 
 async def initialize_tables(bot):
     print("Initializing database tables...")
@@ -59,9 +60,7 @@ async def cleanup_stale_guilds(bot):
 async def cleanup_stale_webhooks(bot):
     print("Cleaning up stale webhooks...")
     
-    # Open the connection block FIRST
     async with bot.db_pool.acquire() as conn:
-        # NOW execute the fetch using 'conn' inside the block
         rows = await conn.fetch("SELECT guild_id, webhook_id FROM dailyquran")
         
         for row in rows:
@@ -149,7 +148,7 @@ class Client(commands.Bot):
         except Exception as e:
             print(e)
 
-# bot object
+# bot object/instance
 bot = Client()
 
 # run the bot
