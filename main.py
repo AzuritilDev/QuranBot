@@ -30,12 +30,12 @@ if not getenv("TESTING"):
 
     assert DB_SERVICE_URI, "Database service URI is set to None."
 
-    # intents
-    intents = discord.Intents.default()
-    intents.typing = True
-    intents.messages = True
-    intents.emojis = True
-    intents.message_content = True
+# intents
+intents = discord.Intents.default()
+intents.typing = True
+intents.messages = True
+intents.emojis = True
+intents.message_content = True
 
 async def initialize_tables(bot):
     print("Initializing database tables...")
@@ -148,14 +148,15 @@ class Client(commands.Bot):
         except Exception as e:
             print(e)
 
-if __name__ == "__main__":
-    # bot object/instance
-    bot = Client()
 
-    # the function to run the bot
-    async def main():
+# bot object/instance
+bot = Client()
+
+# the function to run the bot
+async def main():
         await bot.start(BOT_TOKEN)
 
+if __name__ == "__main__":
     try:
         asyncio.run(main())
     except KeyboardInterrupt as e:
