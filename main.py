@@ -148,14 +148,14 @@ class Client(commands.Bot):
         except Exception as e:
             print(e)
 
-# bot object/instance
-bot = Client()
-
-# run the bot
-async def main():
-    await bot.start(BOT_TOKEN)
-
 if __name__ == "__main__":
+    # bot object/instance
+    bot = Client()
+
+    # the function to run the bot
+    async def main():
+        await bot.start(BOT_TOKEN)
+
     try:
         asyncio.run(main())
     except KeyboardInterrupt as e:
