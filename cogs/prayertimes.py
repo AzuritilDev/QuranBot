@@ -24,6 +24,24 @@ class PrayerTime(commands.Cog):
     @app_commands.describe(madhab="The Asr calculation method. Default is Hanafi.")
     @app_commands.describe(display_city_name="Whether you want to display the name of the city selected or not. Default is True.")
     @app_commands.describe(times_inline="Whether you want the times inside the embed to be inline or not. Default is True.")
+    @app_commands.choices(time_format = [
+    app_commands.Choice(
+        name=beautifyCalculationMethodClassName(item.name),
+        value=item.value
+    )
+    for item in availableTimeFormats],
+    method = [
+    app_commands.Choice(
+        name=beautifyCalculationMethodClassName(item.name),
+        value=item.value
+    )
+    for item in CalculationMethod], 
+    madhab = [
+    app_commands.Choice(
+        name=beautifyCalculationMethodClassName(item.name),
+        value=item.value
+    )
+    for item in Madhab])
     async def prayertime(self, interaction: discord.Interaction, city : str, time_format : availableTimeFormats = availableTimeFormats.TWENTY_FOUR_HOUR_MILITARY_TIME, method : CalculationMethod = CalculationMethod.MOON_SIGHTING_COMMITTEE, madhab : Madhab = Madhab.HANAFI, display_city_name : bool = True, times_inline : bool = True, hide_response : bool = False):
         if len(city) > 170:
             await interaction.response.send_message("City name is too long.")
