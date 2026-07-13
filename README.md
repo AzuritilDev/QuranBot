@@ -22,6 +22,8 @@
 ## Disclaimers
 
 ### 1. Religious Disclaimer
+The translations of the Ahadith provided in this application are sourced from https://hadithapi.pages.dev/, it is stated by them that: the translations are sourced from respected scholarly works. However, no translation can perfectly capture the original meaning. For critical research, we recommend consulting the original Arabic texts. [https://hadithapi.pages.dev/docs#faq]
+
 The translations of the Holy Quran provided in this application are sourced from the Saheeh International translation. While this translation is widely trusted and highly regarded, no translation can perfectly capture the absolute depth, nuance, and meaning of the original Arabic text. The interpretations remain the scholarly effort of the translators. Users should consult qualified Islamic scholars for definitive rulings or detailed study.
 
 ### 2. Calculation Disclaimer
@@ -77,9 +79,9 @@ Abu Huraira reported Allah's Messenger (ﷺ) as saying:
 | A command to display prayer times. | ✓  |
 | Ability to set Daily verses on a specific channel. | ✓  |
 | Custom quote changes to a random quote from a list of quotes periodically. | ✓  |
-| A way to test the application using pytest. | /  |
+| A command to display Ahadith. | ✓  |
+| A way to test the application using pytest. | ✓  |
 | Qur'ân SQLite database. | x  |
-| A command to display Ahadith. | x  |
 | A command to display Tafsîr. | x  |
 
 ---
@@ -91,6 +93,7 @@ Abu Huraira reported Allah's Messenger (ﷺ) as saying:
 - `/prayer-times`: A slash command that shows the obligatory Islamic prayer times of the day based on the geographic location of the given city. (Example usage: `/prayer-times city:London`)
 - `/status`: Displays system information about the bot.
 - `/prefix`: Changes the bot's prefix for chat commands.
+- `/hadith`: Displays a narration based on given collection and narration id. 
 
 ---
 

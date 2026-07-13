@@ -27,6 +27,8 @@ o yüzden sadece orijinal İngilizce dökümantasyonu kesin doğru bilgi kaynağ
 ## Yasal ve Dini Uyarılar
 
 ### 1. Dini Uyarı
+Bu uygulamada yer alan hadis çevirileri https://hadithapi.pages.dev/ adresinden alınmıştır; ilgili kaynakta, çevirilerin saygın ilmi eserlere dayandığı belirtilmektedir. Bununla birlikte, hiçbir çeviri orijinal anlamı kusursuz bir şekilde yansıtamaz. Kapsamlı araştırmalar için orijinal Arapça metinlere başvurmanızı öneririz. [https://hadithapi.pages.dev/docs#faq]
+
 Bu uygulamada sunulan Kur'an-ı Kerim mealleri Saheeh International çevirisinden alınmıştır. Bu çeviri dünya çapında güvenilir ve saygın kabul edilse de, hiçbir meal orijinal Arapça metnin derinliğini, nüanslarını ve tam anlamını eksiksiz bir şekilde yansıtamaz. Bu yorumlar tamamen mütercimlerin ilmi çalışmalarının bir sonucudur. Kesin hükümler veya detaylı araştırmalar için kullanıcıların yetkin İslam alimlerine danışmaları tavsiye edilir.
 
 ### 2. Hesaplama Uyarısı
@@ -84,9 +86,9 @@ Ebû Hüreyre (r.a) tarafından rivayet edildiğine göre, Allah'ın Resûlü (�
 | Namaz vakitlerini gösteren bir komut. | ✓  |
 | Belirli bir kanalda günlük Kur'ân-ı Kerim ayetleri gösterebilme özelliği. | ✓  |
 | Botun özel sözü periyodik bir şekilde listeden seçilen rastgele bir söze değişebilmesi. | ✓  |
-| Uygulamayı pytest ile test edebilme yolu. | /  |
+| Hadis-i Şerif rivayetleri gösteren bir komut | ✓  |
+| Uygulamayı pytest ile test edebilme yolu. | ✓  |
 | Kur'ân-ı Kerim SQLite veritabanı. | x  |
-| Hadis-i Şerif rivayetleri gösteren bir komut | x  |
 | Tefsir gösteren bir komut. | x  |
 
 ---
@@ -98,6 +100,7 @@ Ebû Hüreyre (r.a) tarafından rivayet edildiğine göre, Allah'ın Resûlü (�
 - `/prayer-times`: Seçilen şehrin coğrafik konumuna göre günün içindeki farz olan namazların vakitlerini gösterir. (Kullanış Örneği: `/prayer-times city:Istanbul`)
 - `/status`: Bot hakkında sistem bilgileri gösterir.
 - `/prefix`: Bot'un muhabbet (chat) komutlarının prefix'ini değiştirir. 
+- `/hadith`: Verilen koleksiyon ve hadis numarasına (ID) dayalı bir rivayeti görüntüler.
 
 ---
 ## ⏾ Gereksinimler

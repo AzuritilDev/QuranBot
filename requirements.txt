@@ -12,3 +12,5 @@ pytest-asyncio
 dpytest
 redis
 hiredis
+requests
+requests-async
