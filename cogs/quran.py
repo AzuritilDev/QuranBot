@@ -14,10 +14,10 @@ class Quran(commands.Cog):
     async def quran(self, interaction : discord.Interaction, chapter : int, verse : int, hide_response : bool = False):
         try:
             embed = discord.Embed(title=f"Qur'ân {metadata_fetch.QuranMetadata(chapter)}, Reference: {chapter}:{verse}", description=quran_fetch.fetch(chapter, verse), color=self.bot.signature_color)
-            embed.set_footer(text="(Sahîh International English Translation)")
-            await interaction.response.send_message(embed=embed)
+            embed.set_footer(text="(Sahîh International English Translation)", icon_url=self.bot.user.avatar.url)
+            await interaction.response.send_message(embed=embed, ephemeral=hide_response)
         except Exception as e:
-            await interaction.response.send_message(f"```\n Error. Requested verse may not exist in the database.\n```")
+            await interaction.response.send_message(f"```\n Error. Requested verse may not exist in the database.\n```", hide_response)
             print(e)
        
 
