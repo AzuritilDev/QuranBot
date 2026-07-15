@@ -38,9 +38,9 @@ Namaz vakitleri, [Adhanpy](https://github.com/alphahm/adhanpy/) (Adhan) kütüph
 Bu uygulamanın geliştiricileri ve katkıda bulunanları; burada sunulan bilgilerin, namaz vakitlerinin veya meallerin kullanımından, yorumlanmasından veya bunlara güvenilmesinden kaynaklanabilecek doğrudan, dolaylı veya arızi hiçbir zarardan veya kâr kaybından sorumlu tutulamaz.
 
 ### 4. Açık Kaynak ve Telif Hakkı Bildirimi
-Bu uygulama, açık kaynaklı yazılımlar ve telif hakkı korumalı materyaller kullanmaktadır:
-* **Adhanpy / Adhan Kütüphanesi:** MIT Lisansı altında dağıtılan, alphahm tarafından geliştirilen ve Batoul Apps Adhan ekosistemini temel alan açık kaynaklı adhanpy kütüphanesinden güç almaktadır.
-* **Saheeh International Kur'an Meali:** Kur'an-ı Kerim anlamlarının dijital olarak görüntülenmesi ve dağıtılmasına ilişkin standart izinlere uygun olarak kullanılmaktadır.
+Bu uygulama; üçüncü taraf açık kaynaklı yazılımları, API'leri, kütüphaneleri, veri setlerini, çevirileri ve diğer telif hakkına tabi materyalleri içerir. Söz konusu bileşenler ilgili yazarlarının, kuruluşlarının ve telif hakkı sahiplerinin mülkiyetinde kalmaya devam eder; ayrıca ilgili lisansları, hizmet koşulları veya izinleri uyarınca kullanılır.
+
+Üçüncü taraf bağımlılıkların, hizmetlerin, veri sağlayıcılarının ve bunlara ait lisanslar ile atıf bilgilerinin eksiksiz ve güncel bir listesi, projenin NOTICE, THIRD_PARTY_NOTICES veya LICENSES dosyasında (ya da eşdeğer bir belgede) tutulur ve bu beyanın bir parçasını oluşturur.
 
 ## ⏾ Genel Görünüm
 <br /> بسم الله الرحمن الرحيم
