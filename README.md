@@ -33,9 +33,9 @@ Prayer times are calculated automatically using the [Adhanpy](https://github.com
 The developers and contributors of this application shall not be held liable for any direct, indirect, or incidental damages or loss of profits arising from the use, interpretation, or reliance on the information, prayer times, or translations provided herein.
 
 ### 4. Open Source and Copyright Acknowledgment
-This application utilizes open-source software and copyrighted materials:
-* **Adhanpy / Adhan Library:** Powered by the open-source adhanpy library (developed by alphahm), based on the upstream Batoul Apps Adhan ecosystem, and distributed under the MIT License.
-* **Saheeh International Quran:** Used in accordance with standard permissions for the digital display and distribution of the meaning of the Quran.
+This application incorporates third-party open-source software, APIs, libraries, datasets, translations, and other copyrighted materials. These components remain the property of their respective authors, organizations, and copyright holders and are used in accordance with their applicable licenses, terms of service, or permissions.
+
+A complete and up-to-date list of third-party dependencies, services, data providers, and their respective licenses and attributions is maintained in the project's NOTICE, THIRD_PARTY_NOTICES, or LICENSES file (or equivalent documentation) and forms part of this acknowledgment.
 
 ## ⏾ Overview
 <br /> بسم الله الرحمن الرحيم
