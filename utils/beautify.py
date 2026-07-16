@@ -23,10 +23,10 @@ renamedMadhabs = {
     "SHAFI": "Shāfiʿī"
 }
 
-def beautifyCalculationMethodClassName(name : str):
+def Beautify(name : str):
     '''
     EXAMPLE:
-    beautifyCalculationMethodClassName("MOON_SIGHTING_COMMITTEE") # returns "Moon Sighting Committee"
-    beautifyCalculationMethodClassName("HANAFI") # returns "Hanafi"
+    Beautify("MOON_SIGHTING_COMMITTEE") # returns "Moon Sighting Committee"
+    Beautify("HANAFI") # returns "Hanafi"
     '''
     return name.replace('_', ' ').title()

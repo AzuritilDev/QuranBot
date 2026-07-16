@@ -7,7 +7,7 @@ from adhanpy.calculation.CalculationMethod import CalculationMethod
 from adhanpy.calculation.Madhab import Madhab
 from zoneinfo import ZoneInfo
 from utils.geography import fetchPrayerTimes, availableTimeFormats, USER_AGENT, GEOPY_CLIENT_TIMEOUT
-from utils.beautify import beautifyCalculationMethodClassName
+from utils.beautify import Beautify
 from geopy.geocoders import Nominatim
 from geopy.adapters import AioHTTPAdapter
 
@@ -26,19 +26,19 @@ class PrayerTime(commands.Cog):
     @app_commands.describe(times_inline="Whether you want the times inside the embed to be inline or not. Default is True.")
     @app_commands.choices(time_format = [
     app_commands.Choice(
-        name=beautifyCalculationMethodClassName(item.name),
+        name=Beautify(item.name),
         value=item.value
     )
     for item in availableTimeFormats],
     method = [
     app_commands.Choice(
-        name=beautifyCalculationMethodClassName(item.name),
+        name=Beautify(item.name),
         value=item.value
     )
     for item in CalculationMethod], 
     madhab = [
     app_commands.Choice(
-        name=beautifyCalculationMethodClassName(item.name),
+        name=Beautify(item.name),
         value=item.value
     )
     for item in Madhab])
@@ -252,7 +252,7 @@ class PrayerTime(commands.Cog):
             embed.add_field(name="Asr", value=asr, inline=times_inline)
             embed.add_field(name="Maghrib", value=maghrib, inline=times_inline)
             embed.add_field(name="Isha", value=isha, inline=times_inline)
-            embed.set_footer(text=f"{countdown_text}\n\nCalculation Method: {beautifyCalculationMethodClassName(method.name)}\nAsr Method: {beautifyCalculationMethodClassName(madhab.name)}", icon_url=self.bot.user.avatar.url)
+            embed.set_footer(text=f"{countdown_text}\n\nCalculation Method: {Beautify(method.name)}\nAsr Method: {Beautify(madhab.name)}", icon_url=self.bot.user.avatar.url)
 
             await interaction.followup.send(embed=embed, ephemeral=hide_response)
         except Exception as e:

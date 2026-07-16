@@ -4,7 +4,7 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 from utils.hadith_fetch import availableCollections, getHadith
-from utils.beautify import beautifyCalculationMethodClassName
+from utils.beautify import Beautify
 
 DEFAULT_TTL = 120
 
@@ -12,7 +12,7 @@ assert DEFAULT_TTL > 0
 
 async def sendHadith(bot : commands.Bot, interaction : discord.Interaction, collection : availableCollections, hadith, hide_response : bool):
     embed = discord.Embed(
-                title=f"({beautifyCalculationMethodClassName(collection.name)} {hadith['id']})",
+                title=f"({Beautify(collection.name)} {hadith['id']})",
                 description=hadith['hadith_english'],
                 color=bot.signature_color
                                 )
@@ -29,7 +29,7 @@ class Hadith(commands.Cog):
     @app_commands.user_install()
     @app_commands.choices(collection = [
     app_commands.Choice(
-        name=beautifyCalculationMethodClassName(item.name),
+        name=Beautify(item.name),
         value=item.value
     )
     for item in availableCollections])
